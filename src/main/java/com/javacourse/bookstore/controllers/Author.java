@@ -6,6 +6,7 @@ public class Author {
     String surName;
     int dateOfBirth;
     int dateOfDeath;
-    String countryOfBirth;
     String biography;
+    String countryOfBirth;
+
 }
