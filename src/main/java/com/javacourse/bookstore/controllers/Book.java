@@ -17,8 +17,8 @@ public class Book {
     int yearOfPublication;
     double price;
     int vat;
-    int barCode;
     int isbn;
+    int barCode;
     int id;
     int pages;
 }
