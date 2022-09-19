@@ -8,6 +8,7 @@ group = 'com.javacourse'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
+
 repositories {
 	mavenCentral()
 }
@@ -15,6 +16,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.7.3'
 }
 
 tasks.named('test') {
