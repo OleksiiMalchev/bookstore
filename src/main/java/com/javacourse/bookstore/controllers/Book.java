@@ -1,24 +1,24 @@
 package com.javacourse.bookstore.controllers;
 
 public class Book {
-    String title;
-    String author;
-    String series;
-    String cover;
-    String translator;
-    String genre;
-    String publishingHouse;
-    String language;
-    String paper;
-    String annotation;
-    int circulation;
-    String illustrations;
-    int size;
-    int yearOfPublication;
-    double price;
-    int vat;
-    int isbn;
-    int barCode;
-    int id;
-    int pages;
+    private String title;
+    private String author;
+    private String series;
+    private String cover;
+    private String translator;
+    private String genre;
+    private String publishingHouse;
+    private String language;
+    private String paper;
+    private String annotation;
+    private int circulation;
+    private String illustrations;
+    private int size;
+    private int yearOfPublication;
+    private double price;
+    private int vat;
+    private int isbn;
+    private int barCode;
+    private int id;
+    private int pages;
 }

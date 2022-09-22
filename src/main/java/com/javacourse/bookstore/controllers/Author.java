@@ -1,12 +1,12 @@
 package com.javacourse.bookstore.controllers;
 
 public class Author {
-    String firstName;
-    String lastName;
-    String surName;
-    int dateOfBirth;
-    int dateOfDeath;
-    String countryOfBirth;
-    String biography;
+    private String firstName;
+    private String lastName;
+    private String surName;
+    private int dateOfBirth;
+    private int dateOfDeath;
+    private String countryOfBirth;
+    private String biography;
 
 }
