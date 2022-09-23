@@ -1,6 +1,6 @@
-package com.javacourse.bookstore.controllers;
+package com.javacourse.bookstore.entities;
 
-public class Book {
+public class Books {
     private String title;
     private String author;
     private String cover;
