@@ -1,16 +1,17 @@
 package com.javacourse.bookstore.services;
 
-import com.javacourse.bookstore.entities.Books;
+import com.javacourse.bookstore.domain.Book;
+import com.javacourse.bookstore.domain.dto.BookDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public interface BookService {
-    List<Books> allBooks();  //GET/books - show all books
-    Books getBookByID(long id);  //GET/books/{id}- display a book by id
-    Books create(BookService books); //POST/books- create new book
-    Books upDate(long id, BookService books);//PUT/books/{id}    - update a book by id
-    boolean delete(long id);//DELETE/{id} - delete a book by id
+    List<BookDto> allBooks();  //GET/books - show all books
+    BookDto  getBookByID(long id);  //GET/books/{id}- display a book by id
+    BookDto  create(Book book); //POST/books- create new book
+    BookDto  upDate(long id, Book book);//PUT/books/{id}    - update a book by id
+    BookDto delete(long id);//DELETE/{id} - delete a book by id
 
 }

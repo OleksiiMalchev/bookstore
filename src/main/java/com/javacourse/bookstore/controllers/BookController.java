@@ -1,38 +1,41 @@
 package com.javacourse.bookstore.controllers;
-import com.javacourse.bookstore.entities.Books;
+
+import com.javacourse.bookstore.domain.Book;
+import com.javacourse.bookstore.domain.dto.BookDto;
 import com.javacourse.bookstore.services.BookServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 public class BookController {
-    private final BookServiceImpl books;
+    private final BookServiceImpl bookService;
 
     @Autowired
     public BookController(BookServiceImpl books) {
-        this.books = books;
+        this.bookService = books;
     }
 
     @GetMapping("/books/{id}")
-    public Books getBookByID(@PathVariable("id") long Id) {
-        return books.getBookByID(Id);
+    public ResponseEntity<BookDto> getBookByID(@PathVariable("id") long Id) {
+       return ResponseEntity.status(200).body(bookService.getBookByID(Id));
     }
 
     @GetMapping("/books")
-    public List<Books> allBooks() {
-        return books.allBooks();
+    public ResponseEntity<List<BookDto> > allBooks() {
+        return ResponseEntity.status(200).body(bookService.allBooks());
     }
 
     @PostMapping("/books")
-    public Books create(BookServiceImpl books) {
-        return books.create(books);
+    public ResponseEntity<BookDto>  create(@RequestBody Book book) {
+        return ResponseEntity.status(201).body(bookService.create(book));
     }
 
     @PutMapping("/books/{id}")
-    public Books update(@PathVariable("id") long id, BookServiceImpl books) {
-        return books.upDate(id, books);
+    public ResponseEntity<BookDto>  update(@PathVariable("id") long id, Book book) {
+        return ResponseEntity.status(200).body(bookService.upDate(id, book));
     }
 
 }
