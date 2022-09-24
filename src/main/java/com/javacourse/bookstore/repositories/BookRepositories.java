@@ -3,34 +3,31 @@ package com.javacourse.bookstore.repositories;
 import com.javacourse.bookstore.domain.Book;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Repository
 public class BookRepositories {
-    private final List<Book> myBooks = new ArrayList<>();
+    private final Map<Long, Book> myBooks = new HashMap<>();
     private Random r = new Random();
 
     public List<Book> findAll() {
-        return myBooks;
+        return myBooks.values().stream()
+                .toList();
     }
 
     public Book findById(long id) {
-        return myBooks.stream()
-                .filter(b->b.getId() == id)
-                .findAny().get();
+        return myBooks.get(id);
     }
 
     public Book save(Book book) {
-        myBooks.add(book);
         book.setId(r.nextLong());
+        myBooks.put(book.getId(),book);
         return book;
     }
 
     public Book remove(long id) {
         Book byId = findById(id);
-        myBooks.remove(byId);
+        myBooks.remove(id);
         return byId;
     }
 }
