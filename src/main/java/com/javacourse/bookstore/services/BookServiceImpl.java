@@ -6,7 +6,7 @@ import com.javacourse.bookstore.repositories.BookRepositories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -21,10 +21,11 @@ public class BookServiceImpl implements BookService {
 
 
     public List<BookDto> allBooks() {
-        List<Book> books = new ArrayList<>();
-        List<BookDto> booksDto = new ArrayList<>();
-        books.add(new Book("Book", 10));
-        booksDto.add(new BookDto(15, "1", 60));
+        List<Book> books = bookRepositories.findAll();
+        List<BookDto> booksDto = new LinkedList<>();
+       for(Book bookFor:books){
+           booksDto.add(new BookDto(bookFor.getId(), bookFor.getTitle(), bookFor.getCost()));
+       }
         return booksDto;
     }  //GET/books - show all books
 
