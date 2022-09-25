@@ -23,13 +23,13 @@ public class BookServiceImpl implements BookService {
     public List<BookDto> allBooks() {
         List<Book> books = bookRepositories.findAll();
         List<BookDto> booksDto = new LinkedList<>();
-       for(Book bookFor:books){
-           booksDto.add(new BookDto(bookFor.getId(), bookFor.getTitle(), bookFor.getCost()));
-       }
+        for (Book bookFor : books) {
+            booksDto.add(new BookDto(bookFor.getId(), bookFor.getTitle(), bookFor.getCost()));
+        }
         return booksDto;
     }  //GET/books - show all books
 
-    public BookDto getBookByID(long id) {
+    public BookDto getBookById(long id) {
         Book book = bookRepositories.findById(id);
         return new BookDto(book.getId(), book.getTitle(), book.getCost());
 
@@ -41,7 +41,8 @@ public class BookServiceImpl implements BookService {
     } //POST/books- create new book
 
     public BookDto upDate(long id, Book book) {
-        return null;
+        Book bookUpdate = bookRepositories.update(id,book);
+        return new BookDto(bookUpdate.getId(),bookUpdate.getTitle(),bookUpdate.getCost());
     }//PUT/books/{id}    - update a book by id
 
     public BookDto delete(long id) {

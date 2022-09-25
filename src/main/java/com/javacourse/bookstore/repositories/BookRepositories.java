@@ -11,7 +11,8 @@ public class BookRepositories {
     private Random r = new Random();
 
     public List<Book> findAll() {
-        return myBooks.values().stream()
+        return myBooks.values()
+                .stream()
                 .toList();
     }
 
@@ -21,7 +22,12 @@ public class BookRepositories {
 
     public Book save(Book book) {
         book.setId(r.nextLong());
-        myBooks.put(book.getId(),book);
+        myBooks.put(book.getId(), book);
+        return book;
+    }
+
+    public Book update(Long id, Book book) {
+        myBooks.put(id, book);
         return book;
     }
 
