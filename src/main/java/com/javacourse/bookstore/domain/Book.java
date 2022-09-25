@@ -1,5 +1,6 @@
 package com.javacourse.bookstore.domain;
 
+
 public class Book {
     private String title;
     private String author;
