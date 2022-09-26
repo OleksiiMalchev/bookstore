@@ -12,16 +12,7 @@ public class Book {
     private int barCode;
     private long id;
     private int pages;
-//  private int vat;
-//  private int isbn;
-//  private String language;
-//  private String paper;
-//  private String annotation;
-//  private String illustrations;
-//  private int size;
-//  private String translator;
-//  private String genre;
-//  private String series;
+    //TODO DTO without cost;
 
     public Book(String title, long id) {
         this.title = title;

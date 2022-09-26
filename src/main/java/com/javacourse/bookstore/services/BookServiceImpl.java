@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -20,15 +21,23 @@ public class BookServiceImpl implements BookService {
         this.bookRepositories = bookRepositories;
     }
 
+//TODO string example; ArrayList vs LinkedList
+
+//    public List<BookDto> allBooks() {
+//        List<Book> books = bookRepositories.findAll();
+//        List<BookDto> booksDto = new LinkedList<>();
+//        for (Book bookFor : books) {
+//            booksDto.add(new BookDto(bookFor.getId(), bookFor.getTitle(), bookFor.getCost()));
+//        }
+//        return booksDto;
+//    }  //GET/books - show all books
 
     public List<BookDto> allBooks() {
-        List<Book> books = bookRepositories.findAll();
-        List<BookDto> booksDto = new LinkedList<>();
-        for (Book bookFor : books) {
-            booksDto.add(new BookDto(bookFor.getId(), bookFor.getTitle(), bookFor.getCost()));
-        }
-        return booksDto;
-    }  //GET/books - show all books
+        return bookRepositories.findAll()
+                .stream()
+                .map(r -> new BookDto(r.getId(), r.getTitle(), r.getCost()))
+                .collect(Collectors.toList());
+    }
 
     public BookDto getBookById(long id) {
         Book book = bookRepositories.findById(id);
@@ -41,15 +50,18 @@ public class BookServiceImpl implements BookService {
         return new BookDto(createBook.getId(), createBook.getTitle(), createBook.getCost());
     } //POST/books- create new book
 
+    //TODO chek ID
     public BookDto upDate(long id, Book book) {
-        Book bookUpdate = bookRepositories.update(id,book);
-        return new BookDto(bookUpdate.getId(),bookUpdate.getTitle(),bookUpdate.getCost());
+        Book bookUpdate = bookRepositories.update(id, book);
+        return new BookDto(bookUpdate.getId(), bookUpdate.getTitle(), bookUpdate.getCost());
     }//PUT/books/{id}    - update a book by id
 
+    //TODO chek NPE
     public BookDto delete(long id) {
         Book deleteBook = bookRepositories.remove(id);
         return new BookDto(deleteBook.getId(), deleteBook.getTitle(), deleteBook.getCost());
     }
     //DELETE/{id} - delete a book by id
+
 
 }

@@ -38,7 +38,7 @@ public class AuthorController {
 
     @PutMapping("/authors/{id}")
     public ResponseEntity<AuthorDto> upDate(@PathVariable("id") long id, Author author) {
-        return ResponseEntity.status(200).body(authorService.upDate(id, author));
+        return ResponseEntity.status(200).body(authorService.update(id, author));
     }
 
 }

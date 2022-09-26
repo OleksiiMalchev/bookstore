@@ -39,11 +39,10 @@ public class AuthorServiceImpl implements AuthorService {
         return new AuthorDto(author.getFirstName(), author.getLastName(), author.getId());
     }
 
-    public AuthorDto upDate(long id, Author author) {
+    public AuthorDto update(long id, Author author) {
         Author authorUpdate = authorRepositories.update(id, author);
         return new AuthorDto(authorUpdate.getFirstName(), authorUpdate.getLastName(), authorUpdate.getId());
     }
-
 
     public AuthorDto delete(long id) {
         Author authorDelete = authorRepositories.remove(id);
