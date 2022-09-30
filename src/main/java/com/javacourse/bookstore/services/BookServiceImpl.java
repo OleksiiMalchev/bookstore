@@ -1,19 +1,17 @@
 package com.javacourse.bookstore.services;
 
 import com.javacourse.bookstore.domain.Book;
-
-import com.javacourse.bookstore.domain.dto.BookDto;
+import com.javacourse.bookstore.domain.dto.BookReqDTO;
+import com.javacourse.bookstore.domain.dto.BookRespDTO;
 import com.javacourse.bookstore.repositories.BookRepositories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class BookServiceImpl implements BookService {
-
     private final BookRepositories bookRepositories;
 
     @Autowired
@@ -21,47 +19,73 @@ public class BookServiceImpl implements BookService {
         this.bookRepositories = bookRepositories;
     }
 
-//TODO string example; ArrayList vs LinkedList
-
-//    public List<BookDto> allBooks() {
-//        List<Book> books = bookRepositories.findAll();
-//        List<BookDto> booksDto = new LinkedList<>();
-//        for (Book bookFor : books) {
-//            booksDto.add(new BookDto(bookFor.getId(), bookFor.getTitle(), bookFor.getCost()));
-//        }
-//        return booksDto;
-//    }  //GET/books - show all books
-
-    public List<BookDto> allBooks() {
-        return bookRepositories.findAll()
-                .stream()
-                .map(r -> new BookDto(r.getId(), r.getTitle(), r.getCost()))
+    public List<BookRespDTO> allBooks() {
+        return bookRepositories.findAll().stream()
+                .map(b -> toBookRespDTO(b))
                 .collect(Collectors.toList());
     }
 
-    public BookDto getBookById(long id) {
+    public BookRespDTO getBookById(Long id) {
         Book book = bookRepositories.findById(id);
-        return new BookDto(book.getId(), book.getTitle(), book.getCost());
+        if (book != null) {
+            return toBookRespDTO(book);
+        }
+        return null;
 
-    }  //GET/books/{id}- display a book by id
-
-    public BookDto create(Book book) {
-        Book createBook = bookRepositories.save(book);
-        return new BookDto(createBook.getId(), createBook.getTitle(), createBook.getCost());
-    } //POST/books- create new book
-
-    //TODO chek ID
-    public BookDto upDate(long id, Book book) {
-        Book bookUpdate = bookRepositories.update(id, book);
-        return new BookDto(bookUpdate.getId(), bookUpdate.getTitle(), bookUpdate.getCost());
-    }//PUT/books/{id}    - update a book by id
-
-    //TODO chek NPE
-    public BookDto delete(long id) {
-        Book deleteBook = bookRepositories.remove(id);
-        return new BookDto(deleteBook.getId(), deleteBook.getTitle(), deleteBook.getCost());
     }
-    //DELETE/{id} - delete a book by id
 
+    public BookRespDTO create(BookReqDTO bookReqDTO) {
+        Book newBook = getBook(bookReqDTO);
+        Book save = bookRepositories.save(newBook);
+        return toBookRespDTO(save);
+    }
 
+    public BookRespDTO update(Long id, BookReqDTO bookReqDTO) {
+
+        Book updateBook = getBook(bookReqDTO);
+        if (updateBook != null) {
+            Book update = bookRepositories.update(id, updateBook);
+            return toBookRespDTO(update);
+        }
+        return null;
+    }
+
+    public BookRespDTO delete(Long id) {
+        Book deleteBook = bookRepositories.remove(id);
+        if (deleteBook != null) {
+            BookRespDTO bookRespDTO = toBookRespDTO(deleteBook);
+            return bookRespDTO;
+        }
+        return null;
+    }
+
+    private BookRespDTO toBookRespDTO(Book book) {
+        if (book != null) {
+            return new BookRespDTO(book.getTitle(),
+                    book.getAuthor(),
+                    book.getCover(),
+                    book.getPublishingHouse(),
+                    book.getYearOfPublication(),
+                    book.getCost() * 2,
+                    book.getBarCode(),
+                    book.getID(),
+                    book.getPages(),
+                    book.getESBI());
+        }
+        return null;
+    }
+
+    private Book getBook(BookReqDTO bookReqDTO) {
+        Book newBook = new Book(bookReqDTO.getTitle(),
+                bookReqDTO.getAuthor(),
+                bookReqDTO.getCover(),
+                bookReqDTO.getPublishingHouse(),
+                bookReqDTO.getYearOfPublication(),
+                bookReqDTO.getCost() * 2,
+                bookReqDTO.getCost(),
+                bookReqDTO.getBarCode(),
+                bookReqDTO.getId(),
+                bookReqDTO.getPages());
+        return newBook;
+    }
 }

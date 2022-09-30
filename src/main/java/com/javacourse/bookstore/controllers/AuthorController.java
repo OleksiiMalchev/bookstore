@@ -1,10 +1,8 @@
 package com.javacourse.bookstore.controllers;
 
-import com.javacourse.bookstore.domain.Author;
-import com.javacourse.bookstore.domain.dto.AuthorDto;
-
+import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
+import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
 import com.javacourse.bookstore.services.AuthorServiceImpl;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,32 +11,36 @@ import java.util.List;
 
 @RestController
 public class AuthorController {
-
-    private final AuthorServiceImpl authorService;
+    private final AuthorServiceImpl authorServiceImpl;
 
     @Autowired
-    public AuthorController(AuthorServiceImpl authorService) {
-        this.authorService = authorService;
+    public AuthorController(AuthorServiceImpl authorServiceImpl) {
+        this.authorServiceImpl = authorServiceImpl;
     }
 
     @GetMapping("/authors/{id}")
-    public ResponseEntity<AuthorDto> getAuthorById(@PathVariable("id") long Id) {
-        return ResponseEntity.status(200).body(authorService.getAuthorById(Id));
+    public ResponseEntity<AuthorRespDTO> getBookByID(@PathVariable("id") long id) {
+        return ResponseEntity.status(200).body(authorServiceImpl.getAuthorByID(id));
     }
 
-    @GetMapping("authors")
-    public ResponseEntity<List<AuthorDto>> allAuthors() {
-        return ResponseEntity.status(200).body(authorService.allAuthor());
+    @GetMapping("/authors")
+    public ResponseEntity<List<AuthorRespDTO>> allBooks() {
+        return ResponseEntity.status(200).body(authorServiceImpl.getAllAuthor());
     }
 
-    @PostMapping("authors")
-    public ResponseEntity<AuthorDto> create(@RequestBody Author author) {
-        return ResponseEntity.status(201).body(authorService.create(author));
+    @PostMapping("/authors")
+    public ResponseEntity<AuthorRespDTO> create(@RequestBody AuthorReqDTO authorReqDTO) {
+        return ResponseEntity.status(201).body(authorServiceImpl.createAuthor(authorReqDTO));
+
     }
 
     @PutMapping("/authors/{id}")
-    public ResponseEntity<AuthorDto> upDate(@PathVariable("id") long id, Author author) {
-        return ResponseEntity.status(200).body(authorService.update(id, author));
+    public ResponseEntity<AuthorRespDTO> update(@PathVariable("id") long id, @RequestBody AuthorReqDTO authorReqDTO) {
+        return ResponseEntity.status(200).body(authorServiceImpl.updateAuthor(id, authorReqDTO));
     }
 
+    @DeleteMapping("/authors/{id}")
+    public ResponseEntity<AuthorRespDTO> delete(@PathVariable("id") long id) {
+        return ResponseEntity.status(200).body(authorServiceImpl.deleteAuthor(id));
+    }
 }

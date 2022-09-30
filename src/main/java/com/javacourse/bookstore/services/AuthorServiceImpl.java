@@ -1,51 +1,72 @@
 package com.javacourse.bookstore.services;
 
 import com.javacourse.bookstore.domain.Author;
-
-import com.javacourse.bookstore.domain.dto.AuthorDto;
+import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
+import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
 import com.javacourse.bookstore.repositories.AuthorRepositories;
+import com.javacourse.bookstore.repositories.MapperForAuthor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
-
     private final AuthorRepositories authorRepositories;
+    private final MapperForAuthor mapperForAuthor;
 
     @Autowired
-    public AuthorServiceImpl(AuthorRepositories authorRepositories) {
+    public AuthorServiceImpl(AuthorRepositories authorRepositories, MapperForAuthor mapperForAuthor) {
         this.authorRepositories = authorRepositories;
+        this.mapperForAuthor = mapperForAuthor;
     }
 
-    public List<AuthorDto> allAuthor() {
-        List<Author> getAllAuthors = authorRepositories.findAll();
-        List<AuthorDto> authorDto = new ArrayList<>();
-        for (Author authorFor : getAllAuthors) {
-            authorDto.add(new AuthorDto(authorFor.getFirstName(), authorFor.getLastName(), authorFor.getId()));
+
+    @Override
+    public List<AuthorRespDTO> getAllAuthor() {
+        return authorRepositories.getAllAuthor().stream()
+                .map(mapperForAuthor::authorToRespDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public AuthorRespDTO getAuthorByID(Long ID) {
+        Author authorByID = authorRepositories.getAuthorByID(ID);
+        if (authorByID != null) {
+            return mapperForAuthor.authorToRespDTO(authorByID);
         }
-        return authorDto;
+        return null;
     }
 
-    public AuthorDto getAuthorById(long id) {
-        Author author = authorRepositories.findById(id);
-        return new AuthorDto(author.getFirstName(), author.getLastName(), author.getId());
+    @Override
+    public AuthorRespDTO createAuthor(AuthorReqDTO authorReqDTO) {
+        Author newAuthor = mapperForAuthor.authorReqDTOToAuthor(authorReqDTO);
+        if (newAuthor != null) {
+            Author saveAuthor = authorRepositories.saveAuthorInBase(newAuthor);
+            AuthorRespDTO authorRespDTO = mapperForAuthor.authorToRespDTO(saveAuthor);
+            return authorRespDTO;
+        }
+        return null;
     }
 
-    public AuthorDto create(Author author) {
-        Author authorSave = authorRepositories.save(author);
-        return new AuthorDto(author.getFirstName(), author.getLastName(), author.getId());
+    @Override
+    public AuthorRespDTO updateAuthor(Long ID, AuthorReqDTO authorReqDTO) {
+        Author forUpdateAuthor = mapperForAuthor.authorReqDTOToAuthor(authorReqDTO);
+        if (forUpdateAuthor != null) {
+            Author updateAuthor = authorRepositories.updateAuthorByID(ID, forUpdateAuthor);
+            return mapperForAuthor.authorToRespDTO(updateAuthor);
+        }
+        return null;
     }
 
-    public AuthorDto update(long id, Author author) {
-        Author authorUpdate = authorRepositories.update(id, author);
-        return new AuthorDto(authorUpdate.getFirstName(), authorUpdate.getLastName(), authorUpdate.getId());
-    }
-
-    public AuthorDto delete(long id) {
-        Author authorDelete = authorRepositories.remove(id);
-        return new AuthorDto(authorDelete.getFirstName(), authorDelete.getFirstName(), authorDelete.getId());
+    @Override
+    public AuthorRespDTO deleteAuthor(Long ID) {
+        Author deleteAuthor = authorRepositories.getAuthorByID(ID);
+        if (deleteAuthor != null) {
+            authorRepositories.deleteAuthorByID(deleteAuthor.getID());
+            return mapperForAuthor.authorToRespDTO(deleteAuthor);
+        }
+        return null;
     }
 }

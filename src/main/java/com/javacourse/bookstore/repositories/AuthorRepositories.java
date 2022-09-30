@@ -1,43 +1,39 @@
 package com.javacourse.bookstore.repositories;
 
 import com.javacourse.bookstore.domain.Author;
-
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Repository
 public class AuthorRepositories {
-    private final Map<Long, Author> myAuthor = new HashMap<>();
+    private final Map<Long, Author> baseAuthor = new HashMap<>();
+    private Random randomID = new Random();
 
-    Random random = new Random();
-
-    public List<Author> findAll() {
-    return myAuthor.values().stream().toList();
+    public List<Author> getAllAuthor() {
+        return baseAuthor.values().stream().toList();
     }
 
-    public Author findById(long id) {
-       return myAuthor.get(id);
+    public Author getAuthorByID(Long ID) {
+        return baseAuthor.get(ID);
     }
 
-    public Author save(Author author) {
-    author.setId(random.nextLong());
-    myAuthor.put(author.getId(), author);
-    return author;
-    }
-
-    public Author update(Long id, Author author){
-        myAuthor.put(id, author);
+    public Author saveAuthorInBase(Author author) {
+        author.setID(randomID.nextLong());
+        baseAuthor.put(author.getID(),author);
         return author;
     }
 
-    public Author remove(long id) {
-    Author byId = findById(id);
-    myAuthor.remove(byId);
-    return byId;
+    public Author updateAuthorByID(Long ID, Author author) {
+        if (baseAuthor.containsKey(ID)) {
+            author.setID(ID);
+            return baseAuthor.put(author.getID(), author);
+        }
+        return null;
+    }
+
+    public Author deleteAuthorByID(Long ID) {
+        return baseAuthor.remove(ID);
     }
 
 }

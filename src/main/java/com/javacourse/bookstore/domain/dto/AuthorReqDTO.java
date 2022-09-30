@@ -1,7 +1,6 @@
-package com.javacourse.bookstore.domain;
+package com.javacourse.bookstore.domain.dto;
 
-
-public class Author {
+public class AuthorReqDTO {
     private String firstName;
     private String lastName;
     private String surName;
@@ -11,14 +10,14 @@ public class Author {
     private String countryOfBirth;
     private Long ID;
 
-    public Author(String firstName,
-                  String lastName,
-                  String surName,
-                  int dateOfBirth,
-                  int dateOfDeath,
-                  String biography,
-                  String countryOfBirth,
-                  Long ID) {
+    public AuthorReqDTO(String firstName,
+                        String lastName,
+                        String surName,
+                        int dateOfBirth,
+                        int dateOfDeath,
+                        String biography,
+                        String countryOfBirth,
+                        Long ID) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.surName = surName;

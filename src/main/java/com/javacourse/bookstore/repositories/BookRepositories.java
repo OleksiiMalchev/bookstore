@@ -17,24 +17,29 @@ public class BookRepositories {
                 .toList();
     }
 
-    public Book findById(long id) {
+    public Book findById(Long id) {
         return myBooks.get(id);
     }
 
     public Book save(Book book) {
-        book.setId(r.nextLong());
-        myBooks.put(book.getId(), book);
+        book.setESBI(String.valueOf(r.nextInt()));
+        book.setID(r.nextLong());
+        myBooks.put(book.getID(), book);
         return book;
     }
 
     public Book update(Long id, Book book) {
-        myBooks.put(id, book);
-        return book;
+        if (myBooks.containsKey(id)) {
+            Book bookESBI = myBooks.get(id);
+            book.setESBI(bookESBI.getESBI());
+            book.setID(id);
+            myBooks.put(book.getID(), book);
+            return myBooks.get(book.getID());
+        }
+        return null;
     }
 
-    public Book remove(long id) {
-        Book byId = findById(id);
-        myBooks.remove(id);
-        return byId;
+    public Book remove(Long id) {
+        return myBooks.remove(id);
     }
 }

@@ -1,37 +1,24 @@
-package com.javacourse.bookstore.domain;
-
-public class Book {
+package com.javacourse.bookstore.domain.dto;
+public class BookReqDTO {
     private String title;
     private String author;
     private String cover;
     private String publishingHouse;
     private int yearOfPublication;
-    private long price;
     private long cost;
     private int barCode;
-    private Long ID;
+    private Long id;
     private int pages;
-    private String ESBI;
 
-    public Book(String title,
-                String author,
-                String cover,
-                String publishingHouse,
-                int yearOfPublication,
-                long price,
-                long cost,
-                int barCode,
-                Long ID,
-                int pages) {
+    public BookReqDTO(String title, String author, String cover, String publishingHouse, int yearOfPublication, long cost, int barCode, Long id, int pages) {
         this.title = title;
         this.author = author;
         this.cover = cover;
         this.publishingHouse = publishingHouse;
         this.yearOfPublication = yearOfPublication;
-        this.price = price;
         this.cost = cost;
         this.barCode = barCode;
-        this.ID = ID;
+        this.id = id;
         this.pages = pages;
     }
 
@@ -75,14 +62,6 @@ public class Book {
         this.yearOfPublication = yearOfPublication;
     }
 
-    public long getPrice() {
-        return price;
-    }
-
-    public void setPrice(long price) {
-        this.price = price;
-    }
-
     public long getCost() {
         return cost;
     }
@@ -99,12 +78,12 @@ public class Book {
         this.barCode = barCode;
     }
 
-    public Long getID() {
-        return ID;
+    public Long getId() {
+        return id;
     }
 
-    public void setID(Long ID) {
-        this.ID = ID;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public int getPages() {
@@ -113,13 +92,5 @@ public class Book {
 
     public void setPages(int pages) {
         this.pages = pages;
-    }
-
-    public String getESBI() {
-        return ESBI;
-    }
-
-    public void setESBI(String ESBI) {
-        this.ESBI = ESBI;
     }
 }
