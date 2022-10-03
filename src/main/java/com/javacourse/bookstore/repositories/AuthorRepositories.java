@@ -11,7 +11,9 @@ public class AuthorRepositories {
     private Random randomID = new Random();
 
     public List<Author> getAllAuthor() {
-        return baseAuthor.values().stream().toList();
+        return baseAuthor.values()
+                .stream()
+                .toList();
     }
 
     public Author getAuthorByID(Long ID) {
@@ -20,7 +22,7 @@ public class AuthorRepositories {
 
     public Author saveAuthorInBase(Author author) {
         author.setID(randomID.nextLong());
-        baseAuthor.put(author.getID(),author);
+        baseAuthor.put(author.getID(), author);
         return author;
     }
 
@@ -35,5 +37,4 @@ public class AuthorRepositories {
     public Author deleteAuthorByID(Long ID) {
         return baseAuthor.remove(ID);
     }
-
 }
