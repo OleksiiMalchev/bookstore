@@ -61,6 +61,7 @@ public class BookServiceImpl implements BookService {
     }
 
     private BookRespDTO toBookRespDTO(Book book) {
+        if (book != null) {
             return new BookRespDTO(book.getTitle(),
                     book.getAuthor(),
                     book.getCover(),
@@ -71,6 +72,8 @@ public class BookServiceImpl implements BookService {
                     book.getID(),
                     book.getPages(),
                     book.getESBI());
+        }
+        return null;
     }
 
     private Book getBook(BookReqDTO bookReqDTO) {
