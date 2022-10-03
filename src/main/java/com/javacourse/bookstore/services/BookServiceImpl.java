@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,19 +28,29 @@ public class BookServiceImpl implements BookService {
 
     public BookRespDTO getBookById(Long id) {
         Book book = bookRepositories.findById(id);
-        if (book != null) {
-            return toBookRespDTO(book);
-        }
-        return null;
+        return Optional.ofNullable(bookRepositories.findById(id))
+                .isPresent() ? toBookRespDTO(book) : null;
     }
 
     public BookRespDTO create(BookReqDTO bookReqDTO) {
-        if (bookReqDTO != null) {
-            Book newBook = getBook(bookReqDTO);
-            Book save = bookRepositories.save(newBook);
-            return toBookRespDTO(save);
-        }
-        return null;
+        Optional<Book> createOptionalBook = Optional.ofNullable(getBook(bookReqDTO));
+        return createOptionalBook.stream()
+                .findAny()
+                .map(b->bookRepositories.save(b))
+                .map(b->toBookRespDTO(b))
+                .orElse(null);
+
+//        Book newBook = getBook(bookReqDTO);
+//        Book save = bookRepositories.save(newBook);
+//        return Optional.ofNullable(save).isPresent()?toBookRespDTO(save):null;
+
+
+//        if (bookReqDTO != null) {
+//            Book newBook = getBook(bookReqDTO);
+//            Book save = bookRepositories.save(newBook);
+//            return toBookRespDTO(save);
+//        }
+//        return null;
     }
 
     public BookRespDTO update(Long id, BookReqDTO bookReqDTO) {

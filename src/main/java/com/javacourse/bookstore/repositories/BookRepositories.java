@@ -24,7 +24,6 @@ public class BookRepositories {
     public Book save(Book book) {
         book.setESBI(String.valueOf(r.nextInt()));
         book.setID(r.nextLong());
-        book.setID(r.nextLong());
         myBooks.put(book.getID(), book);
         return book;
     }
