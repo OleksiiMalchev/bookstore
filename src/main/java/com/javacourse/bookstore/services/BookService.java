@@ -9,10 +9,10 @@ import java.util.List;
 
 @Service
 public interface BookService {
-    List<BookRespDTO> allBooks();  //GET/books - show all books
-    BookRespDTO getBookById(Long id);  //GET/books/{id}- display a book by id
-    BookRespDTO create(BookReqDTO bookReqDTO); //POST/books- create new book
-    BookRespDTO update(Long id, BookReqDTO bookReqDTO);//PUT/books/{id}    - update a book by id
-    BookRespDTO delete(Long id);//DELETE/{id} - delete a book by id
+    List<BookRespDTO> allBooks();
+    BookRespDTO getBookById(Long ID);
+    BookRespDTO create(BookReqDTO bookReqDTO);
+    BookRespDTO update(Long ID, BookReqDTO bookReqDTO);
+    BookRespDTO delete(Long ID);
 
 }

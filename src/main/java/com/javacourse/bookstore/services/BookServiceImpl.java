@@ -31,19 +31,20 @@ public class BookServiceImpl implements BookService {
             return toBookRespDTO(book);
         }
         return null;
-
     }
 
     public BookRespDTO create(BookReqDTO bookReqDTO) {
-        Book newBook = getBook(bookReqDTO);
-        Book save = bookRepositories.save(newBook);
-        return toBookRespDTO(save);
+        if (bookReqDTO != null) {
+            Book newBook = getBook(bookReqDTO);
+            Book save = bookRepositories.save(newBook);
+            return toBookRespDTO(save);
+        }
+        return null;
     }
 
     public BookRespDTO update(Long id, BookReqDTO bookReqDTO) {
-
-        Book updateBook = getBook(bookReqDTO);
-        if (updateBook != null) {
+        if (bookReqDTO != null) {
+            Book updateBook = getBook(bookReqDTO);
             Book update = bookRepositories.update(id, updateBook);
             return toBookRespDTO(update);
         }
@@ -60,7 +61,6 @@ public class BookServiceImpl implements BookService {
     }
 
     private BookRespDTO toBookRespDTO(Book book) {
-        if (book != null) {
             return new BookRespDTO(book.getTitle(),
                     book.getAuthor(),
                     book.getCover(),
@@ -71,8 +71,6 @@ public class BookServiceImpl implements BookService {
                     book.getID(),
                     book.getPages(),
                     book.getESBI());
-        }
-        return null;
     }
 
     private Book getBook(BookReqDTO bookReqDTO) {
@@ -84,7 +82,7 @@ public class BookServiceImpl implements BookService {
                 bookReqDTO.getCost() * 2,
                 bookReqDTO.getCost(),
                 bookReqDTO.getBarCode(),
-                bookReqDTO.getId(),
+                bookReqDTO.getID(),
                 bookReqDTO.getPages());
         return newBook;
     }

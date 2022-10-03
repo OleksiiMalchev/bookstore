@@ -29,13 +29,13 @@ public class AuthorController {
     }
 
     @PostMapping("/authors")
-    public ResponseEntity<AuthorRespDTO> create(@RequestBody AuthorReqDTO authorReqDTO) {
+    public ResponseEntity<AuthorRespDTO> create(@RequestBody(required = false) AuthorReqDTO authorReqDTO) {
         return ResponseEntity.status(201).body(authorServiceImpl.createAuthor(authorReqDTO));
 
     }
 
     @PutMapping("/authors/{id}")
-    public ResponseEntity<AuthorRespDTO> update(@PathVariable("id") long id, @RequestBody AuthorReqDTO authorReqDTO) {
+    public ResponseEntity<AuthorRespDTO> update(@PathVariable("id") long id, @RequestBody(required = false) AuthorReqDTO authorReqDTO) {
         return ResponseEntity.status(200).body(authorServiceImpl.updateAuthor(id, authorReqDTO));
     }
 

@@ -8,12 +8,21 @@ public class BookRespDTO {
     private int yearOfPublication;
     private long price;
     private int barCode;
-    private Long id;
+    private Long ID;
     private int pages;
     private String ESBI;
 
 
-    public BookRespDTO(String title, String author, String cover, String publishingHouse, int yearOfPublication, long price, int barCode, Long id, int pages,String ESBI) {
+    public BookRespDTO(String title,
+                       String author,
+                       String cover,
+                       String publishingHouse,
+                       int yearOfPublication,
+                       long price,
+                       int barCode,
+                       Long ID,
+                       int pages,
+                       String ESBI) {
         this.title = title;
         this.author = author;
         this.cover = cover;
@@ -21,7 +30,7 @@ public class BookRespDTO {
         this.yearOfPublication = yearOfPublication;
         this.price = price;
         this.barCode = barCode;
-        this.id = id;
+        this.ID = ID;
         this.pages = pages;
         this.ESBI = ESBI;
     }
@@ -82,12 +91,12 @@ public class BookRespDTO {
         this.barCode = barCode;
     }
 
-    public Long getId() {
-        return id;
+    public Long getID() {
+        return ID;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setID(Long ID) {
+        this.ID = ID;
     }
 
     public int getPages() {

@@ -41,8 +41,8 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorRespDTO createAuthor(AuthorReqDTO authorReqDTO) {
-        Author newAuthor = mapperForAuthor.authorReqDTOToAuthor(authorReqDTO);
-        if (newAuthor != null) {
+        if (authorReqDTO != null) {
+            Author newAuthor = mapperForAuthor.authorReqDTOToAuthor(authorReqDTO);
             Author saveAuthor = authorRepositories.saveAuthorInBase(newAuthor);
             AuthorRespDTO authorRespDTO = mapperForAuthor.authorToRespDTO(saveAuthor);
             return authorRespDTO;
@@ -52,8 +52,8 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorRespDTO updateAuthor(Long ID, AuthorReqDTO authorReqDTO) {
-        Author forUpdateAuthor = mapperForAuthor.authorReqDTOToAuthor(authorReqDTO);
-        if (forUpdateAuthor != null) {
+        if (authorReqDTO != null) {
+            Author forUpdateAuthor = mapperForAuthor.authorReqDTOToAuthor(authorReqDTO);
             Author updateAuthor = authorRepositories.updateAuthorByID(ID, forUpdateAuthor);
             return mapperForAuthor.authorToRespDTO(updateAuthor);
         }

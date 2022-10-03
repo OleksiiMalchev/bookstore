@@ -7,10 +7,18 @@ public class BookReqDTO {
     private int yearOfPublication;
     private long cost;
     private int barCode;
-    private Long id;
+    private Long ID;
     private int pages;
 
-    public BookReqDTO(String title, String author, String cover, String publishingHouse, int yearOfPublication, long cost, int barCode, Long id, int pages) {
+    public BookReqDTO(String title,
+                      String author,
+                      String cover,
+                      String publishingHouse,
+                      int yearOfPublication,
+                      long cost,
+                      int barCode,
+                      Long ID,
+                      int pages) {
         this.title = title;
         this.author = author;
         this.cover = cover;
@@ -18,7 +26,7 @@ public class BookReqDTO {
         this.yearOfPublication = yearOfPublication;
         this.cost = cost;
         this.barCode = barCode;
-        this.id = id;
+        this.ID = ID;
         this.pages = pages;
     }
 
@@ -78,12 +86,12 @@ public class BookReqDTO {
         this.barCode = barCode;
     }
 
-    public Long getId() {
-        return id;
+    public Long getID() {
+        return ID;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setID(Long ID) {
+        this.ID = ID;
     }
 
     public int getPages() {
