@@ -27,9 +27,10 @@ public class BookServiceImpl implements BookService {
     }
 
     public BookRespDTO getBookById(Long id) {
-        Book book = bookRepositories.findById(id);
-        return Optional.ofNullable(bookRepositories.findById(id))
-                .isPresent() ? toBookRespDTO(book) : null;
+        return Optional.ofNullable(bookRepositories.findById(id)).stream()
+                .findAny()
+                .map(b->toBookRespDTO(b))
+                .orElse(null);
     }
 
     public BookRespDTO create(BookReqDTO bookReqDTO) {
@@ -39,18 +40,6 @@ public class BookServiceImpl implements BookService {
                 .map(b -> bookRepositories.save(b))
                 .map(b -> toBookRespDTO(b))
                 .orElse(null);
-
-//        Book newBook = getBook(bookReqDTO);
-//        Book save = bookRepositories.save(newBook);
-//        return Optional.ofNullable(save).isPresent()?toBookRespDTO(save):null;
-
-
-//        if (bookReqDTO != null) {
-//            Book newBook = getBook(bookReqDTO);
-//            Book save = bookRepositories.save(newBook);
-//            return toBookRespDTO(save);
-//        }
-//        return null;
     }
 
     public BookRespDTO update(Long id, BookReqDTO bookReqDTO) {
@@ -72,35 +61,35 @@ public class BookServiceImpl implements BookService {
     }
 
     private BookRespDTO toBookRespDTO(Book book) {
-        if (book != null) {
-            return new BookRespDTO(book.getTitle(),
-                    book.getAuthor(),
-                    book.getCover(),
-                    book.getPublishingHouse(),
-                    book.getYearOfPublication(),
-                    book.getCost() * 2,
-                    book.getBarCode(),
-                    book.getID(),
-                    book.getPages(),
-                    book.getESBI());
-        }
-        return null;
+        return Optional.ofNullable(book).stream()
+                .findAny()
+                .map(b -> new BookRespDTO(b.getTitle(),
+                        b.getAuthor(),
+                        b.getCover(),
+                        b.getPublishingHouse(),
+                        b.getYearOfPublication(),
+                        b.getCost() * 2,
+                        b.getBarCode(),
+                        b.getID(),
+                        b.getPages(),
+                        b.getESBI()))
+                .orElse(null);
+
     }
 
     private Book getBook(BookReqDTO bookReqDTO) {
-        if (bookReqDTO != null) {
-            Book newBook = new Book(bookReqDTO.getTitle(),
-                    bookReqDTO.getAuthor(),
-                    bookReqDTO.getCover(),
-                    bookReqDTO.getPublishingHouse(),
-                    bookReqDTO.getYearOfPublication(),
-                    bookReqDTO.getCost() * 2,
-                    bookReqDTO.getCost(),
-                    bookReqDTO.getBarCode(),
-                    bookReqDTO.getID(),
-                    bookReqDTO.getPages());
-            return newBook;
-        }
-        return null;
+        return Optional.ofNullable(bookReqDTO).stream()
+                .findAny()
+                .map(b -> new Book(b.getTitle(),
+                        b.getAuthor(),
+                        b.getCover(),
+                        b.getPublishingHouse(),
+                        b.getYearOfPublication(),
+                        b.getCost() * 2,
+                        b.getCost(),
+                        b.getBarCode(),
+                        b.getID(),
+                        b.getPages()))
+                .orElse(null);
     }
 }
