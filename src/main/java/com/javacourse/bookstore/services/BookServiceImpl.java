@@ -36,8 +36,8 @@ public class BookServiceImpl implements BookService {
         Optional<Book> createOptionalBook = Optional.ofNullable(getBook(bookReqDTO));
         return createOptionalBook.stream()
                 .findAny()
-                .map(b->bookRepositories.save(b))
-                .map(b->toBookRespDTO(b))
+                .map(b -> bookRepositories.save(b))
+                .map(b -> toBookRespDTO(b))
                 .orElse(null);
 
 //        Book newBook = getBook(bookReqDTO);
@@ -88,16 +88,19 @@ public class BookServiceImpl implements BookService {
     }
 
     private Book getBook(BookReqDTO bookReqDTO) {
-        Book newBook = new Book(bookReqDTO.getTitle(),
-                bookReqDTO.getAuthor(),
-                bookReqDTO.getCover(),
-                bookReqDTO.getPublishingHouse(),
-                bookReqDTO.getYearOfPublication(),
-                bookReqDTO.getCost() * 2,
-                bookReqDTO.getCost(),
-                bookReqDTO.getBarCode(),
-                bookReqDTO.getID(),
-                bookReqDTO.getPages());
-        return newBook;
+        if (bookReqDTO != null) {
+            Book newBook = new Book(bookReqDTO.getTitle(),
+                    bookReqDTO.getAuthor(),
+                    bookReqDTO.getCover(),
+                    bookReqDTO.getPublishingHouse(),
+                    bookReqDTO.getYearOfPublication(),
+                    bookReqDTO.getCost() * 2,
+                    bookReqDTO.getCost(),
+                    bookReqDTO.getBarCode(),
+                    bookReqDTO.getID(),
+                    bookReqDTO.getPages());
+            return newBook;
+        }
+        return null;
     }
 }
