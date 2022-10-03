@@ -27,41 +27,34 @@ public class BookServiceImpl implements BookService {
     }
 
     public BookRespDTO getBookById(Long id) {
-        return Optional.ofNullable(bookRepositories.findById(id)).stream()
-                .findAny()
-                .map(b->toBookRespDTO(b))
+        return Optional.ofNullable(bookRepositories.findById(id))
+                .map(b -> toBookRespDTO(b))
                 .orElse(null);
     }
 
     public BookRespDTO create(BookReqDTO bookReqDTO) {
-        Optional<Book> createOptionalBook = Optional.ofNullable(getBook(bookReqDTO));
-        return createOptionalBook.stream()
-                .findAny()
+        return Optional.ofNullable(getBook(bookReqDTO))
                 .map(b -> bookRepositories.save(b))
                 .map(b -> toBookRespDTO(b))
                 .orElse(null);
     }
 
     public BookRespDTO update(Long id, BookReqDTO bookReqDTO) {
-        if (bookReqDTO != null) {
-            Book updateBook = getBook(bookReqDTO);
-            Book update = bookRepositories.update(id, updateBook);
-            return toBookRespDTO(update);
-        }
-        return null;
+        return Optional.ofNullable(getBook(bookReqDTO))
+                .map(b -> bookRepositories.update(id, b))
+                .map(b -> toBookRespDTO(b))
+                .orElse(null);
     }
 
     public BookRespDTO delete(Long id) {
-        Book deleteBook = bookRepositories.remove(id);
-        if (deleteBook != null) {
-            BookRespDTO bookRespDTO = toBookRespDTO(deleteBook);
-            return bookRespDTO;
-        }
-        return null;
+        return Optional.ofNullable(bookRepositories.remove(id))
+                .map(b -> toBookRespDTO(b))
+                .orElse(null);
     }
 
     private BookRespDTO toBookRespDTO(Book book) {
-        return Optional.ofNullable(book).stream()
+        return Optional.ofNullable(book)
+                .stream()
                 .findAny()
                 .map(b -> new BookRespDTO(b.getTitle(),
                         b.getAuthor(),
@@ -78,7 +71,8 @@ public class BookServiceImpl implements BookService {
     }
 
     private Book getBook(BookReqDTO bookReqDTO) {
-        return Optional.ofNullable(bookReqDTO).stream()
+        return Optional.ofNullable(bookReqDTO)
+                .stream()
                 .findAny()
                 .map(b -> new Book(b.getTitle(),
                         b.getAuthor(),
