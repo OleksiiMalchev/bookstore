@@ -1,6 +1,5 @@
 package com.javacourse.bookstore.services;
 
-import com.javacourse.bookstore.domain.Author;
 import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
 import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
 import com.javacourse.bookstore.repositories.AuthorRepositories;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,41 +33,32 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorRespDTO getAuthorByID(Long ID) {
-        Author authorByID = authorRepositories.getAuthorByID(ID);
-        if (authorByID != null) {
-            return mapperForAuthor.authorToRespDTO(authorByID);
-        }
-        return null;
+        return Optional.ofNullable(authorRepositories.getAuthorByID(ID))
+                .map(a -> mapperForAuthor.authorToRespDTO(a))
+                .orElse(null);
     }
 
     @Override
     public AuthorRespDTO createAuthor(AuthorReqDTO authorReqDTO) {
-        if (authorReqDTO != null) {
-            Author newAuthor = mapperForAuthor.authorReqDTOToAuthor(authorReqDTO);
-            Author saveAuthor = authorRepositories.saveAuthorInBase(newAuthor);
-            AuthorRespDTO authorRespDTO = mapperForAuthor.authorToRespDTO(saveAuthor);
-            return authorRespDTO;
-        }
-        return null;
+        return Optional.ofNullable(mapperForAuthor.authorReqDTOToAuthor(authorReqDTO))
+                .map(a -> authorRepositories.saveAuthorInBase(a))
+                .map(a -> mapperForAuthor.authorToRespDTO(a))
+                .orElse(null);
     }
 
     @Override
     public AuthorRespDTO updateAuthor(Long ID, AuthorReqDTO authorReqDTO) {
-        if (authorReqDTO != null) {
-            Author forUpdateAuthor = mapperForAuthor.authorReqDTOToAuthor(authorReqDTO);
-            Author updateAuthor = authorRepositories.updateAuthorByID(ID, forUpdateAuthor);
-            return mapperForAuthor.authorToRespDTO(updateAuthor);
-        }
-        return null;
+        return Optional.ofNullable(mapperForAuthor.authorReqDTOToAuthor(authorReqDTO))
+                .map(a -> authorRepositories.updateAuthorByID(ID, a))
+                .map(a -> mapperForAuthor.authorToRespDTO(a))
+                .orElse(null);
     }
 
     @Override
     public AuthorRespDTO deleteAuthor(Long ID) {
-        Author deleteAuthor = authorRepositories.getAuthorByID(ID);
-        if (deleteAuthor != null) {
-            authorRepositories.deleteAuthorByID(deleteAuthor.getID());
-            return mapperForAuthor.authorToRespDTO(deleteAuthor);
-        }
-        return null;
+        return Optional.ofNullable(authorRepositories.getAuthorByID(ID))
+                .map(a -> authorRepositories.deleteAuthorByID(a.getID()))
+                .map(a -> mapperForAuthor.authorToRespDTO(a))
+                .orElse(null);
     }
 }

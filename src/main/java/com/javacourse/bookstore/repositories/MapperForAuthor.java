@@ -5,32 +5,32 @@ import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
 import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class MapperForAuthor {
 
     public AuthorRespDTO authorToRespDTO(Author author) {
-        if (author != null) {
-            return new AuthorRespDTO(author.getFirstName(),
-                    author.getLastName(),
-                    author.getDateOfBirth(),
-                    author.getDateOfDeath(),
-                    author.getCountryOfBirth(),
-                    author.getID());
-        }
-        return null;
+        return Optional.ofNullable(author)
+                .map(a -> new AuthorRespDTO(a.getFirstName(),
+                        a.getLastName(),
+                        a.getDateOfBirth(),
+                        a.getDateOfDeath(),
+                        a.getCountryOfBirth(),
+                        a.getID()))
+                .orElse(null);
     }
 
     public Author authorReqDTOToAuthor(AuthorReqDTO authorReqDTO) {
-        if (authorReqDTO != null) {
-            return new Author(authorReqDTO.getFirstName(),
-                    authorReqDTO.getLastName(),
-                    authorReqDTO.getSurName(),
-                    authorReqDTO.getDateOfBirth(),
-                    authorReqDTO.getDateOfDeath(),
-                    authorReqDTO.getBiography(),
-                    authorReqDTO.getCountryOfBirth(),
-                    authorReqDTO.getID());
-        }
-        return null;
+        return Optional.ofNullable(authorReqDTO)
+                .map(a -> new Author(a.getFirstName(),
+                        a.getLastName(),
+                        a.getSurName(),
+                        a.getDateOfBirth(),
+                        a.getDateOfDeath(),
+                        a.getBiography(),
+                        a.getCountryOfBirth(),
+                        a.getID()))
+                .orElse(null);
     }
 }

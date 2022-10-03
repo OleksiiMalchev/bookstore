@@ -9,7 +9,7 @@ import java.util.*;
 @Repository
 public class BookRepositories {
     private final Map<Long, Book> myBooks = new HashMap<>();
-    private Random r = new Random();
+    private Random randomID = new Random();
 
     public List<Book> findAll() {
         return myBooks.values()
@@ -22,8 +22,8 @@ public class BookRepositories {
     }
 
     public Book save(Book book) {
-        book.setESBI(String.valueOf(r.nextInt()));
-        book.setID(r.nextLong());
+        book.setESBI(String.valueOf(randomID.nextInt()));
+        book.setID(randomID.nextLong());
         myBooks.put(book.getID(), book);
         return book;
     }
@@ -33,8 +33,8 @@ public class BookRepositories {
             Book bookESBI = myBooks.get(id);
             book.setESBI(bookESBI.getESBI());
             book.setID(id);
-            myBooks.put(book.getID(), book);
-            return myBooks.get(book.getID());
+            Book putBook = myBooks.put(book.getID(), book);
+            return myBooks.get(putBook);
         }
         return null;
     }
