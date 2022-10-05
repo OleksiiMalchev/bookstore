@@ -98,8 +98,9 @@ public class Author {
         this.books.add(book);
     }
 
-    public void delete(Book book){
-        this.books.remove(book);
+    public Book delete(Book book) {
+        books.remove(book);
+        return book;
     }
 
 }

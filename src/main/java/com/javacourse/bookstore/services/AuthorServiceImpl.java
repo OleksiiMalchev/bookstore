@@ -61,4 +61,10 @@ public class AuthorServiceImpl implements AuthorService {
                 .map(a -> mapperForAuthor.authorToRespDTO(a))
                 .orElse(null);
     }
+
+    public AuthorRespDTO findAuthorByBook(Long ID){
+        return Optional.ofNullable(authorRepositories.findAuthorByBook(ID))
+                .map(a->mapperForAuthor.authorToRespDTO(a)).orElse(null);
+    }
+
 }

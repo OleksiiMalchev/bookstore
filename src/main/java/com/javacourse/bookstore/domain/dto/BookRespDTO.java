@@ -1,10 +1,7 @@
 package com.javacourse.bookstore.domain.dto;
 
-import com.javacourse.bookstore.domain.Author;
-
 public class BookRespDTO {
     private String title;
-    private Author author;
     private String cover;
     private String publishingHouse;
     private int yearOfPublication;
@@ -13,12 +10,11 @@ public class BookRespDTO {
     private Long ID;
     private int pages;
     private String ESBI;
-
-    private AuthorRespDTO authorRespDTO;
+    private AuthorRespDTO author;
 
 
     public BookRespDTO(String title,
-                       AuthorRespDTO authorRespDTO,
+                       AuthorRespDTO author,
                        String cover,
                        String publishingHouse,
                        int yearOfPublication,
@@ -28,7 +24,7 @@ public class BookRespDTO {
                        int pages,
                        String ESBI) {
         this.title = title;
-        this.authorRespDTO = authorRespDTO;
+        this.author = author;
         this.cover = cover;
         this.publishingHouse = publishingHouse;
         this.yearOfPublication = yearOfPublication;
@@ -47,9 +43,7 @@ public class BookRespDTO {
         this.title = title;
     }
 
-    public Author getAuthor() {
-        return author;
-    }
+
 
     public String getCover() {
         return cover;
@@ -113,5 +107,17 @@ public class BookRespDTO {
 
     public void setESBI(String ESBI) {
         this.ESBI = ESBI;
+    }
+
+    public AuthorRespDTO getAuthorRespDTO() {
+        return author;
+    }
+
+    public void setAuthorRespDTO(AuthorRespDTO authorRespDTO) {
+        this.author = authorRespDTO;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
     }
 }

@@ -80,7 +80,6 @@ public class BookServiceImpl implements BookService {
                 .orElse(null);
 
     }
-
     private Book getBook(BookReqDTO bookReqDTO) {
         return Optional.ofNullable(bookReqDTO)
                 .stream()

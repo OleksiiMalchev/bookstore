@@ -28,7 +28,9 @@ public class BookRepositories {
     }
 
     public List<Book> findAllByAuthorID(Long authorID) {
-        return authorRepositories.getAuthorByID(authorID).getBooks();
+        return Optional.ofNullable(authorRepositories.getAuthorByID(authorID))
+                .map(a->a.getBooks()).orElse(null);
+
     }
 
     public Book findById(Long id) {
@@ -46,23 +48,32 @@ public class BookRepositories {
     public Book save(Book book) {
         Long authorID = book.getAuthorID();
         Author authorByID = authorRepositories.getAuthorByID(authorID);
-        book.setAuthor(authorByID);
-        authorByID.addBook(book);
-        return book;
+        if (authorByID != null) {
+            book.setAuthor(authorByID);
+            authorByID.addBook(book);
+            return book;
+        }
+        return null;
     }
 
     public Book update(Long id, Book book) {
         Book bookESBI = findById(id);
-        book.setESBI(bookESBI.getESBI());
-        book.setID(id);
-        return save(book);
+        if (bookESBI != null) {
+            book.setESBI(bookESBI.getESBI());
+            book.setID(id);
+            book.setAuthor(bookESBI.getAuthor());
+            return book;
+        }
+        return null;
 
     }
 
     public Book remove(Long id) {
         Book bookForRemove = findById(id);
-        Author authorRemove = authorRepositories.getAuthorByID(bookForRemove.getAuthorID());
-        authorRemove.delete(bookForRemove);
-        return bookForRemove;
+        if(bookForRemove!=null){
+            Author authorRemove = authorRepositories.getAuthorByID(bookForRemove.getAuthorID());
+            return authorRemove.delete(bookForRemove);
+        }
+        return null;
     }
 }

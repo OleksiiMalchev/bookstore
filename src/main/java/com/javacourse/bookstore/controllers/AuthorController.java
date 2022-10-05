@@ -22,6 +22,10 @@ public class AuthorController {
     public ResponseEntity<AuthorRespDTO> getBookByID(@PathVariable("id") long id) {
         return ResponseEntity.status(200).body(authorServiceImpl.getAuthorByID(id));
     }
+    @GetMapping("/authorBooks/{idBook}")
+    public ResponseEntity<AuthorRespDTO> getAuthorByBook(@PathVariable("idBook") long idBook) {
+        return ResponseEntity.status(200).body(authorServiceImpl.findAuthorByBook(idBook));
+    }
 
     @GetMapping("/authors")
     public ResponseEntity<List<AuthorRespDTO>> allBooks() {

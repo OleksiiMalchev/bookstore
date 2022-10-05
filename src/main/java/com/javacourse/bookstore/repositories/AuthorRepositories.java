@@ -1,6 +1,7 @@
 package com.javacourse.bookstore.repositories;
 
 import com.javacourse.bookstore.domain.Author;
+import com.javacourse.bookstore.domain.Book;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -17,7 +18,7 @@ public class AuthorRepositories {
     }
 
     public Author getAuthorByID(Long ID) {
-        return baseAuthor.get(ID);
+        return Optional.ofNullable(baseAuthor.get(ID)).orElse(null);
     }
 
     public Author saveAuthorInBase(Author author) {
@@ -43,4 +44,16 @@ public class AuthorRepositories {
         return baseAuthor;
     }
 
+    public Author findAuthorByBook(Long id){
+        Book bookByID = baseAuthor.entrySet()
+                .stream()
+                .flatMap(a -> a.getValue()
+                        .getBooks()
+                        .stream())
+                .filter(f -> f.getID().equals(id))
+                .findAny()
+                .orElse(null);
+       return Optional.ofNullable(bookByID).stream()
+                .map(b->b.getAuthor()).findAny().orElse(null);
+    }
 }
