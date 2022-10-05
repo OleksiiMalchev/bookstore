@@ -15,8 +15,6 @@ public class MapperForAuthor {
                 .map(a -> new AuthorRespDTO(a.getFirstName(),
                         a.getLastName(),
                         a.getDateOfBirth(),
-                        a.getDateOfDeath(),
-                        a.getCountryOfBirth(),
                         a.getID()))
                 .orElse(null);
     }

@@ -16,12 +16,8 @@ public class AuthorReqDTO {
                         ) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.surName = surName;
         this.dateOfBirth = dateOfBirth;
-        this.dateOfDeath = dateOfDeath;
-        this.biography = biography;
-        this.countryOfBirth = countryOfBirth;
-        this.ID = ID;
+
     }
 
     public String getFirstName() {

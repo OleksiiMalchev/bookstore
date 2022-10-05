@@ -46,6 +46,7 @@ public class BookRepositories {
     public Book save(Book book) {
         Long authorID = book.getAuthorID();
         Author authorByID = authorRepositories.getAuthorByID(authorID);
+        book.setAuthor(authorByID);
         authorByID.addBook(book);
         return book;
     }

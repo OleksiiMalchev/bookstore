@@ -1,9 +1,11 @@
 package com.javacourse.bookstore.services;
 
+import com.javacourse.bookstore.domain.Author;
 import com.javacourse.bookstore.domain.Book;
 import com.javacourse.bookstore.domain.dto.BookReqDTO;
 import com.javacourse.bookstore.domain.dto.BookRespDTO;
 import com.javacourse.bookstore.repositories.BookRepositories;
+import com.javacourse.bookstore.repositories.MapperForAuthor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,10 @@ import java.util.stream.Collectors;
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepositories bookRepositories;
-
+    private final MapperForAuthor mapperForAuthor;
     @Autowired
-    public BookServiceImpl(BookRepositories bookRepositories) {
+    public BookServiceImpl(BookRepositories bookRepositories,MapperForAuthor mapperForAuthor) {
+        this.mapperForAuthor = mapperForAuthor;
         this.bookRepositories = bookRepositories;
     }
 
@@ -60,11 +63,12 @@ public class BookServiceImpl implements BookService {
     }
 
     private BookRespDTO toBookRespDTO(Book book) {
+        Author author  = book.getAuthor();
         return Optional.ofNullable(book)
                 .stream()
                 .findAny()
                 .map(b -> new BookRespDTO(b.getTitle(),
-                        b.getAuthor(),
+                        mapperForAuthor.authorToRespDTO(author),
                         b.getCover(),
                         b.getPublishingHouse(),
                         b.getYearOfPublication(),

@@ -14,9 +14,11 @@ public class BookRespDTO {
     private int pages;
     private String ESBI;
 
+    private AuthorRespDTO authorRespDTO;
+
 
     public BookRespDTO(String title,
-                       Author author,
+                       AuthorRespDTO authorRespDTO,
                        String cover,
                        String publishingHouse,
                        int yearOfPublication,
@@ -26,7 +28,7 @@ public class BookRespDTO {
                        int pages,
                        String ESBI) {
         this.title = title;
-        this.author = author;
+        this.authorRespDTO = authorRespDTO;
         this.cover = cover;
         this.publishingHouse = publishingHouse;
         this.yearOfPublication = yearOfPublication;
@@ -48,8 +50,6 @@ public class BookRespDTO {
     public Author getAuthor() {
         return author;
     }
-
-
 
     public String getCover() {
         return cover;

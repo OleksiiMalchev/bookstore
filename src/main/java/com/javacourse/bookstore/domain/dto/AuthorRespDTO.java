@@ -11,14 +11,10 @@ public class AuthorRespDTO {
     public AuthorRespDTO(String firstName,
                          String lastName,
                          long dateOfBirth,
-                         long dateOfDeath,
-                         String countryOfBirth,
                          Long ID) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
-        this.dateOfDeath = dateOfDeath;
-        this.countryOfBirth = countryOfBirth;
         this.ID = ID;
     }
 

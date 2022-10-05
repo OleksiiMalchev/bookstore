@@ -131,4 +131,9 @@ public class Book {
     public void setAuthorID(Long authorID) {
         this.authorID = authorID;
     }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
 }
