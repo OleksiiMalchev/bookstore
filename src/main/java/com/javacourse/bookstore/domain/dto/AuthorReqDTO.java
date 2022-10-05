@@ -4,20 +4,16 @@ public class AuthorReqDTO {
     private String firstName;
     private String lastName;
     private String surName;
-    private int dateOfBirth;
-    private int dateOfDeath;
+    private long dateOfBirth;
+    private long dateOfDeath;
     private String biography;
     private String countryOfBirth;
     private Long ID;
 
     public AuthorReqDTO(String firstName,
                         String lastName,
-                        String surName,
-                        int dateOfBirth,
-                        int dateOfDeath,
-                        String biography,
-                        String countryOfBirth,
-                        Long ID) {
+                        long dateOfBirth
+                        ) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.surName = surName;
@@ -52,19 +48,19 @@ public class AuthorReqDTO {
         this.surName = surName;
     }
 
-    public int getDateOfBirth() {
+    public long getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(int dateOfBirth) {
+    public void setDateOfBirth(long dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public int getDateOfDeath() {
+    public long getDateOfDeath() {
         return dateOfDeath;
     }
 
-    public void setDateOfDeath(int dateOfDeath) {
+    public void setDateOfDeath(long dateOfDeath) {
         this.dateOfDeath = dateOfDeath;
     }
 

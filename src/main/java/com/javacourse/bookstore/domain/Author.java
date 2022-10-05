@@ -1,32 +1,29 @@
 package com.javacourse.bookstore.domain;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Author {
+    private List<Book> books = new ArrayList<>();
+    private Long ID;
     private String firstName;
     private String lastName;
     private String surName;
-    private int dateOfBirth;
-    private int dateOfDeath;
+    private long dateOfBirth;
+    private long dateOfDeath;
     private String biography;
     private String countryOfBirth;
-    private Long ID;
+
 
     public Author(String firstName,
                   String lastName,
-                  String surName,
-                  int dateOfBirth,
-                  int dateOfDeath,
-                  String biography,
-                  String countryOfBirth,
-                  Long ID) {
+                  long dateOfBirth
+    ) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.surName = surName;
         this.dateOfBirth = dateOfBirth;
-        this.dateOfDeath = dateOfDeath;
-        this.biography = biography;
-        this.countryOfBirth = countryOfBirth;
-        this.ID = ID;
+
     }
 
     public String getFirstName() {
@@ -53,19 +50,19 @@ public class Author {
         this.surName = surName;
     }
 
-    public int getDateOfBirth() {
+    public long getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(int dateOfBirth) {
+    public void setDateOfBirth(long dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public int getDateOfDeath() {
+    public long getDateOfDeath() {
         return dateOfDeath;
     }
 
-    public void setDateOfDeath(int dateOfDeath) {
+    public void setDateOfDeath(long dateOfDeath) {
         this.dateOfDeath = dateOfDeath;
     }
 
@@ -92,4 +89,17 @@ public class Author {
     public void setID(Long ID) {
         this.ID = ID;
     }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void addBook(Book book) {
+        this.books.add(book);
+    }
+
+    public void delete(Book book){
+        this.books.remove(book);
+    }
+
 }

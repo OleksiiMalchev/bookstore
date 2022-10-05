@@ -7,7 +7,7 @@ import java.util.*;
 
 @Repository
 public class AuthorRepositories {
-    private final Map<Long, Author> baseAuthor = new HashMap<>();
+    private  Map<Long, Author> baseAuthor = new HashMap<>();
     private Random randomID = new Random();
 
     public List<Author> getAllAuthor() {
@@ -29,7 +29,8 @@ public class AuthorRepositories {
     public Author updateAuthorByID(Long ID, Author author) {
         if (baseAuthor.containsKey(ID)) {
             author.setID(ID);
-            return baseAuthor.put(author.getID(), author);
+            baseAuthor.put(author.getID(), author);
+            return baseAuthor.get(author.getID());
         }
         return null;
     }
@@ -37,4 +38,9 @@ public class AuthorRepositories {
     public Author deleteAuthorByID(Long ID) {
         return baseAuthor.remove(ID);
     }
+
+    public Map<Long, Author> getBaseAuthor() {
+        return baseAuthor;
+    }
+
 }

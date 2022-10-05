@@ -1,8 +1,11 @@
 package com.javacourse.bookstore.domain;
 
+import java.util.Random;
+
 public class Book {
+    private Random randomID = new Random();
     private String title;
-    private String author;
+    private Author author;
     private String cover;
     private String publishingHouse;
     private int yearOfPublication;
@@ -12,27 +15,29 @@ public class Book {
     private Long ID;
     private int pages;
     private String ESBI;
+    private Long authorID;
+
 
     public Book(String title,
-                String author,
+                Long authorID,
                 String cover,
                 String publishingHouse,
                 int yearOfPublication,
                 long price,
                 long cost,
                 int barCode,
-                Long ID,
                 int pages) {
         this.title = title;
-        this.author = author;
+        this.authorID = authorID;
         this.cover = cover;
         this.publishingHouse = publishingHouse;
         this.yearOfPublication = yearOfPublication;
         this.price = price;
         this.cost = cost;
         this.barCode = barCode;
-        this.ID = ID;
         this.pages = pages;
+        this.ID = randomID.nextLong();
+        this.ESBI = String.valueOf(randomID.nextInt());
     }
 
     public String getTitle() {
@@ -43,12 +48,8 @@ public class Book {
         this.title = title;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
     }
 
     public String getCover() {
@@ -121,5 +122,13 @@ public class Book {
 
     public void setESBI(String ESBI) {
         this.ESBI = ESBI;
+    }
+
+    public Long getAuthorID() {
+        return authorID;
+    }
+
+    public void setAuthorID(Long authorID) {
+        this.authorID = authorID;
     }
 }

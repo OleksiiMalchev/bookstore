@@ -3,15 +3,15 @@ package com.javacourse.bookstore.domain.dto;
 public class AuthorRespDTO {
     private String firstName;
     private String lastName;
-    private int dateOfBirth;
-    private int dateOfDeath;
+    private long dateOfBirth;
+    private long dateOfDeath;
     private String countryOfBirth;
     private Long ID;
 
     public AuthorRespDTO(String firstName,
                          String lastName,
-                         int dateOfBirth,
-                         int dateOfDeath,
+                         long dateOfBirth,
+                         long dateOfDeath,
                          String countryOfBirth,
                          Long ID) {
         this.firstName = firstName;
@@ -38,19 +38,19 @@ public class AuthorRespDTO {
         this.lastName = lastName;
     }
 
-    public int getDateOfBirth() {
+    public long getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(int dateOfBirth) {
+    public void setDateOfBirth(long dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public int getDateOfDeath() {
+    public long getDateOfDeath() {
         return dateOfDeath;
     }
 
-    public void setDateOfDeath(int dateOfDeath) {
+    public void setDateOfDeath(long dateOfDeath) {
         this.dateOfDeath = dateOfDeath;
     }
 

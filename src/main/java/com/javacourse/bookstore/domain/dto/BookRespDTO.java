@@ -1,8 +1,10 @@
 package com.javacourse.bookstore.domain.dto;
 
+import com.javacourse.bookstore.domain.Author;
+
 public class BookRespDTO {
     private String title;
-    private String author;
+    private Author author;
     private String cover;
     private String publishingHouse;
     private int yearOfPublication;
@@ -14,7 +16,7 @@ public class BookRespDTO {
 
 
     public BookRespDTO(String title,
-                       String author,
+                       Author author,
                        String cover,
                        String publishingHouse,
                        int yearOfPublication,
@@ -43,13 +45,11 @@ public class BookRespDTO {
         this.title = title;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+
 
     public String getCover() {
         return cover;

@@ -25,12 +25,7 @@ public class MapperForAuthor {
         return Optional.ofNullable(authorReqDTO)
                 .map(a -> new Author(a.getFirstName(),
                         a.getLastName(),
-                        a.getSurName(),
-                        a.getDateOfBirth(),
-                        a.getDateOfDeath(),
-                        a.getBiography(),
-                        a.getCountryOfBirth(),
-                        a.getID()))
+                        a.getDateOfBirth()))
                 .orElse(null);
     }
 }

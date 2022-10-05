@@ -1,45 +1,67 @@
 package com.javacourse.bookstore.repositories;
 
+import com.javacourse.bookstore.domain.Author;
 import com.javacourse.bookstore.domain.Book;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 public class BookRepositories {
-    private final Map<Long, Book> myBooks = new HashMap<>();
-    private Random randomID = new Random();
+    private AuthorRepositories authorRepositories;
+
+    @Autowired
+    public BookRepositories(AuthorRepositories authorRepositories) {
+        this.authorRepositories = authorRepositories;
+    }
 
     public List<Book> findAll() {
-        return myBooks.values()
+        return authorRepositories.getBaseAuthor()
+                .entrySet()
                 .stream()
-                .toList();
+                .flatMap(a -> a.getValue()
+                        .getBooks()
+                        .stream())
+                .collect(Collectors.toList());
+    }
+
+    public List<Book> findAllByAuthorID(Long authorID) {
+        return authorRepositories.getAuthorByID(authorID).getBooks();
     }
 
     public Book findById(Long id) {
-        return myBooks.get(id);
+        return authorRepositories.getBaseAuthor()
+                .entrySet()
+                .stream()
+                .flatMap(a -> a.getValue()
+                        .getBooks()
+                        .stream())
+                .filter(f -> f.getID().equals(id))
+                .findAny()
+                .orElse(null);
     }
 
     public Book save(Book book) {
-        book.setESBI(String.valueOf(randomID.nextInt()));
-        book.setID(randomID.nextLong());
-        myBooks.put(book.getID(), book);
+        Long authorID = book.getAuthorID();
+        Author authorByID = authorRepositories.getAuthorByID(authorID);
+        authorByID.addBook(book);
         return book;
     }
 
     public Book update(Long id, Book book) {
-        if (myBooks.containsKey(id)) {
-            Book bookESBI = myBooks.get(id);
-            book.setESBI(bookESBI.getESBI());
-            book.setID(id);
-            Book putBook = myBooks.put(book.getID(), book);
-            return myBooks.get(putBook);
-        }
-        return null;
+        Book bookESBI = findById(id);
+        book.setESBI(bookESBI.getESBI());
+        book.setID(id);
+        return save(book);
+
     }
 
     public Book remove(Long id) {
-        return myBooks.remove(id);
+        Book bookForRemove = findById(id);
+        Author authorRemove = authorRepositories.getAuthorByID(bookForRemove.getAuthorID());
+        authorRemove.delete(bookForRemove);
+        return bookForRemove;
     }
 }

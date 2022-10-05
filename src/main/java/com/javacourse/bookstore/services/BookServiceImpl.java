@@ -26,6 +26,13 @@ public class BookServiceImpl implements BookService {
                 .collect(Collectors.toList());
     }
 
+    public List<BookRespDTO> allBooksAuthor(Long ID){
+        return bookRepositories.findAllByAuthorID(ID)
+                .stream()
+                .map(b->toBookRespDTO(b))
+                .collect(Collectors.toList());
+    }
+
     public BookRespDTO getBookById(Long id) {
         return Optional.ofNullable(bookRepositories.findById(id))
                 .map(b -> toBookRespDTO(b))
@@ -75,14 +82,13 @@ public class BookServiceImpl implements BookService {
                 .stream()
                 .findAny()
                 .map(b -> new Book(b.getTitle(),
-                        b.getAuthor(),
+                        b.getAuthorID(),
                         b.getCover(),
                         b.getPublishingHouse(),
                         b.getYearOfPublication(),
                         b.getCost() * 2,
                         b.getCost(),
                         b.getBarCode(),
-                        b.getID(),
                         b.getPages()))
                 .orElse(null);
     }
