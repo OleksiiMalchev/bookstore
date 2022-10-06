@@ -59,19 +59,22 @@ public class BookRepositories {
 
     public Book update(Long id, Book book) {
         Book bookESBI = findById(id);
-        if (bookESBI != null) {
-            book.setESBI(bookESBI.getESBI());
-            book.setID(id);
+        Long id1 = bookESBI.getAuthorID();
+        Long id2 = book.getAuthorID();
+        book.setESBI(bookESBI.getESBI());
+        book.setID(id);
+        if (id1 == id2) {
             book.setAuthor(bookESBI.getAuthor());
             return book;
+        } else {
+            bookESBI.getAuthor().delete(bookESBI);
+            return save(book);
         }
-        return null;
-
     }
 
     public Book remove(Long id) {
         Book bookForRemove = findById(id);
-        if(bookForRemove!=null){
+        if (bookForRemove != null) {
             Author authorRemove = authorRepositories.getAuthorByID(bookForRemove.getAuthorID()).get();
             return authorRemove.delete(bookForRemove);
         }
