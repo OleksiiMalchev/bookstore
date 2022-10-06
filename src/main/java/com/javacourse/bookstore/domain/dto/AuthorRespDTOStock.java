@@ -1,21 +1,21 @@
 package com.javacourse.bookstore.domain.dto;
 
-public class AuthorRespDTO {
+public class AuthorRespDTOStock {
     private String firstName;
     private String lastName;
     private long dateOfBirth;
     private long dateOfDeath;
     private String countryOfBirth;
     private Long ID;
-
-    public AuthorRespDTO(String firstName,
-                         String lastName,
-                         long dateOfBirth,
-                         Long ID) {
+    public AuthorRespDTOStock(String firstName,
+                              String lastName,
+                              long dateOfBirth,
+                              Long ID) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.ID = ID;
+
     }
 
     public String getFirstName() {

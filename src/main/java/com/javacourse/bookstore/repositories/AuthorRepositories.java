@@ -8,8 +8,8 @@ import java.util.*;
 
 @Repository
 public class AuthorRepositories {
-    private  Map<Long, Author> baseAuthor = new HashMap<>();
-    private Random randomID = new Random();
+    private final Map<Long, Author> baseAuthor = new HashMap<>();
+    private final Random randomID = new Random();
 
     public List<Author> getAllAuthor() {
         return baseAuthor.values()
@@ -45,7 +45,7 @@ public class AuthorRepositories {
         return baseAuthor;
     }
 
-    public Author findAuthorByBook(Long id){
+    public Author findAuthorByBook(Long id) {
         Book bookByID = baseAuthor.entrySet()
                 .stream()
                 .flatMap(a -> a.getValue()
@@ -54,7 +54,8 @@ public class AuthorRepositories {
                 .filter(f -> f.getID().equals(id))
                 .findAny()
                 .orElse(null);
-       return Optional.ofNullable(bookByID).stream()
-                .map(b->b.getAuthor()).findAny().orElse(null);
+        return Optional.ofNullable(bookByID).stream()
+                .map(Book::getAuthor).findAny().orElse(null);
     }
+
 }

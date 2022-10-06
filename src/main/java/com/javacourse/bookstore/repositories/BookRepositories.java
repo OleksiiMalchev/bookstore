@@ -29,7 +29,8 @@ public class BookRepositories {
 
     public List<Book> findAllByAuthorID(Long authorID) {
         return authorRepositories.getAuthorByID(authorID)
-                .map(Author::getBooks).orElse(Collections.emptyList());
+                .map(Author::getBooks)
+                .orElse(Collections.emptyList());
 
     }
 

@@ -1,21 +1,21 @@
 package com.javacourse.bookstore.services;
 
 import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
-import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
+import com.javacourse.bookstore.domain.dto.AuthorRespDTOStock;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public interface AuthorService {
-    List<AuthorRespDTO> getAllAuthor();
+    List<AuthorRespDTOStock> getAllAuthor();
 
-    AuthorRespDTO getAuthorByID(Long ID);
+    AuthorRespDTOStock getAuthorByID(Long ID);
 
-    AuthorRespDTO createAuthor(AuthorReqDTO authorReqDTO);
+    AuthorRespDTOStock createAuthor(AuthorReqDTO authorReqDTO);
 
-    AuthorRespDTO updateAuthor(Long ID, AuthorReqDTO authorReqDTO);
+    AuthorRespDTOStock updateAuthor(Long ID, AuthorReqDTO authorReqDTO);
 
-    AuthorRespDTO deleteAuthor(Long ID);
+    AuthorRespDTOStock deleteAuthor(Long ID);
 
 }
