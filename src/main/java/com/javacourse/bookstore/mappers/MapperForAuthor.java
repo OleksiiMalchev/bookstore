@@ -1,0 +1,41 @@
+package com.javacourse.bookstore.mappers;
+
+import com.javacourse.bookstore.domain.Author;
+import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
+import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
+import com.javacourse.bookstore.domain.dto.AuthorRespDTOID;
+import org.springframework.stereotype.Component;
+
+import java.util.Optional;
+
+@Component
+public class MapperForAuthor {
+    public Author authorReqDTOToAuthor(AuthorReqDTO authorReqDTO) {
+        return Optional.ofNullable(authorReqDTO)
+                .map(a -> new Author(a.getFirstName(),
+                        a.getLastName(),
+                        a.getDateOfBirth()))
+                .orElse(null);
+    }
+
+    public AuthorRespDTO authorToRespDTO(Author author) {
+        return Optional.ofNullable(author)
+                .map(a -> new AuthorRespDTO(a.getFirstName(),
+                        a.getLastName(),
+                        a.getDateOfBirth(),
+                        a.getID()))
+                .orElse(null);
+    }
+
+    public AuthorRespDTOID authorRespDTOID(Author author) {
+        return Optional.ofNullable(author)
+                .map(a->new AuthorRespDTOID())
+                .stream()
+                .peek(a->a.setID(author.getID()))
+                .findAny()
+                .orElse(null);
+
+
+    }
+
+}

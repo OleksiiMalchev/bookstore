@@ -10,11 +10,11 @@ public class BookRespDTO {
     private Long ID;
     private int pages;
     private String ESBI;
-    private AuthorRespDTO author;
+    private AuthorRespDTOID author;
 
 
     public BookRespDTO(String title,
-                       AuthorRespDTO author,
+                       AuthorRespDTOID author,
                        String cover,
                        String publishingHouse,
                        int yearOfPublication,
@@ -109,12 +109,12 @@ public class BookRespDTO {
         this.ESBI = ESBI;
     }
 
-    public AuthorRespDTO getAuthorRespDTO() {
+    public AuthorRespDTOID getAuthorRespDTO() {
         return author;
     }
 
-    public void setAuthorRespDTO(AuthorRespDTO authorRespDTO) {
-        this.author = authorRespDTO;
+    public void setAuthorRespDTO(AuthorRespDTOID author) {
+        this.author = author;
     }
 
     public void setPrice(long price) {

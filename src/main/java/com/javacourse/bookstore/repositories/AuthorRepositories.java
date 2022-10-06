@@ -17,8 +17,9 @@ public class AuthorRepositories {
                 .toList();
     }
 
-    public Author getAuthorByID(Long ID) {
-        return Optional.ofNullable(baseAuthor.get(ID)).orElse(null);
+    public Optional<Author> getAuthorByID(Long ID) {
+        return Optional.ofNullable(baseAuthor.get(ID));
+
     }
 
     public Author saveAuthorInBase(Author author) {
@@ -36,8 +37,8 @@ public class AuthorRepositories {
         return null;
     }
 
-    public Author deleteAuthorByID(Long ID) {
-        return baseAuthor.remove(ID);
+    public Optional<Author> deleteAuthorByID(Long ID) {
+        return Optional.ofNullable(baseAuthor.remove(ID));
     }
 
     public Map<Long, Author> getBaseAuthor() {

@@ -3,7 +3,7 @@ package com.javacourse.bookstore.services;
 import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
 import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
 import com.javacourse.bookstore.repositories.AuthorRepositories;
-import com.javacourse.bookstore.repositories.MapperForAuthor;
+import com.javacourse.bookstore.mappers.MapperForAuthor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorRespDTO getAuthorByID(Long ID) {
-        return Optional.ofNullable(authorRepositories.getAuthorByID(ID))
+        return authorRepositories.getAuthorByID(ID)
                 .map(a -> mapperForAuthor.authorToRespDTO(a))
                 .orElse(null);
     }
@@ -55,11 +55,11 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public AuthorRespDTO deleteAuthor(Long ID) {
-        return Optional.ofNullable(authorRepositories.getAuthorByID(ID))
-                .map(a -> authorRepositories.deleteAuthorByID(a.getID()))
-                .map(a -> mapperForAuthor.authorToRespDTO(a))
+    public AuthorRespDTO deleteAuthor(Long authorID) {
+        return authorRepositories.deleteAuthorByID(authorID)
+                .map(mapperForAuthor::authorToRespDTO)
                 .orElse(null);
+
     }
 
     public AuthorRespDTO findAuthorByBook(Long ID){

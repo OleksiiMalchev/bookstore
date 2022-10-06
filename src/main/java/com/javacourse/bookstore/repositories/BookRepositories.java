@@ -28,8 +28,8 @@ public class BookRepositories {
     }
 
     public List<Book> findAllByAuthorID(Long authorID) {
-        return Optional.ofNullable(authorRepositories.getAuthorByID(authorID))
-                .map(a->a.getBooks()).orElse(null);
+        return authorRepositories.getAuthorByID(authorID)
+                .map(Author::getBooks).orElse(Collections.emptyList());
 
     }
 
@@ -47,7 +47,7 @@ public class BookRepositories {
 
     public Book save(Book book) {
         Long authorID = book.getAuthorID();
-        Author authorByID = authorRepositories.getAuthorByID(authorID);
+        Author authorByID = authorRepositories.getAuthorByID(authorID).get();
         if (authorByID != null) {
             book.setAuthor(authorByID);
             authorByID.addBook(book);
@@ -71,7 +71,7 @@ public class BookRepositories {
     public Book remove(Long id) {
         Book bookForRemove = findById(id);
         if(bookForRemove!=null){
-            Author authorRemove = authorRepositories.getAuthorByID(bookForRemove.getAuthorID());
+            Author authorRemove = authorRepositories.getAuthorByID(bookForRemove.getAuthorID()).get();
             return authorRemove.delete(bookForRemove);
         }
         return null;
