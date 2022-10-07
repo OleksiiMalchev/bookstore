@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Author {
-    private List<Book> books = new ArrayList<>();
+    private final List<Book> books = new ArrayList<>();
     private Long ID;
     private String firstName;
     private String lastName;

@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class MapperAuthorToRespDTO {
-    private MapperForBook mapperForBook;
+    private final MapperForBook mapperForBook;
 
     public MapperAuthorToRespDTO(MapperForBook mapperForBook) {
         this.mapperForBook = mapperForBook;
@@ -23,7 +23,7 @@ public class MapperAuthorToRespDTO {
                         a.getID(),
                         a.getBooks()
                                 .stream()
-                                .map(b -> mapperForBook.toBookRespDTO(b))
+                                .map(mapperForBook::toBookRespDTO)
                                 .collect(Collectors.toList())))
                 .orElse(null);
     }

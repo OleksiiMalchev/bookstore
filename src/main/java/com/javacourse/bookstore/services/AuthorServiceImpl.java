@@ -18,6 +18,7 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepositories authorRepositories;
     private final MapperForAuthor mapperForAuthor;
     private final MapperAuthorToRespDTO mapperAuthorToRespDTO;
+
     @Autowired
     public AuthorServiceImpl(AuthorRepositories authorRepositories,
                              MapperForAuthor mapperForAuthor,
@@ -39,15 +40,15 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public AuthorRespDTOStock getAuthorByID(Long ID) {
         return authorRepositories.getAuthorByID(ID)
-                .map(a -> mapperForAuthor.authorToRespDTOStock(a))
+                .map(mapperForAuthor::authorToRespDTOStock)
                 .orElse(null);
     }
 
     @Override
     public AuthorRespDTOStock createAuthor(AuthorReqDTO authorReqDTO) {
         return Optional.ofNullable(mapperForAuthor.authorReqDTOToAuthor(authorReqDTO))
-                .map(a -> authorRepositories.saveAuthorInBase(a))
-                .map(a -> mapperForAuthor.authorToRespDTOStock(a))
+                .map(authorRepositories::saveAuthorInBase)
+                .map(mapperForAuthor::authorToRespDTOStock)
                 .orElse(null);
     }
 
@@ -55,7 +56,7 @@ public class AuthorServiceImpl implements AuthorService {
     public AuthorRespDTOStock updateAuthor(Long ID, AuthorReqDTO authorReqDTO) {
         return Optional.ofNullable(mapperForAuthor.authorReqDTOToAuthor(authorReqDTO))
                 .map(a -> authorRepositories.updateAuthorByID(ID, a))
-                .map(a -> mapperForAuthor.authorToRespDTOStock(a))
+                .map(mapperForAuthor::authorToRespDTOStock)
                 .orElse(null);
     }
 
@@ -67,12 +68,12 @@ public class AuthorServiceImpl implements AuthorService {
 
     }
 
-    public AuthorRespDTOStock findAuthorByBook(Long ID){
+    public AuthorRespDTOStock findAuthorByBook(Long ID) {
         return Optional.ofNullable(authorRepositories.findAuthorByBook(ID))
-                .map(a->mapperForAuthor.authorToRespDTOStock(a)).orElse(null);
+                .map(mapperForAuthor::authorToRespDTOStock).orElse(null);
     }
 
-    public AuthorRespDTOWithBooks getAuthorWithDetails (Long authorID){
+    public AuthorRespDTOWithBooks getAuthorWithDetails(Long authorID) {
         return authorRepositories.getAuthorByID(authorID)
                 .map(mapperAuthorToRespDTO::authorToRespDTO)
                 .orElse(null);
