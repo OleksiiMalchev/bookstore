@@ -5,6 +5,7 @@ import com.javacourse.bookstore.domain.Book;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 public class AuthorRepositories {
@@ -14,7 +15,7 @@ public class AuthorRepositories {
     public List<Author> getAllAuthor() {
         return baseAuthor.values()
                 .stream()
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public Optional<Author> getAuthorByID(Long ID) {
@@ -23,9 +24,12 @@ public class AuthorRepositories {
     }
 
     public Author saveAuthorInBase(Author author) {
-        author.setID(randomID.nextLong());
-        baseAuthor.put(author.getID(), author);
-        return author;
+        if (author != null) {
+            author.setID(randomID.nextLong());
+            baseAuthor.put(author.getID(), author);
+            return author;
+        }
+        return null;
     }
 
     public Author updateAuthorByID(Long ID, Author author) {
@@ -45,17 +49,16 @@ public class AuthorRepositories {
         return baseAuthor;
     }
 
-    public Author findAuthorByBook(Long id) {
+    public Author findAuthorByBook(Long idBook) {
         Book bookByID = baseAuthor.entrySet()
                 .stream()
                 .flatMap(a -> a.getValue()
                         .getBooks()
                         .stream())
-                .filter(f -> f.getID().equals(id))
+                .filter(f -> f.getID().equals(idBook))
                 .findAny()
                 .orElse(null);
         return Optional.ofNullable(bookByID).stream()
                 .map(Book::getAuthor).findAny().orElse(null);
     }
-
 }

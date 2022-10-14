@@ -34,7 +34,7 @@ public class BookRepositories {
 
     }
 
-    public Book findById(Long id) {
+    public Optional<Book> findById(Long id) {
         return authorRepositories.getBaseAuthor()
                 .entrySet()
                 .stream()
@@ -42,42 +42,39 @@ public class BookRepositories {
                         .getBooks()
                         .stream())
                 .filter(f -> f.getID().equals(id))
-                .findAny()
-                .orElse(null);
+                .findAny();
     }
 
     public Book save(Book book) {
-        Long authorID = book.getAuthorID();
-        Author authorByID = authorRepositories.getAuthorByID(authorID).get();
-        if (authorByID != null) {
-            book.setAuthor(authorByID);
-            authorByID.addBook(book);
-            return book;
-        }
-        return null;
+        return authorRepositories.getAuthorByID(book.getAuthorID())
+                .map(a -> a.addBook(book))
+                .stream()
+                .peek(b -> b.setAuthor(authorRepositories.getAuthorByID(book.getAuthorID()).get()))
+                .findAny()
+                .orElse(null);
+
     }
 
     public Book update(Long id, Book book) {
-        Book bookESBI = findById(id);
-        if (authorRepositories.getBaseAuthor().containsKey(book.getAuthorID())) {
-            Long id1 = bookESBI.getAuthorID();
+        if (authorRepositories.getBaseAuthor().containsKey(book.getAuthorID()) && id!=null) {
+            Long id1 = findById(id).get().getAuthorID();
             Long id2 = book.getAuthorID();
-            book.setESBI(bookESBI.getESBI());
+            book.setESBI(findById(id).get().getESBI());
             book.setID(id);
             if (id1 == id2) {
-                book.setAuthor(bookESBI.getAuthor());
+                book.setAuthor(findById(id).get().getAuthor());
                 return book;
             } else {
-                bookESBI.getAuthor().delete(bookESBI);
-                return save(book);
+                findById(id).get().getAuthor().delete(findById(id).get());
+                 return save(book);
             }
         }
         return null;
     }
 
     public Optional<Book> remove(Long id) {
-        return Optional.ofNullable(findById(id))
+        return findById(id)
                 .map(b -> authorRepositories.getAuthorByID(b.getAuthorID()).get())
-                .map(a -> a.delete(findById(id)));
+                .map(a -> a.delete(findById(id).get()));
     }
 }

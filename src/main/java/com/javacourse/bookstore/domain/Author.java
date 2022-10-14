@@ -94,8 +94,9 @@ public class Author {
         return books;
     }
 
-    public void addBook(Book book) {
-        this.books.add(book);
+    public Book addBook(Book book) {
+         this.books.add(book);
+         return book;
     }
 
     public Book delete(Book book) {

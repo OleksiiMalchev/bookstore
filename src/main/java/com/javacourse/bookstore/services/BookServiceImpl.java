@@ -37,7 +37,7 @@ public class BookServiceImpl implements BookService {
     }
 
     public BookRespDTO getBookById(Long id) {
-        return Optional.ofNullable(bookRepositories.findById(id))
+        return bookRepositories.findById(id)
                 .map(mapperForBook::toBookRespDTO)
                 .orElse(null);
     }
