@@ -6,6 +6,7 @@ import com.javacourse.bookstore.domain.dto.AuthorRespDTOWithBooks;
 import com.javacourse.bookstore.mappers.MapperAuthorToRespDTO;
 import com.javacourse.bookstore.mappers.MapperForAuthor;
 import com.javacourse.bookstore.repositories.AuthorRepositories;
+import exception.AuthorNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,10 +39,10 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public AuthorRespDTOStock getAuthorByID(Long ID) {
+    public AuthorRespDTOStock getAuthorByID(Long ID) throws AuthorNotFoundException {
         return authorRepositories.getAuthorByID(ID)
                 .map(mapperForAuthor::authorToRespDTOStock)
-                .orElse(null);
+                .orElseThrow(() -> new AuthorNotFoundException("Author not found"));//AuthorNotFoundException orElse(null)
     }
 
     @Override
@@ -53,9 +54,9 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public AuthorRespDTOStock updateAuthor(Long ID, AuthorReqDTO authorReqDTO) {
+    public AuthorRespDTOStock updateAuthor(Long authorID, AuthorReqDTO authorReqDTO) {
         return Optional.ofNullable(mapperForAuthor.authorReqDTOToAuthor(authorReqDTO))
-                .map(a -> authorRepositories.updateAuthorByID(ID, a))
+                .map(a -> authorRepositories.updateAuthorByID(authorID, a))
                 .map(mapperForAuthor::authorToRespDTOStock)
                 .orElse(null);
     }

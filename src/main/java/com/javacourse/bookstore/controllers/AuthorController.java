@@ -4,10 +4,12 @@ import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
 import com.javacourse.bookstore.domain.dto.AuthorRespDTOStock;
 import com.javacourse.bookstore.domain.dto.AuthorRespDTOWithBooks;
 import com.javacourse.bookstore.services.AuthorServiceImpl;
+import exception.AuthorNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -21,12 +23,18 @@ public class AuthorController {
     }
 
     @GetMapping("/authors/{id}")
-    public ResponseEntity<? super AuthorRespDTOStock> getBookByID(@PathVariable("id") long id) {
-        AuthorRespDTOStock authorByID = authorServiceImpl.getAuthorByID(id);
-        if (authorByID != null) {
-            return ResponseEntity.status(200).body(authorByID);
-        } else {
-            return new ResponseEntity<>("Author not found ", HttpStatus.NOT_FOUND);
+    public ResponseEntity<AuthorRespDTOStock> getBookByID(@PathVariable("id") Long id) {
+//        AuthorRespDTOStock authorByID = authorServiceImpl.getAuthorByID(id);
+//        if (authorByID != null) {
+//            return ResponseEntity.status(200).body(authorByID);
+//        } else {
+//            return new ResponseEntity<>("Author not found ", HttpStatus.NOT_FOUND);
+//        }
+        try {
+            AuthorRespDTOStock authorByID = authorServiceImpl.getAuthorByID(id);
+            return ResponseEntity.ok(authorByID);
+        } catch (AuthorNotFoundException ex) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Provide correct Author Id", ex);
         }
     }
 
@@ -62,7 +70,7 @@ public class AuthorController {
     @PostMapping("/authors")
     public ResponseEntity<? super AuthorRespDTOStock> create(@RequestBody(required = false) AuthorReqDTO authorReqDTO) {
         if (authorReqDTO != null) {
-            ResponseEntity.status(201).body(authorServiceImpl.createAuthor(authorReqDTO));
+           return ResponseEntity.status(201).body(authorServiceImpl.createAuthor(authorReqDTO));
         }
         return new ResponseEntity<>("Authors not found ", HttpStatus.NOT_FOUND);
 

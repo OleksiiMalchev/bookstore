@@ -2,6 +2,7 @@ package com.javacourse.bookstore.services;
 
 import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
 import com.javacourse.bookstore.domain.dto.AuthorRespDTOStock;
+import exception.AuthorNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 public interface AuthorService {
     List<AuthorRespDTOStock> getAllAuthor();
 
-    AuthorRespDTOStock getAuthorByID(Long ID);
+    AuthorRespDTOStock getAuthorByID(Long ID) throws AuthorNotFoundException;
 
     AuthorRespDTOStock createAuthor(AuthorReqDTO authorReqDTO);
 
