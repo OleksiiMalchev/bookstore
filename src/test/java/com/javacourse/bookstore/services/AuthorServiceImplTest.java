@@ -17,8 +17,6 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class AuthorServiceImplTest {
 
     private AuthorRepositories authorRepositories = new AuthorRepositories();
@@ -27,6 +25,7 @@ class AuthorServiceImplTest {
     private final MapperAuthorToRespDTO mapperAuthorToRespDTO = new MapperAuthorToRespDTO(mapperForBook);
     private AuthorServiceImpl authorServiceImpl = new AuthorServiceImpl(authorRepositories, mapperForAuthor, mapperAuthorToRespDTO);
     private BookRepositories bookRepositories = new BookRepositories(authorRepositories);
+
 
     @Test
     void getAllAuthor() {

@@ -34,14 +34,14 @@ public class BookRepositories {
 
     }
 
-    public Optional<Book> findById(Long id) {
+    public Optional<Book> findById(Long idBook) {
         return authorRepositories.getBaseAuthor()
                 .entrySet()
                 .stream()
                 .flatMap(a -> a.getValue()
                         .getBooks()
                         .stream())
-                .filter(f -> f.getID().equals(id))
+                .filter(f -> f.getID().equals(idBook))
                 .findAny();
     }
 

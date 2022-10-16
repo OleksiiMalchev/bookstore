@@ -49,9 +49,9 @@ public class BookServiceImpl implements BookService {
                 .orElse(null);
     }
 
-    public BookRespDTO update(Long id, BookReqDTO bookReqDTO) {
+    public BookRespDTO update(Long idBook, BookReqDTO bookReqDTO) {
         return Optional.ofNullable(mapperForBook.getBook(bookReqDTO))
-                .map(b -> bookRepositories.update(id, b))
+                .map(b -> bookRepositories.update(idBook, b))
                 .map(mapperForBook::toBookRespDTO)
                 .orElse(null);
     }

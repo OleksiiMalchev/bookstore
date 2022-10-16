@@ -16,6 +16,29 @@ class BookRepositoriesTest {
 
     @Test
     void findAll() {
+        Author authorAlexander = new Author("Alexander", "Milne", 1882);
+        Author authorDan = new Author("Dan", "Brown", 1964);
+        Author authorInBase = authorRepositories.saveAuthorInBase(authorAlexander);
+        Author authorInBase1 = authorRepositories.saveAuthorInBase(authorDan);
+        Book saveBook = bookRepositories.save(new Book("The Day's Play", authorInBase.getID(), "soft", "XZ",
+                1910, 200L, 50, 1124, 314));
+        Book saveBook1 = bookRepositories.save(new Book("The Holiday Round", authorInBase1.getID(), "hard", "XZ",
+                1912, 300L, 50, 5247, 132));
+        Book saveBook2 = bookRepositories.save(new Book("Once a Week", authorInBase.getID(), "soft", "XZ",
+                1914, 350L, 50, 5354, 255));
+        List<Book> allBooks = bookRepositories.findAll();
+        Optional<Book> optionalBook = allBooks.stream()
+                .filter(b -> b.getTitle().equals(saveBook.getTitle()))
+                .findAny();
+        Assertions.assertEquals(optionalBook.get().getTitle(),saveBook.getTitle());
+        Optional<Book> optionalBook1 = allBooks.stream()
+                .filter(b -> b.getTitle().equals(saveBook1.getTitle()))
+                .findAny();
+        Assertions.assertEquals(optionalBook1.get().getTitle(),saveBook1.getTitle());
+        Optional<Book> optionalBook2 = allBooks.stream()
+                .filter(b -> b.getTitle().equals(saveBook2.getTitle()))
+                .findAny();
+        Assertions.assertEquals(optionalBook2.get().getTitle(),saveBook2.getTitle());
     }
 
     @Test

@@ -24,17 +24,11 @@ public class AuthorController {
 
     @GetMapping("/authors/{id}")
     public ResponseEntity<AuthorRespDTOStock> getBookByID(@PathVariable("id") Long id) {
-//        AuthorRespDTOStock authorByID = authorServiceImpl.getAuthorByID(id);
-//        if (authorByID != null) {
-//            return ResponseEntity.status(200).body(authorByID);
-//        } else {
-//            return new ResponseEntity<>("Author not found ", HttpStatus.NOT_FOUND);
-//        }
         try {
             AuthorRespDTOStock authorByID = authorServiceImpl.getAuthorByID(id);
             return ResponseEntity.ok(authorByID);
         } catch (AuthorNotFoundException ex) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Provide correct Author Id", ex);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Provide correct Author Id",ex);
         }
     }
 
