@@ -3,7 +3,7 @@ package com.javacourse.bookstore.mappers;
 import com.javacourse.bookstore.domain.Author;
 import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
 import com.javacourse.bookstore.domain.dto.AuthorRespDTOID;
-import com.javacourse.bookstore.domain.dto.AuthorRespDTOStock;
+import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -13,26 +13,31 @@ public class MapperForAuthor {
 
     public Author authorReqDTOToAuthor(AuthorReqDTO authorReqDTO) {
         return Optional.ofNullable(authorReqDTO)
-                .map(a -> new Author(a.getFirstName(),
-                        a.getLastName(),
-                        a.getDateOfBirth()))
+                .map(a -> Author.builder()
+                        .firstName(a.getFirstName())
+                        .lastName(a.getLastName())
+                        .dateOfBirth(a.getDateOfBirth())
+                        .build())
                 .orElse(null);
     }
 
-    public AuthorRespDTOStock authorToRespDTOStock(Author author) {
+    public AuthorRespDTO authorToRespDTOStock(Author author) {
         return Optional.ofNullable(author)
-                .map(a -> new AuthorRespDTOStock(a.getFirstName(),
-                        a.getLastName(),
-                        a.getDateOfBirth(),
-                        a.getID())).orElse(null);
+                .map(a -> AuthorRespDTO.builder()
+                        .firstName(a.getFirstName())
+                        .lastName(a.getLastName())
+                        .dateOfBirth(a.getDateOfBirth())
+                        .id(a.getID())
+                        .build())
+                .orElse(null);
     }
 
     public AuthorRespDTOID authorRespDTOID(Author author) {
         return Optional.ofNullable(author)
-                .map(a -> new AuthorRespDTOID())
-                .stream()
-                .peek(a -> a.setID(author.getID()))
-                .findAny()
+                .map(a -> AuthorRespDTOID
+                        .builder()
+                        .id(a.getID())
+                        .build())
                 .orElse(null);
     }
 }

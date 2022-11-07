@@ -2,8 +2,9 @@ package com.javacourse.bookstore.controllers;
 
 import com.javacourse.bookstore.domain.dto.BookReqDTO;
 import com.javacourse.bookstore.domain.dto.BookRespDTO;
-import com.javacourse.bookstore.services.BookServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.javacourse.bookstore.services.BookService;
+import com.javacourse.bookstore.services.SomeСlass;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,26 +12,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class BookController {
-    private final BookServiceImpl bookServiceImpl;
+    private final BookService bookService;
+    private final SomeСlass someСlass;
 
-    @Autowired
-    public BookController(BookServiceImpl books) {
-        this.bookServiceImpl = books;
-    }
+
+
 
     @GetMapping("/books/{id}")
     public ResponseEntity<? super BookRespDTO> getBookByID(@PathVariable("id") Long id) {
+        someСlass.doSomething();
         if (id != null) {
-            return ResponseEntity.status(200).body(bookServiceImpl.getBookById(id));
+            return ResponseEntity.status(200).body(bookService.getBookById(id));
         }
         return new ResponseEntity<>("Book not found ", HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/booksAuthor/{authorID}")
     public ResponseEntity<? super List<BookRespDTO>> findAllByAuthorID(@PathVariable("authorID") Long authorID) {
+        someСlass.doSomething();
         if (authorID != null) {
-            return ResponseEntity.status(200).body(bookServiceImpl.allBooksAuthor(authorID));
+            return ResponseEntity.status(200).body(bookService.allBooksAuthor(authorID));
         }
         return new ResponseEntity<>("Book not found ", HttpStatus.NOT_FOUND);
     }
@@ -38,31 +41,35 @@ public class BookController {
 
     @GetMapping("/books")
     public ResponseEntity<List<BookRespDTO>> allBooks() {
-        return ResponseEntity.status(200).body(bookServiceImpl.allBooks());
+        someСlass.doSomething();
+        return ResponseEntity.status(200).body(bookService.allBooks());
     }
 
     @PostMapping("/books")
     public ResponseEntity<? super BookRespDTO> create(@RequestBody(required = false) BookReqDTO bookReqDTO) {
+        someСlass.doSomething();
         if (bookReqDTO != null) {
-            return ResponseEntity.status(201).body(bookServiceImpl.create(bookReqDTO));
+            return ResponseEntity.status(201).body(bookService.create(bookReqDTO));
         }
         return new ResponseEntity<>("Book not found ", HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/books/{id}")
-    public ResponseEntity<? super BookRespDTO> update(@PathVariable("id") Long id, @RequestBody(required = false) BookReqDTO bookReqDTO) {
+    public ResponseEntity<? super BookRespDTO> update(@PathVariable("id") Long id,
+                                                      @RequestBody(required = false) BookReqDTO bookReqDTO) {
+        someСlass.doSomething();
         if (id != null && bookReqDTO != null) {
-            return ResponseEntity.status(200).body(bookServiceImpl.update(id, bookReqDTO));
+            return ResponseEntity.status(200).body(bookService.update(id, bookReqDTO));
         }
         return new ResponseEntity<>("Book not found ", HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/books/{id}")
     public ResponseEntity<? super BookRespDTO> delete(@PathVariable("id") Long id) {
+        someСlass.doSomething();
         if (id != null) {
-            return ResponseEntity.status(200).body(bookServiceImpl.delete(id));
+            return ResponseEntity.status(200).body(bookService.delete(id));
         }
         return new ResponseEntity<>("Book not found ", HttpStatus.NOT_FOUND);
     }
-
 }

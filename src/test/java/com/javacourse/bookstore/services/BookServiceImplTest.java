@@ -4,120 +4,191 @@ import com.javacourse.bookstore.domain.Author;
 import com.javacourse.bookstore.domain.Book;
 import com.javacourse.bookstore.domain.dto.BookReqDTO;
 import com.javacourse.bookstore.domain.dto.BookRespDTO;
-import com.javacourse.bookstore.mappers.MapperAuthorToRespDTO;
-import com.javacourse.bookstore.mappers.MapperForAuthor;
 import com.javacourse.bookstore.mappers.MapperForBook;
 import com.javacourse.bookstore.repositories.AuthorRepositories;
 import com.javacourse.bookstore.repositories.BookRepositories;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 class BookServiceImplTest {
-    private AuthorRepositories authorRepositories = new AuthorRepositories();
-    private final BookRepositories bookRepositories = new BookRepositories(authorRepositories);
-    private final MapperForAuthor mapperForAuthor = new MapperForAuthor();
-    private final MapperForBook mapperForBook = new MapperForBook(mapperForAuthor);
-    private MapperAuthorToRespDTO mapperAuthorToRespDTO = new MapperAuthorToRespDTO(mapperForBook);
-    private BookServiceImpl bookService = new BookServiceImpl(bookRepositories, mapperForBook);
+    @Autowired
+    private BookServiceImpl bookService;
+    @MockBean
+    private BookRepositories bookRepositories;
+    @MockBean
+    private MapperForBook mapperForBook;
+    @MockBean
+    private AuthorRepositories authorRepositories;
 
 
     @Test
     void allBooks() {
-        Author authorAlexander = new Author("Alexander", "Milne", 1882);
-        Author authorInBase = authorRepositories.saveAuthorInBase(authorAlexander);
-        Book saveBook = bookRepositories.save(new Book("The Day's Play", authorInBase.getID(), "soft", "XZ",
-                1910, 200L, 50, 1124, 314));
-        Book saveBook1 = bookRepositories.save(new Book("The Holiday Round", authorInBase.getID(), "hard", "XZ",
-                1912, 300L, 50, 5247, 132));
-        Book saveBook2 = bookRepositories.save(new Book("Once a Week", authorInBase.getID(), "soft", "XZ",
-                1914, 350L, 50, 5354, 255));
-        List<BookRespDTO> bookRespDTOS = bookService.allBooks();
-        Optional<BookRespDTO> bookRespDTO = bookRespDTOS.stream().filter(b -> b.getTitle().equals(saveBook.getTitle())).findAny();
-        Assertions.assertEquals(bookRespDTO.get().getTitle(), saveBook.getTitle());
+        Book firstBookInList = Book.builder().authorID(555L).title("The Day's Play")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .id(314L).build();
+        Book secondBookInList = Book.builder().authorID(5555L).title("The Holiday Round")
+                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .id(314L).build();
+        Book thirdBookInList = Book.builder().authorID(55555L).title("Once a Week")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1914).price(350L).cost(50).barCode(5247)
+                .id(255L).build();
+        BookRespDTO firstBookRespDTO = BookRespDTO.builder().title("The Day's Play")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .id(314L).build();
+        BookRespDTO secondBookRespDTO = BookRespDTO.builder().title("The Holiday Round")
+                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .id(314L).build();
+        BookRespDTO thirdBookRespDTO = BookRespDTO.builder().title("Once a Week")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1914).price(350L).cost(50).barCode(5247)
+                .id(255L).build();
+        Mockito.when(bookRepositories.findAll())
+                .thenReturn(List.of(firstBookInList, secondBookInList, thirdBookInList));
+        Mockito.when(mapperForBook.toBookRespDTO(firstBookInList)).thenReturn(firstBookRespDTO);
+        Mockito.when(mapperForBook.toBookRespDTO(secondBookInList)).thenReturn(secondBookRespDTO);
+        Mockito.when(mapperForBook.toBookRespDTO(thirdBookInList)).thenReturn(thirdBookRespDTO);
+        List<BookRespDTO> listOfBookRespDTO = bookService.allBooks();
+        Assertions.assertEquals(listOfBookRespDTO.size(), 3);
+        Assertions.assertEquals(listOfBookRespDTO.get(0).getTitle(), firstBookInList.getTitle());
+        Assertions.assertEquals(listOfBookRespDTO.get(1).getTitle(), secondBookInList.getTitle());
+        Assertions.assertEquals(listOfBookRespDTO.get(2).getTitle(), thirdBookInList.getTitle());
     }
 
     @Test
     void allBooksAuthor() {
-        Author authorAlexander = new Author("Alexander", "Milne", 1882);
-        Author authorInBase = authorRepositories.saveAuthorInBase(authorAlexander);
-        Book saveBook = bookRepositories.save(new Book("The Day's Play", authorInBase.getID(), "soft", "XZ",
-                1910, 200L, 50, 1124, 314));
-        Book saveBook1 = bookRepositories.save(new Book("The Holiday Round", authorInBase.getID(), "hard", "XZ",
-                1912, 300L, 50, 5247, 132));
-        Book saveBook2 = bookRepositories.save(new Book("Once a Week", authorInBase.getID(), "soft", "XZ",
-                1914, 350L, 50, 5354, 255));
-        List<Book> listBooksForTest = new ArrayList<>();
-        listBooksForTest.add(saveBook);
-        listBooksForTest.add(saveBook1);
-        listBooksForTest.add(saveBook2);
-        List<BookRespDTO> allBooksByAuthorID = bookService.allBooksAuthor(authorInBase.getID());
-        Optional<BookRespDTO> bookInList = allBooksByAuthorID.stream()
-                .filter(b -> b.getID().equals(saveBook.getID()))
-                .findAny();
-        Assertions.assertEquals(bookInList.get().getBarCode(), saveBook.getBarCode());
-        Optional<BookRespDTO> bookInList1 = allBooksByAuthorID.stream()
-                .filter(b -> b.getID().equals(saveBook1.getID()))
-                .findAny();
-        Assertions.assertEquals(bookInList1.get().getPages(), saveBook1.getPages());
-        Optional<BookRespDTO> bookInList2 = allBooksByAuthorID.stream()
-                .filter(b -> b.getID().equals(saveBook2.getID()))
-                .findAny();
-        Assertions.assertEquals(bookInList2.get().getCover(), saveBook2.getCover());
-
+        Book firstBookInList = Book.builder().authorID(555L).title("The Day's Play")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .id(314L).build();
+        Book secondBookInList = Book.builder().authorID(555L).title("The Holiday Round")
+                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .id(314L).build();
+        Book thirdBookInList = Book.builder().authorID(5555L).title("Once a Week")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1914).price(350L).cost(50).barCode(5247)
+                .id(255L).build();
+        BookRespDTO firstBookRespDTO = BookRespDTO.builder().title("The Day's Play")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .id(314L).build();
+        BookRespDTO secondBookRespDTO = BookRespDTO.builder().title("The Holiday Round")
+                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .id(314L).build();
+        BookRespDTO thirdBookRespDTO = BookRespDTO.builder().title("Once a Week")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1914).price(350L).cost(50).barCode(5247)
+                .id(255L).build();
+        Mockito.when(bookRepositories.findAllByAuthorID(555L))
+                .thenReturn(List.of(firstBookInList, secondBookInList));
+        Mockito.when(mapperForBook.toBookRespDTO(firstBookInList)).thenReturn(firstBookRespDTO);
+        Mockito.when(mapperForBook.toBookRespDTO(secondBookInList)).thenReturn(secondBookRespDTO);
+        Mockito.when(mapperForBook.toBookRespDTO(thirdBookInList)).thenReturn(thirdBookRespDTO);
+        List<BookRespDTO> listOfBookRespDTO = bookService.allBooksAuthor(555L);
+        Assertions.assertEquals(listOfBookRespDTO.size(), 2);
+        Assertions.assertNotEquals(listOfBookRespDTO.size(), 5);
+        Assertions.assertEquals(listOfBookRespDTO.get(0).getTitle(), firstBookInList.getTitle());
+        Assertions.assertEquals(listOfBookRespDTO.get(1).getTitle(), secondBookInList.getTitle());
     }
 
     @Test
     void getBookById() {
-        Author authorAlexander = new Author("Alexander", "Milne", 1882);
-        Author authorInBase = authorRepositories.saveAuthorInBase(authorAlexander);
-        Book saveBook = bookRepositories.save(new Book("The Day's Play", authorInBase.getID(), "soft", "XZ",
-                1910, 200L, 50, 1124, 314));
-        BookRespDTO bookById = bookService.getBookById(saveBook.getID());
-        Assertions.assertNotNull(bookById);
+        Book firstBookInList = Book.builder().authorID(555L).title("The Day's Play")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .id(314L).build();
+        BookRespDTO firstBookRespDTO = BookRespDTO.builder().title("The Day's Play")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .id(314L).build();
+        Mockito.when(bookRepositories.findById(314L))
+                .thenReturn(Optional.ofNullable(firstBookInList));
+        Mockito.when(mapperForBook.toBookRespDTO(firstBookInList))
+                .thenReturn(firstBookRespDTO);
+        BookRespDTO bookById = bookService.getBookById(314L);
+        Assertions.assertEquals(firstBookInList.getPages(), bookById.getPages());
+        Assertions.assertEquals(firstBookInList.getTitle(), bookById.getTitle());
+
     }
 
     @Test
     void create() {
-        Author authorAlexander = new Author("Alexander", "Milne", 1882);
-        Author authorInBase = authorRepositories.saveAuthorInBase(authorAlexander);
-        BookReqDTO saveBookReqDTO = new BookReqDTO("The Day's Play", authorInBase.getID(), "soft", "XZ",
-                1910, 200L, 50, 314);
-        BookRespDTO bookRespDTO = bookService.create(saveBookReqDTO);
+        BookReqDTO bookReqDTO = BookReqDTO.builder().title("Book").authorID(125L).cover("soft").publishingHouse("Home")
+                .pages(500).build();
+        Author authorByID;
+        Mockito.when(authorRepositories.getAuthorByID(bookReqDTO.getAuthorID()))
+                .thenReturn(Optional.ofNullable(authorByID = Author.builder().ID(125l).firstName("Alex").build()));
+        Book book;
+        Mockito.when(mapperForBook.getBook(bookReqDTO)).thenReturn(book = Book.builder().title("Book").authorID(125L)
+                .cover("soft").publishingHouse("Home").pages(500).build());
+        Book saveBook;
+        Mockito.when(bookRepositories.save(book)).thenReturn(saveBook = Book.builder().title("Book").authorID(125L)
+                .cover("soft").publishingHouse("Home").pages(500).build());
+        Mockito.when(authorRepositories.updateAuthorByID(authorByID.getID(), authorByID))
+                .thenReturn(Author.builder().ID(125l).firstName("Alex").build());
+        Mockito.when(mapperForBook.toBookRespDTO(saveBook)).thenReturn(BookRespDTO.builder().title("Book")
+                .cover("soft").publishingHouse("Home").pages(500).build());
+        BookRespDTO bookRespDTO = bookService.create(bookReqDTO);
         Assertions.assertNotNull(bookRespDTO);
-        Assertions.assertEquals(saveBookReqDTO.getPages(), bookRespDTO.getPages());
-        Assertions.assertEquals(saveBookReqDTO.getBarCode(), bookRespDTO.getBarCode());
-        Assertions.assertEquals(saveBookReqDTO.getTitle(), bookRespDTO.getTitle());
-
+        Assertions.assertEquals(bookReqDTO.getTitle(), bookRespDTO.getTitle());
     }
 
     @Test
     void update() {
-        Author authorAlexander = new Author("Alexander", "Milne", 1882);
-        Author authorInBase = authorRepositories.saveAuthorInBase(authorAlexander);
-        BookReqDTO saveBookReqDTO = new BookReqDTO("The Day's Play", authorInBase.getID(), "soft", "XZ",
-                1910, 200L, 50, 314);
-        BookRespDTO bookRespDTO = bookService.create(saveBookReqDTO);
-        BookReqDTO updateBookReqDTO = new BookReqDTO("The Day's Play", authorInBase.getID(), "hard", "XZ",
-                1910, 200L, 50, 314);
-        BookRespDTO update = bookService.update(bookRespDTO.getID(), updateBookReqDTO);
-        Assertions.assertNotNull(update);
-        Assertions.assertNotEquals(update.getCover(), bookRespDTO.getCover());
+        Author authorByIdFromBookInBase = Author.builder().firstName("Dan").lastName("Brown").ID(444L)
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+
+        Book bookInBase = Book.builder().authorID(555L).title("The Day's Play")
+                .cover("soft").publishingHouse("XZ").author(authorByIdFromBookInBase).yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .id(314L).build();
+
+        Book bookFromReqDTO = Book.builder().authorID(555L).title("The Holiday Round")
+                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .id(314L).build();
+
+        Book updateBook = Book.builder().authorID(555L).title("The Holiday Round")
+                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .id(314L).build();
+
+        BookReqDTO bookReqDTO = BookReqDTO.builder().title("The Day's Play")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).cost(50).barCode(1124).authorID(555L)
+                .build();
+
+        Author authorByIdFromBookReqDTO = Author.builder().firstName("Alexander").lastName("Milne").ID(555L)
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        Mockito.when(authorRepositories.getAuthorByID(bookReqDTO.getAuthorID()))
+                .thenReturn(Optional.of(authorByIdFromBookReqDTO));
+
+        Mockito.when(bookRepositories.findById(bookInBase.getId())).thenReturn(Optional.of(bookInBase));
+
+        Mockito.when(mapperForBook.getBook(bookReqDTO)).thenReturn(bookFromReqDTO);
+
+        Mockito.when(bookRepositories.findById(bookInBase.getId())).thenReturn(Optional.of(bookInBase));
+        Mockito.when(bookRepositories.update(bookInBase.getId(), bookFromReqDTO)).thenReturn(updateBook);
+
+        BookRespDTO bookRespDTO = bookService.update(bookInBase.getId(), bookReqDTO);
+
+      //  Assertions.assertEquals(bookRespDTO.getTitle(), bookReqDTO.getTitle());
+
     }
 
     @Test
     void delete() {
-        Author authorAlexander = new Author("Alexander", "Milne", 1882);
-        Author authorInBase = authorRepositories.saveAuthorInBase(authorAlexander);
-        BookReqDTO saveBookReqDTO = new BookReqDTO("The Day's Play", authorInBase.getID(), "soft", "XZ",
-                1910, 200L, 50, 314);
-        BookRespDTO bookRespDTO = bookService.create(saveBookReqDTO);
-        BookRespDTO delete = bookService.delete(bookRespDTO.getID());
-        Assertions.assertNotNull(delete);
-        BookRespDTO deleteAgain = bookService.delete(bookRespDTO.getID());
-        Assertions.assertNull(deleteAgain);
+        Book bookInBase = Book.builder().title("Book").authorID(125L).id(555L).cover("soft").publishingHouse("Home")
+                .pages(500).build();
+        Mockito.when(bookRepositories.remove(bookInBase.getId()))
+                .thenReturn(Optional.of(bookInBase));
+        Mockito.when(mapperForBook.toBookRespDTO(bookInBase)).thenReturn(BookRespDTO.builder().title("Book")
+                .id(555L).cover("soft").publishingHouse("Home")
+                .pages(500).build());
+        BookRespDTO deleteBook = bookService.delete(bookInBase.getId());
+        Assertions.assertNotNull(deleteBook);
+        Assertions.assertEquals(bookInBase.getTitle(), deleteBook.getTitle());
+        Assertions.assertEquals(bookInBase.getCover(), deleteBook.getCover());
+        Assertions.assertEquals(bookInBase.getPages(), deleteBook.getPages());
     }
 }

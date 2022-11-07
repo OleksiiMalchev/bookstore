@@ -1,80 +1,52 @@
 package com.javacourse.bookstore.repositories;
 
-import com.javacourse.bookstore.domain.Author;
 import com.javacourse.bookstore.domain.Book;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
+@RequiredArgsConstructor
 public class BookRepositories {
-    private final AuthorRepositories authorRepositories;
 
-    @Autowired
-    public BookRepositories(AuthorRepositories authorRepositories) {
-        this.authorRepositories = authorRepositories;
-    }
+    private final Map<Long, Book> baseBook = new HashMap<>();
+    private final Random randomID = new Random();
 
     public List<Book> findAll() {
-        return authorRepositories.getBaseAuthor()
-                .entrySet()
+        return baseBook.values()
                 .stream()
-                .flatMap(a -> a.getValue()
-                        .getBooks()
-                        .stream())
                 .collect(Collectors.toList());
+
     }
 
     public List<Book> findAllByAuthorID(Long authorID) {
-        return authorRepositories.getAuthorByID(authorID)
-                .map(Author::getBooks)
-                .orElse(Collections.emptyList());
-
+        return baseBook.values()
+                .stream().filter(b->b.getAuthorID().equals(authorID))
+                .collect(Collectors.toList());
     }
 
     public Optional<Book> findById(Long idBook) {
-        return authorRepositories.getBaseAuthor()
-                .entrySet()
-                .stream()
-                .flatMap(a -> a.getValue()
-                        .getBooks()
-                        .stream())
-                .filter(f -> f.getID().equals(idBook))
-                .findAny();
+        return Optional.ofNullable(baseBook.get(idBook));
     }
 
     public Book save(Book book) {
-        return authorRepositories.getAuthorByID(book.getAuthorID())
-                .map(a -> a.addBook(book))
-                .stream()
-                .peek(b -> b.setAuthor(authorRepositories.getAuthorByID(book.getAuthorID()).get()))
-                .findAny()
-                .orElse(null);
-
+        book.setId(randomID.nextLong());
+        book.setESBI(randomID.nextLong());
+        baseBook.put(book.getId(), book);
+        return book;
     }
 
     public Book update(Long id, Book book) {
-        if (authorRepositories.getBaseAuthor().containsKey(book.getAuthorID()) && id!=null) {
-            Long id1 = findById(id).get().getAuthorID();
-            Long id2 = book.getAuthorID();
-            book.setESBI(findById(id).get().getESBI());
-            book.setID(id);
-            if (id1 == id2) {
-                book.setAuthor(findById(id).get().getAuthor());
-                return book;
-            } else {
-                findById(id).get().getAuthor().delete(findById(id).get());
-                 return save(book);
-            }
+        if(id!=null && book!=null){
+            baseBook.put(id,book);
+            return book;
         }
-        return null;
+       return null;
     }
 
     public Optional<Book> remove(Long id) {
-        return findById(id)
-                .map(b -> authorRepositories.getAuthorByID(b.getAuthorID()).get())
-                .map(a -> a.delete(findById(id).get()));
+        return Optional.ofNullable(baseBook.remove(id));
     }
 }

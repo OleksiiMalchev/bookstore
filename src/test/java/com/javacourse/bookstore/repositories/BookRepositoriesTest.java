@@ -1,108 +1,152 @@
 package com.javacourse.bookstore.repositories;
 
-import com.javacourse.bookstore.domain.Author;
 import com.javacourse.bookstore.domain.Book;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 class BookRepositoriesTest {
-    private final AuthorRepositories authorRepositories = new AuthorRepositories();
-    private final BookRepositories bookRepositories = new BookRepositories(authorRepositories);
-
+    @Autowired
+    private BookRepositories bookRepositories;
 
     @Test
     void findAll() {
-        Author authorAlexander = new Author("Alexander", "Milne", 1882);
-        Author authorDan = new Author("Dan", "Brown", 1964);
-        Author authorInBase = authorRepositories.saveAuthorInBase(authorAlexander);
-        Author authorInBase1 = authorRepositories.saveAuthorInBase(authorDan);
-        Book saveBook = bookRepositories.save(new Book("The Day's Play", authorInBase.getID(), "soft", "XZ",
-                1910, 200L, 50, 1124, 314));
-        Book saveBook1 = bookRepositories.save(new Book("The Holiday Round", authorInBase1.getID(), "hard", "XZ",
-                1912, 300L, 50, 5247, 132));
-        Book saveBook2 = bookRepositories.save(new Book("Once a Week", authorInBase.getID(), "soft", "XZ",
-                1914, 350L, 50, 5354, 255));
+
+        Book saveBook = bookRepositories.save(Book.builder().authorID(555L).title("The Day's Play")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .id(314L).build());
+        Book saveBook1 = bookRepositories.save(Book.builder().authorID(5555L).title("The Holiday Round")
+                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .id(314L).build());
+        Book saveBook2 = bookRepositories.save(Book.builder().authorID(55555L).title("Once a Week")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1914).price(350L).cost(50).barCode(5247)
+                .id(255L).build());
         List<Book> allBooks = bookRepositories.findAll();
         Optional<Book> optionalBook = allBooks.stream()
                 .filter(b -> b.getTitle().equals(saveBook.getTitle()))
                 .findAny();
-        Assertions.assertEquals(optionalBook.get().getTitle(),saveBook.getTitle());
+        Assertions.assertEquals(optionalBook.get().getTitle(), saveBook.getTitle());
         Optional<Book> optionalBook1 = allBooks.stream()
                 .filter(b -> b.getTitle().equals(saveBook1.getTitle()))
                 .findAny();
-        Assertions.assertEquals(optionalBook1.get().getTitle(),saveBook1.getTitle());
+        Assertions.assertEquals(optionalBook1.get().getTitle(), saveBook1.getTitle());
         Optional<Book> optionalBook2 = allBooks.stream()
                 .filter(b -> b.getTitle().equals(saveBook2.getTitle()))
                 .findAny();
-        Assertions.assertEquals(optionalBook2.get().getTitle(),saveBook2.getTitle());
+        Assertions.assertEquals(optionalBook2.get().getTitle(), saveBook2.getTitle());
     }
 
     @Test
     void findAllByAuthorID() {
-        Author authorAlexander = new Author("Alexander", "Milne", 1882);
-        Author authorInBase = authorRepositories.saveAuthorInBase(authorAlexander);
-        Book saveBook = bookRepositories.save(new Book("The Day's Play", authorInBase.getID(), "soft", "XZ",
-                1910, 200L, 50, 1124, 314));
-        Book saveBook1 = bookRepositories.save(new Book("The Holiday Round", authorInBase.getID(), "hard", "XZ",
-                1912, 300L, 50, 5247, 132));
-        Book saveBook2 = bookRepositories.save(new Book("Once a Week", authorInBase.getID(), "soft", "XZ",
-                1914, 350L, 50, 5354, 255));
-        List<Book> listBooksForTest = new ArrayList<>();
-        listBooksForTest.add(saveBook);
-        listBooksForTest.add(saveBook1);
-        listBooksForTest.add(saveBook2);
-        List<Book> allBooksByAuthorID = bookRepositories.findAllByAuthorID(authorInBase.getID());
-        Assertions.assertEquals(allBooksByAuthorID,listBooksForTest);
+
+        Book saveBook = bookRepositories.save(Book.builder().authorID(444L).title("The Day's Play")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .id(314L).build());
+        Book saveBook1 = bookRepositories.save(Book.builder().authorID(454L).title("The Holiday Round")
+                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .id(314L).build());
+        Book saveBook2 = bookRepositories.save(Book.builder().authorID(444L).title("Once a Week")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1914).price(350L).cost(50).barCode(5247)
+                .id(255L).build());
+        List<Book> allBooksByAuthorID = bookRepositories.findAllByAuthorID(444L);
+        Optional<Book> optionalBook = allBooksByAuthorID.stream()
+                .filter(b -> b.getTitle().equals(saveBook.getTitle()))
+                .findAny();
+        Assertions.assertEquals(optionalBook.get().getTitle(), saveBook.getTitle());
+        Book optionalBook1 = allBooksByAuthorID.stream()
+                .filter(b -> b.getTitle().equals(saveBook1.getTitle()))
+                .findAny().orElse(null);
+        Assertions.assertNull(optionalBook1);
+        Optional<Book> optionalBook2 = allBooksByAuthorID.stream()
+                .filter(b -> b.getTitle().equals(saveBook2.getTitle()))
+                .findAny();
+        Assertions.assertEquals(optionalBook2.get().getTitle(), saveBook2.getTitle());
+
     }
+
 
     @Test
     void findById() {
-        Author authorAlexander = new Author("Alexander", "Milne", 1882);
-        Author authorInBase = authorRepositories.saveAuthorInBase(authorAlexander);
-        Book saveBook = bookRepositories.save(new Book("The Day's Play", authorInBase.getID(), "soft", "XZ",
-                1910, 200L, 50, 1124, 314));
-        Optional<Book> bookById = bookRepositories.findById(saveBook.getID());
-        Assertions.assertEquals(bookById.get(),saveBook);
+
+        Book saveBook = bookRepositories.save(Book.builder().authorID(555L).title("The Day's Play")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .id(314L).build());
+        Optional<Book> bookById = bookRepositories.findById(saveBook.getId());
+        Assertions.assertEquals(bookById.get(), saveBook);
     }
 
     @Test
     void save() {
-        Author authorAlexander = new Author("Alexander", "Milne", 1882);
-        Author authorInBase = authorRepositories.saveAuthorInBase(authorAlexander);
-        Book saveBook = bookRepositories.save(new Book("The Day's Play", authorInBase.getID(), "soft", "XZ",
-                1910, 200L, 50, 1124, 314));
-        Assertions.assertEquals(saveBook.getTitle(),"The Day's Play");
-        Assertions.assertEquals(saveBook.getPages(),314);
+
+        Book saveBook = bookRepositories.save(Book.builder().authorID(4444L).title("The Day's Play")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .id(314L).build());
+        Assertions.assertEquals(saveBook.getTitle(), "The Day's Play");
+        Assertions.assertEquals(saveBook.getBarCode(), 1124);
     }
 
     @Test
     void update() {
-        Author authorAlexander = new Author("Alexander", "Milne", 1882);
-        Author authorInBase = authorRepositories.saveAuthorInBase(authorAlexander);
-        Book saveBook = bookRepositories.save(new Book("The Day's Play", authorInBase.getID(), "soft", "XZ",
-                1910, 200L, 50, 1124, 314));
-        Book updateBook = bookRepositories.save(new Book("The Holiday Round", authorInBase.getID(), "hard", "XZ",
-                1912, 300L, 50, 5247, 132));
 
-        Book bookAfterUpdate = bookRepositories.update(saveBook.getID(), updateBook);
-        Assertions.assertEquals(bookAfterUpdate.getTitle(),"The Holiday Round");
-        Assertions.assertEquals(bookAfterUpdate,updateBook);
-        Assertions.assertEquals(bookAfterUpdate.getID(),updateBook.getID());
+        Book saveBook = bookRepositories.save(Book.builder().authorID(4444L).title("The Day's Play")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .id(314L).build());
+        Book updateBook = bookRepositories.save(Book.builder().authorID(4444L).title("The Holiday Round")
+                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .id(314L).build());
+        Book bookAfterUpdate = bookRepositories.update(saveBook.getId(), updateBook);
+        Assertions.assertEquals(bookAfterUpdate.getTitle(), "The Holiday Round");
+        Assertions.assertEquals(bookAfterUpdate, updateBook);
+        Assertions.assertEquals(bookAfterUpdate.getId(), updateBook.getId());
+    }
+
+    @Test
+    void updateWithOut() {
+
+        Book saveBook = bookRepositories.save(Book.builder().authorID(4444L).title("The Day's Play")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .id(314L).build());
+        Book updateBook = bookRepositories.save(Book.builder().authorID(4444L).title("The Holiday Round")
+                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .id(314L).build());
+
+        Book bookAfterUpdate = bookRepositories.update(saveBook.getId(), updateBook);
+        Assertions.assertEquals(bookAfterUpdate.getTitle(), "The Holiday Round");
+        Assertions.assertEquals(bookAfterUpdate, updateBook);
+        Assertions.assertEquals(bookAfterUpdate.getId(), updateBook.getId());
+    }
+
+    @Test
+    void updateNull() {
+
+        Book saveBook = bookRepositories.save(Book.builder().authorID(4444L).title("The Day's Play")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .id(314L).build());
+        Book updateBook = bookRepositories.save(Book.builder().authorID(4444L).title("The Holiday Round")
+                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .id(314L).build());
+        Book bookAfterUpdate = bookRepositories.update(null, updateBook);
+        Assertions.assertNull(bookAfterUpdate);
+        Book bookAfterUpdate1 = bookRepositories.update(saveBook.getId(), null);
+        Assertions.assertNull(bookAfterUpdate1);
     }
 
     @Test
     void remove() {
-        Author authorAlexander = new Author("Alexander", "Milne", 1882);
-        Author authorInBase = authorRepositories.saveAuthorInBase(authorAlexander);
-        Book saveBook = bookRepositories.save(new Book("The Day's Play", authorInBase.getID(), "soft", "XZ",
-                1910, 200L, 50, 1124, 314));
-        Optional<Book> bookDelete = bookRepositories.remove(saveBook.getID());
-        Assertions.assertEquals(bookDelete.get(),saveBook);
-        Assertions.assertEquals(bookDelete.get().getID(),saveBook.getID());
+
+        Book saveBook = bookRepositories.save(Book.builder().authorID(4444L).title("The Day's Play")
+                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .id(314L).build());
+        Optional<Book> bookDelete = bookRepositories.remove(saveBook.getId());
+        Assertions.assertEquals(bookDelete.get(), saveBook);
+        Assertions.assertEquals(bookDelete.get().getId(), saveBook.getId());
 
     }
 }

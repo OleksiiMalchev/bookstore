@@ -1,102 +1,183 @@
 package com.javacourse.bookstore.services;
 
 import com.javacourse.bookstore.domain.Author;
-import com.javacourse.bookstore.domain.Book;
 import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
-import com.javacourse.bookstore.domain.dto.AuthorRespDTOStock;
+import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
 import com.javacourse.bookstore.domain.dto.AuthorRespDTOWithBooks;
+import com.javacourse.bookstore.domain.dto.BookRespDTO;
 import com.javacourse.bookstore.mappers.MapperAuthorToRespDTO;
 import com.javacourse.bookstore.mappers.MapperForAuthor;
-import com.javacourse.bookstore.mappers.MapperForBook;
 import com.javacourse.bookstore.repositories.AuthorRepositories;
-import com.javacourse.bookstore.repositories.BookRepositories;
 import exception.AuthorNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 class AuthorServiceImplTest {
-
-    private AuthorRepositories authorRepositories = new AuthorRepositories();
-    private MapperForAuthor mapperForAuthor = new MapperForAuthor();
-    private MapperForBook mapperForBook = new MapperForBook(mapperForAuthor);
-    private final MapperAuthorToRespDTO mapperAuthorToRespDTO = new MapperAuthorToRespDTO(mapperForBook);
-    private AuthorServiceImpl authorServiceImpl = new AuthorServiceImpl(authorRepositories, mapperForAuthor, mapperAuthorToRespDTO);
-    private BookRepositories bookRepositories = new BookRepositories(authorRepositories);
+    @Autowired
+    private AuthorService authorServiceImpl;
+    @MockBean
+    private AuthorRepositories authorRepositories;
+    @MockBean
+    private MapperForAuthor mapperForAuthor;
+    @MockBean
+    private MapperAuthorToRespDTO mapperAuthorToRespDTO;
 
 
     @Test
     void getAllAuthor() {
-        Author authorAlexander = new Author("Alexander", "Milne", 1882);
-        Author authorDan = new Author("Dan", "Brown", 1964);
-        Author authorJoanne = new Author("Joanne ", "Rowling", 1965);
-        authorRepositories.saveAuthorInBase(authorAlexander);
-        authorRepositories.saveAuthorInBase(authorDan);
-        authorRepositories.saveAuthorInBase(authorJoanne);
-        List<AuthorRespDTOStock> allAuthor = authorServiceImpl.getAllAuthor();
-        Assertions.assertNotNull(allAuthor);
-        Optional<AuthorRespDTOStock> authorRespDTO = allAuthor.stream()
-                .filter(f -> f.getID().equals(authorAlexander.getID())).findAny();
-        Assertions.assertEquals(authorRespDTO.get().getDateOfBirth(), authorAlexander.getDateOfBirth());
-
+        Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne").ID(555L)
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        Author authorDan = Author.builder().firstName("Dan").lastName("Brown").ID(444L)
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        Author authorJoanne = Author.builder().firstName("Joanne").lastName("Rowling").ID(333L)
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        AuthorRespDTO authorAlexanderRespDTO = AuthorRespDTO.builder().firstName("Alexander").lastName("Milne")
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        AuthorRespDTO authorDanRespDTO = AuthorRespDTO.builder().firstName("Dan").lastName("Brown")
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        AuthorRespDTO authorJoanneRespDTO = AuthorRespDTO.builder().firstName("Joanne").lastName("Rowling")
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        Mockito.when(authorRepositories.getAllAuthor())
+                .thenReturn(List.of(authorAlexander, authorDan, authorJoanne));
+        Mockito.when(mapperForAuthor.authorToRespDTOStock(authorAlexander))
+                .thenReturn(authorAlexanderRespDTO);
+        Mockito.when(mapperForAuthor.authorToRespDTOStock(authorDan))
+                .thenReturn(authorDanRespDTO);
+        Mockito.when(mapperForAuthor.authorToRespDTOStock(authorJoanne))
+                .thenReturn(authorJoanneRespDTO);
+        List<AuthorRespDTO> allAuthor = authorServiceImpl.getAllAuthor();
+        Assertions.assertEquals(allAuthor.size(), 3);
+        Assertions.assertEquals(allAuthor.get(0).getFirstName(), authorAlexanderRespDTO.getFirstName());
+        Assertions.assertEquals(allAuthor.get(1).getFirstName(), authorDanRespDTO.getFirstName());
+        Assertions.assertEquals(allAuthor.get(2).getFirstName(), authorJoanneRespDTO.getFirstName());
+        Assertions.assertEquals(allAuthor.get(2).getDateOfBirth(), authorJoanneRespDTO.getDateOfBirth());
     }
 
     @Test
     void getAuthorByID() throws AuthorNotFoundException {
-        Author authorAlexander = new Author("Alexander", "Milne", 1882);
-        authorRepositories.saveAuthorInBase(authorAlexander);
-        AuthorRespDTOStock authorByID = authorServiceImpl.getAuthorByID(authorAlexander.getID());
+        Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne").ID(555L)
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        AuthorRespDTO authorAlexanderRespDTO = AuthorRespDTO.builder().firstName("Alexander").lastName("Milne")
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        Mockito.when(authorRepositories.getAuthorByID(authorAlexander.getID()))
+                .thenReturn(Optional.of(authorAlexander));
+        Mockito.when(mapperForAuthor.authorToRespDTOStock(authorAlexander))
+                .thenReturn(authorAlexanderRespDTO);
+        AuthorRespDTO authorByID = authorServiceImpl.getAuthorByID(555L);
         Assertions.assertNotNull(authorByID);
-        Assertions.assertEquals(authorByID.getFirstName(), "Alexander");
+        Assertions.assertEquals(authorByID.getFirstName(), authorAlexander.getFirstName());
+        Assertions.assertEquals(authorByID.getLastName(), authorAlexander.getLastName());
+        Assertions.assertEquals(authorByID.getDateOfBirth(), authorAlexander.getDateOfBirth());
     }
 
     @Test
     void createAuthor() {
-        AuthorReqDTO authorReqDTO = new AuthorReqDTO("Alexander", "Milne", 1882);
-        AuthorRespDTOStock authorRespDTOStock = authorServiceImpl.createAuthor(authorReqDTO);
-        Assertions.assertNotNull(authorRespDTOStock);
-        Assertions.assertEquals(authorRespDTOStock.getFirstName(), authorReqDTO.getFirstName());
-        Assertions.assertEquals(authorRespDTOStock.getDateOfBirth(), authorReqDTO.getDateOfBirth());
+        AuthorReqDTO authorReqDTO = AuthorReqDTO.builder().firstName("Alexander").lastName("Milne")
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne")
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        AuthorRespDTO authorRespDTO = AuthorRespDTO.builder().firstName("Alexander").lastName("Milne")
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        Mockito.when(mapperForAuthor.authorReqDTOToAuthor(authorReqDTO))
+                .thenReturn(authorAlexander);
+        Mockito.when(authorRepositories.saveAuthorInBase(authorAlexander))
+                .thenReturn(authorAlexander);
+        Mockito.when(mapperForAuthor.authorToRespDTOStock(authorAlexander))
+                .thenReturn(authorRespDTO);
+        AuthorRespDTO newAuthorRespDTO = authorServiceImpl.createAuthor(authorReqDTO);
+        Assertions.assertNotNull(newAuthorRespDTO);
+        Assertions.assertEquals(newAuthorRespDTO.getFirstName(), authorReqDTO.getFirstName());
+        Assertions.assertEquals(newAuthorRespDTO.getDateOfBirth(), authorReqDTO.getDateOfBirth());
     }
 
     @Test
     void updateAuthor() {
-        AuthorReqDTO authorReqDTO = new AuthorReqDTO("Alexander", "Milne", 1882);
-        AuthorReqDTO authorReqDTOUpdate = new AuthorReqDTO("Dan", "Brown", 1964);
-        AuthorRespDTOStock authorRespDTOstock = authorServiceImpl.createAuthor(authorReqDTO);
-        AuthorRespDTOStock authorRespDTOStockUpdate = authorServiceImpl.updateAuthor(authorRespDTOstock.getID(),authorReqDTOUpdate);
-        Assertions.assertNotNull(authorRespDTOStockUpdate);
-        Assertions.assertNotEquals(authorRespDTOStockUpdate.getFirstName(), authorReqDTO.getFirstName());
-        Assertions.assertNotEquals(authorRespDTOStockUpdate.getDateOfBirth(), authorReqDTO.getDateOfBirth());
+        AuthorReqDTO authorReqDTO = AuthorReqDTO.builder().firstName("Alexander").lastName("Milne")
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne").ID(555L)
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        AuthorRespDTO authorRespDTO = AuthorRespDTO.builder().firstName("Alexander").lastName("Milne")
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        Mockito.when(mapperForAuthor.authorReqDTOToAuthor(authorReqDTO))
+                .thenReturn(authorAlexander);
+        Mockito.when(authorRepositories.updateAuthorByID(555L, authorAlexander))
+                .thenReturn(authorAlexander);
+        Mockito.when(mapperForAuthor.authorToRespDTOStock(authorAlexander))
+                .thenReturn(authorRespDTO);
+        AuthorRespDTO newAuthorRespDTO = authorServiceImpl.updateAuthor(555L, authorReqDTO);
+        Assertions.assertNotNull(newAuthorRespDTO);
+        Assertions.assertEquals(newAuthorRespDTO.getFirstName(), authorReqDTO.getFirstName());
+        Assertions.assertEquals(newAuthorRespDTO.getDateOfBirth(), authorReqDTO.getDateOfBirth());
     }
 
     @Test
     void deleteAuthor() {
-        Author authorForAdd = new Author("Alexander", "Milne", 1882);
-        Author authorInBase = authorRepositories.saveAuthorInBase(authorForAdd);
-        AuthorRespDTOStock authorRespDTOStock = authorServiceImpl.deleteAuthor(authorInBase.getID());
-        Assertions.assertEquals(authorRespDTOStock.getFirstName(),"Alexander");
+        Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne").ID(555L)
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        AuthorRespDTO authorRespDTO = AuthorRespDTO.builder().firstName("Alexander").lastName("Milne")
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        Mockito.when(authorRepositories.deleteAuthorByID(555L))
+                .thenReturn(Optional.ofNullable(authorAlexander));
+        Mockito.when(mapperForAuthor.authorToRespDTOStock(authorAlexander))
+                .thenReturn(authorRespDTO);
+        AuthorRespDTO deleteAuthorRespDTO = authorServiceImpl.deleteAuthor(555L);
+        Assertions.assertNotNull(deleteAuthorRespDTO);
+        Assertions.assertEquals(deleteAuthorRespDTO.getFirstName(), authorAlexander.getFirstName());
+        Assertions.assertEquals(deleteAuthorRespDTO.getDateOfBirth(), authorAlexander.getDateOfBirth());
     }
 
     @Test
     void findAuthorByBook() {
-        Author authorForAdd = new Author("Alexander", "Milne", 1882);
-        Author authorInBase = authorRepositories.saveAuthorInBase(authorForAdd);
-        Book saveBook = bookRepositories.save(new Book("", authorInBase.getID(), "", "",
-                2020, 20L, 50, 50, 500));
-        Author authorByBook = authorRepositories.findAuthorByBook(saveBook.getID());
-        Assertions.assertNotNull(authorByBook);
-        Assertions.assertEquals(authorByBook,authorForAdd);
+        Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne").ID(555L)
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        AuthorRespDTO authorRespDTO = AuthorRespDTO.builder().firstName("Alexander").lastName("Milne")
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        Mockito.when(authorRepositories.findAuthorByBook(444L))
+                .thenReturn(authorAlexander);
+        Mockito.when(mapperForAuthor.authorToRespDTOStock(authorAlexander))
+                .thenReturn(authorRespDTO);
+        AuthorRespDTO findAuthorByBookRespDTO = authorServiceImpl.findAuthorByBook(444L);
+        Assertions.assertNotNull(findAuthorByBookRespDTO);
+        Assertions.assertEquals(findAuthorByBookRespDTO.getFirstName(), authorAlexander.getFirstName());
+        Assertions.assertEquals(findAuthorByBookRespDTO.getDateOfBirth(), authorAlexander.getDateOfBirth());
     }
 
     @Test
     void getAuthorWithDetails() {
-        Author authorForAdd = new Author("Alexander", "Milne", 1882);
-        Author authorInBase = authorRepositories.saveAuthorInBase(authorForAdd);
-        AuthorRespDTOWithBooks authorWithDetails = authorServiceImpl.getAuthorWithDetails(authorInBase.getID());
-        Assertions.assertNotNull(authorWithDetails);
+        Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne").ID(555L)
+                .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
+        BookRespDTO bookRespDTO = BookRespDTO.builder().title("Book").cover("soft").publishingHouse("Home")
+                .pages(500).build();
+        BookRespDTO bookRespDTO1 = BookRespDTO.builder().title("Book").cover("soft").publishingHouse("Home")
+                .pages(550).build();
+        BookRespDTO bookRespDTO2 = BookRespDTO.builder().title("Book").cover("hard").publishingHouse("Home")
+                .pages(600).build();
+        AuthorRespDTOWithBooks authorRespDTOWithBooks = AuthorRespDTOWithBooks .builder().firstName("Alexander")
+                .lastName("Milne").dateOfBirth(LocalDate.of(1881, 5, 20))
+                .books(List.of(bookRespDTO,bookRespDTO1,bookRespDTO2)).build();
+        Mockito.when(authorRepositories.getAuthorByID(555L))
+                .thenReturn(Optional.ofNullable(authorAlexander));
+        Mockito.when(mapperAuthorToRespDTO.authorToRespDTO(authorAlexander))
+                .thenReturn(authorRespDTOWithBooks);
+        AuthorRespDTOWithBooks findAuthorByBookRespDTO = authorServiceImpl.getAuthorWithDetails(555L);
+        Assertions.assertNotNull(findAuthorByBookRespDTO);
+        Assertions.assertEquals(findAuthorByBookRespDTO.getFirstName(), authorAlexander.getFirstName());
+        Assertions.assertEquals(findAuthorByBookRespDTO.getDateOfBirth(), authorAlexander.getDateOfBirth());
+        Assertions.assertEquals(findAuthorByBookRespDTO.getBooks().get(0).getTitle(),bookRespDTO.getTitle());
+        Assertions.assertEquals(findAuthorByBookRespDTO.getBooks().get(1).getPages(),bookRespDTO1.getPages());
+        Assertions.assertEquals(findAuthorByBookRespDTO.getBooks().get(2).getCover(),bookRespDTO2.getCover());
 
     }
 }

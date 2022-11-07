@@ -10,6 +10,9 @@ import java.util.List;
 @Service
 public interface BookService {
     List<BookRespDTO> allBooks();
+
+    List<BookRespDTO> allBooksAuthor(Long ID);
+
     BookRespDTO getBookById(Long ID);
     BookRespDTO create(BookReqDTO bookReqDTO);
     BookRespDTO update(Long ID, BookReqDTO bookReqDTO);

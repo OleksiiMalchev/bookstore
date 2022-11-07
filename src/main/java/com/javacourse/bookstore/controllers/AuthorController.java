@@ -1,7 +1,7 @@
 package com.javacourse.bookstore.controllers;
 
 import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
-import com.javacourse.bookstore.domain.dto.AuthorRespDTOStock;
+import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
 import com.javacourse.bookstore.domain.dto.AuthorRespDTOWithBooks;
 import com.javacourse.bookstore.services.AuthorServiceImpl;
 import exception.AuthorNotFoundException;
@@ -23,9 +23,9 @@ public class AuthorController {
     }
 
     @GetMapping("/authors/{id}")
-    public ResponseEntity<AuthorRespDTOStock> getBookByID(@PathVariable("id") Long id) {
+    public ResponseEntity<AuthorRespDTO> getBookByID(@PathVariable("id") Long id) {
         try {
-            AuthorRespDTOStock authorByID = authorServiceImpl.getAuthorByID(id);
+            AuthorRespDTO authorByID = authorServiceImpl.getAuthorByID(id);
             return ResponseEntity.ok(authorByID);
         } catch (AuthorNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Provide correct Author Id",ex);
@@ -33,8 +33,8 @@ public class AuthorController {
     }
 
     @GetMapping("/authorBooks/{idBook}")
-    public ResponseEntity<? super AuthorRespDTOStock> getAuthorByBook(@PathVariable("idBook") long idBook) {
-        AuthorRespDTOStock authorByBook = authorServiceImpl.findAuthorByBook(idBook);
+    public ResponseEntity<? super AuthorRespDTO> getAuthorByBook(@PathVariable("idBook") long idBook) {
+        AuthorRespDTO authorByBook = authorServiceImpl.findAuthorByBook(idBook);
         if (authorByBook != null) {
             return ResponseEntity.status(200).body(authorByBook);
         } else {
@@ -43,8 +43,8 @@ public class AuthorController {
     }
 
     @GetMapping("/authors")
-    public ResponseEntity<? super List<AuthorRespDTOStock>> allAuthors() {
-        List<AuthorRespDTOStock> allAuthor = authorServiceImpl.getAllAuthor();
+    public ResponseEntity<? super List<AuthorRespDTO>> allAuthors() {
+        List<AuthorRespDTO> allAuthor = authorServiceImpl.getAllAuthor();
         if (allAuthor != null) {
             return ResponseEntity.status(200).body(allAuthor);
         } else {
@@ -62,7 +62,7 @@ public class AuthorController {
     }
 
     @PostMapping("/authors")
-    public ResponseEntity<? super AuthorRespDTOStock> create(@RequestBody(required = false) AuthorReqDTO authorReqDTO) {
+    public ResponseEntity<? super AuthorRespDTO> create(@RequestBody(required = false) AuthorReqDTO authorReqDTO) {
         if (authorReqDTO != null) {
            return ResponseEntity.status(201).body(authorServiceImpl.createAuthor(authorReqDTO));
         }
@@ -71,7 +71,7 @@ public class AuthorController {
     }
 
     @PutMapping("/authors/{id}")
-    public ResponseEntity<? super AuthorRespDTOStock> update(@PathVariable("id") Long id, @RequestBody(required = false) AuthorReqDTO authorReqDTO) {
+    public ResponseEntity<? super AuthorRespDTO> update(@PathVariable("id") Long id, @RequestBody(required = false) AuthorReqDTO authorReqDTO) {
         if (authorReqDTO != null && id != null) {
             return ResponseEntity.status(200).body(authorServiceImpl.updateAuthor(id, authorReqDTO));
         }
@@ -79,7 +79,7 @@ public class AuthorController {
     }
 
     @DeleteMapping("/authors/{id}")
-    public ResponseEntity<? super AuthorRespDTOStock> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<? super AuthorRespDTO> delete(@PathVariable("id") Long id) {
         if (id != null) {
             return ResponseEntity.status(200).body(authorServiceImpl.deleteAuthor(id));
         }
