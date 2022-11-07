@@ -45,9 +45,7 @@ public class AuthorRepositories {
         return Optional.ofNullable(baseAuthor.remove(ID));
     }
 
-    public Map<Long, Author> getBaseAuthor() {
-        return baseAuthor;
-    }
+
 
     public Author findAuthorByBook(Long idBook) {
         Book bookByID = baseAuthor.entrySet()
@@ -55,7 +53,7 @@ public class AuthorRepositories {
                 .flatMap(a -> a.getValue()
                         .getBooks()
                         .stream())
-                .filter(f -> f.getID().equals(idBook))
+                .filter(f -> f.getId().equals(idBook))
                 .findAny()
                 .orElse(null);
         return Optional.ofNullable(bookByID).stream()

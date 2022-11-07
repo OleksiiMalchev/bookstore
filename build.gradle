@@ -16,11 +16,19 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'junit:junit:4.13.1'
-	implementation 'junit:junit:4.13.1'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'junit:junit:4.13.2'
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.0-rc3'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0-rc3'
+	implementation 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+    implementation 'org.projectlombok:lombok:1.18.22'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.7.3'
 	runtimeOnly group: 'mysql', name: 'mysql-connector-java', version: '8.0.30'
+	runtimeOnly 'com.fasterxml.jackson.module:jackson-modules-java8:2.14.0-rc3'
+	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
+	annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
+
+
 
 }
 

@@ -2,23 +2,26 @@ package com.javacourse.bookstore.mappers;
 
 import com.javacourse.bookstore.domain.Author;
 import com.javacourse.bookstore.domain.dto.AuthorRespDTOWithBooks;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class MapperAuthorToRespDTOTest {
-    private MapperForAuthor mapperForAuthor = new MapperForAuthor();
-    private MapperForBook mapperForBook = new MapperForBook(mapperForAuthor);
-    private MapperAuthorToRespDTO mapperAuthorToRespDTO = new MapperAuthorToRespDTO(mapperForBook);
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class MapperAuthorToRespDTOTest {
+    @Autowired
+    private MapperAuthorToRespDTO mapperAuthorToRespDTO;
 
     @Test
     void authorToRespDTO() {
-        Author authorTest= new Author("Alexander", "Milne", 1882);
+        Author authorTest = Author.builder().ID(125L).firstName("Alexandr").lastName("Mixio").build();
         AuthorRespDTOWithBooks authorRespDTOWithBooks = mapperAuthorToRespDTO.authorToRespDTO(authorTest);
         Assertions.assertNotNull(authorRespDTOWithBooks);
-        Assertions.assertEquals(authorRespDTOWithBooks.getID(),authorTest.getID());
+        Assertions.assertEquals(authorTest.getID(), authorRespDTOWithBooks.getId());
+        Assertions.assertEquals(authorTest.getFirstName(), authorRespDTOWithBooks.getFirstName());
+        Assertions.assertEquals(authorTest.getLastName(), authorRespDTOWithBooks.getLastName());
     }
 }

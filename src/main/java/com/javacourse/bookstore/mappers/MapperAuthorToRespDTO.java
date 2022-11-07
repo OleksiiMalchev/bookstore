@@ -2,31 +2,33 @@ package com.javacourse.bookstore.mappers;
 
 import com.javacourse.bookstore.domain.Author;
 import com.javacourse.bookstore.domain.dto.AuthorRespDTOWithBooks;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class MapperAuthorToRespDTO {
+    @Autowired
     private final MapperForBook mapperForBook;
-
-    public MapperAuthorToRespDTO(MapperForBook mapperForBook) {
-        this.mapperForBook = mapperForBook;
-    }
 
     public AuthorRespDTOWithBooks authorToRespDTO(Author author) {
         return Optional.ofNullable(author)
-                .map(a -> new AuthorRespDTOWithBooks(a.getFirstName(),
-                        a.getLastName(),
-                        a.getDateOfBirth(),
-                        a.getID(),
-                        a.getBooks()
+                .map(a -> AuthorRespDTOWithBooks
+                        .builder()
+                        .firstName(a.getFirstName())
+                        .lastName(a.getLastName())
+                        .dateOfBirth(a.getDateOfBirth())
+                        .id(a.getID())
+                        .books(a.getBooks()
                                 .stream()
                                 .map(mapperForBook::toBookRespDTO)
-                                .collect(Collectors.toList())))
+                                .collect(Collectors.toList()))
+                        .build())
                 .orElse(null);
+
     }
-
-
 }

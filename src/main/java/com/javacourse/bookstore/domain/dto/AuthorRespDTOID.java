@@ -1,13 +1,12 @@
 package com.javacourse.bookstore.domain.dto;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+@Builder
 public class AuthorRespDTOID {
-    private Long ID;
-
-    public Long getID() {
-        return ID;
-    }
-
-    public void setID(Long ID) {
-        this.ID = ID;
-    }
+    private  Long id;
 }

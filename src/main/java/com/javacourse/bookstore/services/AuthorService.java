@@ -1,7 +1,8 @@
 package com.javacourse.bookstore.services;
 
 import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
-import com.javacourse.bookstore.domain.dto.AuthorRespDTOStock;
+import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
+import com.javacourse.bookstore.domain.dto.AuthorRespDTOWithBooks;
 import exception.AuthorNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -9,14 +10,17 @@ import java.util.List;
 
 @Service
 public interface AuthorService {
-    List<AuthorRespDTOStock> getAllAuthor();
+    List<AuthorRespDTO> getAllAuthor();
 
-    AuthorRespDTOStock getAuthorByID(Long ID) throws AuthorNotFoundException;
+    AuthorRespDTO getAuthorByID(Long ID) throws AuthorNotFoundException;
 
-    AuthorRespDTOStock createAuthor(AuthorReqDTO authorReqDTO);
+    AuthorRespDTO createAuthor(AuthorReqDTO authorReqDTO);
 
-    AuthorRespDTOStock updateAuthor(Long ID, AuthorReqDTO authorReqDTO);
+    AuthorRespDTO updateAuthor(Long ID, AuthorReqDTO authorReqDTO);
 
-    AuthorRespDTOStock deleteAuthor(Long ID);
+    AuthorRespDTO deleteAuthor(Long ID);
 
+    AuthorRespDTO findAuthorByBook(Long ID);
+
+    AuthorRespDTOWithBooks getAuthorWithDetails(Long authorID);
 }

@@ -5,28 +5,32 @@ import com.javacourse.bookstore.domain.dto.BookReqDTO;
 import com.javacourse.bookstore.domain.dto.BookRespDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 class MapperForBookTest {
-    private final MapperForAuthor mapperForAuthor = new MapperForAuthor();
-    private final MapperForBook mapperForBook = new MapperForBook(mapperForAuthor);
-
+    @Autowired
+    private MapperForBook mapperForBook;
+    private final Book bookTest= Book.builder()
+            .title("The Day's Play").cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L)
+                .cost(50).barCode(1124).id(314L).build();
+    private final BookReqDTO bookReqDTOTest = BookReqDTO.builder().title("The Day's Play").cover("soft")
+            .publishingHouse("XZ").yearOfPublication(1910).cost(50).barCode(1124).build();
 
     @Test
     void toBookRespDTO() {
-        Book bookTest = new Book("The Day's Play", 124567890L, "soft", "XZ",
-                1910, 200L, 50, 1124, 314);
         BookRespDTO bookRespDTO = mapperForBook.toBookRespDTO(bookTest);
         Assertions.assertEquals(bookTest.getBarCode(), bookRespDTO.getBarCode());
         Assertions.assertEquals(bookTest.getPages(), bookRespDTO.getPages());
         Assertions.assertEquals(bookTest.getTitle(), bookRespDTO.getTitle());
-        Assertions.assertEquals(bookTest.getID(), bookRespDTO.getID());
-
+        Assertions.assertEquals(bookTest.getId(), bookRespDTO.getId());
     }
-
     @Test
     void getBook() {
-        BookReqDTO bookReqDTOTest = new BookReqDTO("The Day's Play", 124567890L, "soft", "XZ",
-                1910, 200L, 50, 314);
         Book bookTest = mapperForBook.getBook(bookReqDTOTest);
         Assertions.assertEquals(bookTest.getAuthorID(), bookReqDTOTest.getAuthorID());
     }
