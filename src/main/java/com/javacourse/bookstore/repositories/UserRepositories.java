@@ -25,8 +25,8 @@ public class UserRepositories {
 
     public User saveUserInBase(User user) {
         if (user != null) {
-            user.setIDUser(randomID.nextLong());
-            baseUser.put(user.getIDUser(), user);
+            user.setId(randomID.nextLong());
+            baseUser.put(user.getId(), user);
             return user;
         }
         return null;
@@ -34,9 +34,9 @@ public class UserRepositories {
 
     public User updateUserByID(Long IDUser, User user) {
         if (baseUser.containsKey(IDUser)) {
-            user.setIDUser(IDUser);
-            baseUser.put(user.getIDUser(), user);
-            return baseUser.get(user.getIDUser());
+            user.setId(IDUser);
+            baseUser.put(user.getId(), user);
+            return baseUser.get(user.getId());
         }
         return null;
     }

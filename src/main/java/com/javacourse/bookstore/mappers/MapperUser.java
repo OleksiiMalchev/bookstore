@@ -1,4 +1,5 @@
 package com.javacourse.bookstore.mappers;
+
 import com.javacourse.bookstore.domain.User;
 import com.javacourse.bookstore.domain.dto.UserReqDTO;
 import com.javacourse.bookstore.domain.dto.UserRespDTO;
@@ -11,20 +12,23 @@ public class MapperUser {
 
     public User userReqDTOToUser(UserReqDTO userReqDTO) {
         return Optional.ofNullable(userReqDTO)
-                .map(u -> new User(u.getFirstName(),
-                        u.getLastName(),
-                        u.getEmail(),
-                        u.getNickName()))
+                .map(u -> User.builder()
+                        .firstName(u.getFirstName())
+                        .lastName(u.getLastName())
+                        .email(u.getEmail())
+                        .nickName(u.getNickName())
+                        .build())
                 .orElse(null);
     }
     public UserRespDTO toUserRespDTO(User user) {
         return Optional.ofNullable(user)
-                .stream()
-                .findAny()
-                .map(u -> new UserRespDTO(u.getFirstName(),
-                        u.getEmail(),
-                        u.getNickName(),
-                        u.getIDUser()))
+                .map(u -> UserRespDTO
+                        .builder()
+                        .firstName(u.getFirstName())
+                        .email(u.getEmail())
+                        .nickName(u.getNickName())
+                        .id(u.getId())
+                        .build())
                 .orElse(null);
     }
 }

@@ -4,24 +4,22 @@ import com.javacourse.bookstore.domain.dto.UserReqDTO;
 import com.javacourse.bookstore.domain.dto.UserRespDTO;
 import com.javacourse.bookstore.mappers.MapperUser;
 import com.javacourse.bookstore.repositories.UserRepositories;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepositories userRepositories;
     private final MapperUser mapperUser;
 
-    public UserServiceImpl(UserRepositories userRepositories, MapperUser mapperUser) {
-        this.userRepositories = userRepositories;
-        this.mapperUser = mapperUser;
-    }
-
-
     @Override
     public List<UserRespDTO> getAllUser() {
-        return userRepositories.getAllAuthor()
+        return userRepositories.getAllUser()
                 .stream()
                 .map(mapperUser::toUserRespDTO)
                 .collect(Collectors.toList());
