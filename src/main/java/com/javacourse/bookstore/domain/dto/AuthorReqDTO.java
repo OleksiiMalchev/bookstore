@@ -9,8 +9,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-
-@Builder //TODO
+@Builder
 public class AuthorReqDTO {
     private String firstName;
     private String lastName;

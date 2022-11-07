@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @RunWith(SpringRunner.class)
@@ -20,13 +21,13 @@ class BookRepositoriesTest {
     void findAll() {
 
         Book saveBook = bookRepositories.save(Book.builder().authorID(555L).title("The Day's Play")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20)).price(200L).cost(50).barCode(1124)
                 .id(314L).build());
         Book saveBook1 = bookRepositories.save(Book.builder().authorID(5555L).title("The Holiday Round")
-                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .cover("hard").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20)).price(300L).cost(50).barCode(5247)
                 .id(314L).build());
         Book saveBook2 = bookRepositories.save(Book.builder().authorID(55555L).title("Once a Week")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1914).price(350L).cost(50).barCode(5247)
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20)).price(350L).cost(50).barCode(5247)
                 .id(255L).build());
         List<Book> allBooks = bookRepositories.findAll();
         Optional<Book> optionalBook = allBooks.stream()
@@ -47,13 +48,13 @@ class BookRepositoriesTest {
     void findAllByAuthorID() {
 
         Book saveBook = bookRepositories.save(Book.builder().authorID(444L).title("The Day's Play")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20)).price(200L).cost(50).barCode(1124)
                 .id(314L).build());
         Book saveBook1 = bookRepositories.save(Book.builder().authorID(454L).title("The Holiday Round")
-                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .cover("hard").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20)).price(300L).cost(50).barCode(5247)
                 .id(314L).build());
         Book saveBook2 = bookRepositories.save(Book.builder().authorID(444L).title("Once a Week")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1914).price(350L).cost(50).barCode(5247)
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20)).price(350L).cost(50).barCode(5247)
                 .id(255L).build());
         List<Book> allBooksByAuthorID = bookRepositories.findAllByAuthorID(444L);
         Optional<Book> optionalBook = allBooksByAuthorID.stream()
@@ -76,7 +77,7 @@ class BookRepositoriesTest {
     void findById() {
 
         Book saveBook = bookRepositories.save(Book.builder().authorID(555L).title("The Day's Play")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20)).price(200L).cost(50).barCode(1124)
                 .id(314L).build());
         Optional<Book> bookById = bookRepositories.findById(saveBook.getId());
         Assertions.assertEquals(bookById.get(), saveBook);
@@ -86,7 +87,7 @@ class BookRepositoriesTest {
     void save() {
 
         Book saveBook = bookRepositories.save(Book.builder().authorID(4444L).title("The Day's Play")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20)).price(200L).cost(50).barCode(1124)
                 .id(314L).build());
         Assertions.assertEquals(saveBook.getTitle(), "The Day's Play");
         Assertions.assertEquals(saveBook.getBarCode(), 1124);
@@ -96,10 +97,10 @@ class BookRepositoriesTest {
     void update() {
 
         Book saveBook = bookRepositories.save(Book.builder().authorID(4444L).title("The Day's Play")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20)).price(200L).cost(50).barCode(1124)
                 .id(314L).build());
         Book updateBook = bookRepositories.save(Book.builder().authorID(4444L).title("The Holiday Round")
-                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .cover("hard").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20)).price(300L).cost(50).barCode(5247)
                 .id(314L).build());
         Book bookAfterUpdate = bookRepositories.update(saveBook.getId(), updateBook);
         Assertions.assertEquals(bookAfterUpdate.getTitle(), "The Holiday Round");
@@ -111,10 +112,10 @@ class BookRepositoriesTest {
     void updateWithOut() {
 
         Book saveBook = bookRepositories.save(Book.builder().authorID(4444L).title("The Day's Play")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20)).price(200L).cost(50).barCode(1124)
                 .id(314L).build());
         Book updateBook = bookRepositories.save(Book.builder().authorID(4444L).title("The Holiday Round")
-                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .cover("hard").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20)).price(300L).cost(50).barCode(5247)
                 .id(314L).build());
 
         Book bookAfterUpdate = bookRepositories.update(saveBook.getId(), updateBook);
@@ -127,10 +128,10 @@ class BookRepositoriesTest {
     void updateNull() {
 
         Book saveBook = bookRepositories.save(Book.builder().authorID(4444L).title("The Day's Play")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20)).price(200L).cost(50).barCode(1124)
                 .id(314L).build());
         Book updateBook = bookRepositories.save(Book.builder().authorID(4444L).title("The Holiday Round")
-                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .cover("hard").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20)).price(300L).cost(50).barCode(5247)
                 .id(314L).build());
         Book bookAfterUpdate = bookRepositories.update(null, updateBook);
         Assertions.assertNull(bookAfterUpdate);
@@ -142,7 +143,7 @@ class BookRepositoriesTest {
     void remove() {
 
         Book saveBook = bookRepositories.save(Book.builder().authorID(4444L).title("The Day's Play")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20)).price(200L).cost(50).barCode(1124)
                 .id(314L).build());
         Optional<Book> bookDelete = bookRepositories.remove(saveBook.getId());
         Assertions.assertEquals(bookDelete.get(), saveBook);

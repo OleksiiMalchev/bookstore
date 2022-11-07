@@ -4,15 +4,17 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Builder
 public class AuthorRespDTO {
     private String firstName;
     private String lastName;
-    private long dateOfBirth;
-    private long dateOfDeath;
+    private LocalDate dateOfBirth;
+    private LocalDate dateOfDeath;
     private String countryOfBirth;
-    private Long ID;
+    private Long id;
 
 }

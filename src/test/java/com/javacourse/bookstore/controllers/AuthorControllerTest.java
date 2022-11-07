@@ -69,7 +69,8 @@ class AuthorControllerTest {
         Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne")
                 .dateOfBirth(LocalDate.of(1881,05,20)).ID(125L).build();
         Book saveBook = Book.builder().authorID(authorAlexander.getID()).title("The Day's Play")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1910, 5, 20))
+                .price(200L).cost(50).barCode(1124)
                 .id(555L).build();
         Mockito.when(authorService.findAuthorByBook(555L))
                 .thenReturn(AuthorRespDTO
@@ -108,7 +109,8 @@ class AuthorControllerTest {
         Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne")
                 .dateOfBirth(LocalDate.of(1881,05,20)).ID(125L).build();
         BookRespDTO saveBook = BookRespDTO.builder().title("The Day's Play")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1910, 5, 20))
+                .price(200L).barCode(1124)
                 .id(555L).build();
         Mockito.when(authorService.getAuthorWithDetails(authorAlexander.getID()))
                 .thenReturn(AuthorRespDTOWithBooks

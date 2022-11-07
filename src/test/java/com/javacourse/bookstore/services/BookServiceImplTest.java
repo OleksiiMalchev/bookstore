@@ -36,23 +36,23 @@ class BookServiceImplTest {
     @Test
     void allBooks() {
         Book firstBookInList = Book.builder().authorID(555L).title("The Day's Play")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
-                .id(314L).build();
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1910, 5, 20))
+                .price(200L).cost(50).barCode(1124).id(314L).build();
         Book secondBookInList = Book.builder().authorID(5555L).title("The Holiday Round")
-                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
-                .id(314L).build();
+                .cover("hard").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20))
+                .price(300L).cost(50).barCode(5247).id(314L).build();
         Book thirdBookInList = Book.builder().authorID(55555L).title("Once a Week")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1914).price(350L).cost(50).barCode(5247)
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1914, 5, 20)).price(350L).cost(50).barCode(5247)
                 .id(255L).build();
         BookRespDTO firstBookRespDTO = BookRespDTO.builder().title("The Day's Play")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
-                .id(314L).build();
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1910, 5, 20))
+                .price(200L).barCode(1124).id(314L).build();
         BookRespDTO secondBookRespDTO = BookRespDTO.builder().title("The Holiday Round")
-                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
-                .id(314L).build();
+                .cover("hard").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20))
+                .price(300L).barCode(5247).id(314L).build();
         BookRespDTO thirdBookRespDTO = BookRespDTO.builder().title("Once a Week")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1914).price(350L).cost(50).barCode(5247)
-                .id(255L).build();
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1914, 5, 20))
+                .price(350L).barCode(5247).id(255L).build();
         Mockito.when(bookRepositories.findAll())
                 .thenReturn(List.of(firstBookInList, secondBookInList, thirdBookInList));
         Mockito.when(mapperForBook.toBookRespDTO(firstBookInList)).thenReturn(firstBookRespDTO);
@@ -68,22 +68,28 @@ class BookServiceImplTest {
     @Test
     void allBooksAuthor() {
         Book firstBookInList = Book.builder().authorID(555L).title("The Day's Play")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20))
+                .price(200L).cost(50).barCode(1124)
                 .id(314L).build();
         Book secondBookInList = Book.builder().authorID(555L).title("The Holiday Round")
-                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .cover("hard").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20))
+                .price(300L).cost(50).barCode(5247)
                 .id(314L).build();
         Book thirdBookInList = Book.builder().authorID(5555L).title("Once a Week")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1914).price(350L).cost(50).barCode(5247)
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1914, 5, 20))
+                .price(350L).cost(50).barCode(5247)
                 .id(255L).build();
         BookRespDTO firstBookRespDTO = BookRespDTO.builder().title("The Day's Play")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1910, 5, 20))
+                .price(200L).barCode(1124)
                 .id(314L).build();
         BookRespDTO secondBookRespDTO = BookRespDTO.builder().title("The Holiday Round")
-                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .cover("hard").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20))
+                .price(300L).barCode(5247)
                 .id(314L).build();
         BookRespDTO thirdBookRespDTO = BookRespDTO.builder().title("Once a Week")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1914).price(350L).cost(50).barCode(5247)
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1914, 5, 20))
+                .price(350L).barCode(5247)
                 .id(255L).build();
         Mockito.when(bookRepositories.findAllByAuthorID(555L))
                 .thenReturn(List.of(firstBookInList, secondBookInList));
@@ -100,11 +106,11 @@ class BookServiceImplTest {
     @Test
     void getBookById() {
         Book firstBookInList = Book.builder().authorID(555L).title("The Day's Play")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
-                .id(314L).build();
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20))
+                .price(200L).cost(50).barCode(1124).id(314L).build();
         BookRespDTO firstBookRespDTO = BookRespDTO.builder().title("The Day's Play")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).price(200L).cost(50).barCode(1124)
-                .id(314L).build();
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20))
+                .price(200L).barCode(1124).id(314L).build();
         Mockito.when(bookRepositories.findById(314L))
                 .thenReturn(Optional.ofNullable(firstBookInList));
         Mockito.when(mapperForBook.toBookRespDTO(firstBookInList))
@@ -143,19 +149,23 @@ class BookServiceImplTest {
                 .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
 
         Book bookInBase = Book.builder().authorID(555L).title("The Day's Play")
-                .cover("soft").publishingHouse("XZ").author(authorByIdFromBookInBase).yearOfPublication(1910).price(200L).cost(50).barCode(1124)
+                .cover("soft").publishingHouse("XZ").author(authorByIdFromBookInBase)
+                .yearOfPublication(LocalDate.of(1912, 5, 20)).price(200L).cost(50).barCode(1124)
                 .id(314L).build();
 
         Book bookFromReqDTO = Book.builder().authorID(555L).title("The Holiday Round")
-                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .cover("hard").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20))
+                .price(300L).cost(50).barCode(5247)
                 .id(314L).build();
 
         Book updateBook = Book.builder().authorID(555L).title("The Holiday Round")
-                .cover("hard").publishingHouse("XZ").yearOfPublication(1912).price(300L).cost(50).barCode(5247)
+                .cover("hard").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20))
+                .price(300L).cost(50).barCode(5247)
                 .id(314L).build();
 
         BookReqDTO bookReqDTO = BookReqDTO.builder().title("The Day's Play")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(1910).cost(50).barCode(1124).authorID(555L)
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20))
+                .cost(50).barCode(1124).authorID(555L)
                 .build();
 
         Author authorByIdFromBookReqDTO = Author.builder().firstName("Alexander").lastName("Milne").ID(555L)

@@ -12,7 +12,7 @@ public class UserRepositories {
     private final Random randomID = new Random();
 
 
-    public List<User> getAllAuthor() {
+    public List<User> getAllUser() {
         return baseUser.values()
                 .stream()
                 .collect(Collectors.toList());

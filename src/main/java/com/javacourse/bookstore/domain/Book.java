@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Setter
 @Getter
 @Builder
@@ -13,7 +15,7 @@ public class Book {
     private Author author;
     private String cover;
     private String publishingHouse;
-    private int yearOfPublication;
+    private LocalDate yearOfPublication;
     private long price;
     private long cost;
     private int barCode;
