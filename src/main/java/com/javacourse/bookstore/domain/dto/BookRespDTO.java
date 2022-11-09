@@ -1,4 +1,4 @@
-package com.javacourse.bookstore.domain;
+package com.javacourse.bookstore.domain.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -9,19 +9,29 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @Builder
-public class Book {
-
+public class BookRespDTO {
     private String title;
-    private Author author;
     private String cover;
     private String publishingHouse;
     private LocalDate yearOfPublication;
     private long price;
-    private long cost;
     private int barCode;
     private Long id;
     private int pages;
     private long ESBI;
-    private Long authorID;
+    private AuthorRespDTOID author;
+
+//
+//    public void setPrice() {
+//        this.price = price;
+//    }
+//
+//    public AuthorRespDTOID getAuthorRespDTO() {
+//        return author;
+//    }
+//
+//    public void setAuthorRespDTO(AuthorRespDTOID author) {
+//        this.author = author;
+//    }
 
 }

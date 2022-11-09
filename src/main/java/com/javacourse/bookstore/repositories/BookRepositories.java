@@ -1,40 +1,52 @@
 package com.javacourse.bookstore.repositories;
 
 import com.javacourse.bookstore.domain.Book;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
+@RequiredArgsConstructor
 public class BookRepositories {
-    private final Map<Long, Book> myBooks = new HashMap<>();
-    private Random r = new Random();
+
+    private final Map<Long, Book> baseBook = new HashMap<>();
+    private final Random randomID = new Random();
 
     public List<Book> findAll() {
-        return myBooks.values()
+        return baseBook.values()
                 .stream()
-                .toList();
+                .collect(Collectors.toList());
+
     }
 
-    public Book findById(long id) {
-        return myBooks.get(id);
+    public List<Book> findAllByAuthorID(Long authorID) {
+        return baseBook.values()
+                .stream().filter(b->b.getAuthorID().equals(authorID))
+                .collect(Collectors.toList());
+    }
+
+    public Optional<Book> findById(Long idBook) {
+        return Optional.ofNullable(baseBook.get(idBook));
     }
 
     public Book save(Book book) {
-        book.setId(r.nextLong());
-        myBooks.put(book.getId(), book);
+        book.setId(randomID.nextLong());
+        book.setESBI(randomID.nextLong());
+        baseBook.put(book.getId(), book);
         return book;
     }
 
     public Book update(Long id, Book book) {
-        myBooks.put(id, book);
-        return book;
+        if(id!=null && book!=null){
+            baseBook.put(id,book);
+            return book;
+        }
+       return null;
     }
 
-    public Book remove(long id) {
-        Book byId = findById(id);
-        myBooks.remove(id);
-        return byId;
+    public Optional<Book> remove(Long id) {
+        return Optional.ofNullable(baseBook.remove(id));
     }
 }

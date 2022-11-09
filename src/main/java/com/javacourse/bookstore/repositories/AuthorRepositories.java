@@ -1,43 +1,62 @@
 package com.javacourse.bookstore.repositories;
 
 import com.javacourse.bookstore.domain.Author;
-
+import com.javacourse.bookstore.domain.Book;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 public class AuthorRepositories {
-    private final Map<Long, Author> myAuthor = new HashMap<>();
+    private final Map<Long, Author> baseAuthor = new HashMap<>();
+    private final Random randomID = new Random();
 
-    Random random = new Random();
-
-    public List<Author> findAll() {
-    return myAuthor.values().stream().toList();
+    public List<Author> getAllAuthor() {
+        return baseAuthor.values()
+                .stream()
+                .collect(Collectors.toList());
     }
 
-    public Author findById(long id) {
-       return myAuthor.get(id);
+    public Optional<Author> getAuthorByID(Long ID) {
+        return Optional.ofNullable(baseAuthor.get(ID));
+
     }
 
-    public Author save(Author author) {
-    author.setId(random.nextLong());
-    myAuthor.put(author.getId(), author);
-    return author;
+    public Author saveAuthorInBase(Author author) {
+        if (author != null) {
+            author.setID(randomID.nextLong());
+            baseAuthor.put(author.getID(), author);
+            return author;
+        }
+        return null;
     }
 
-    public Author update(Long id, Author author){
-        myAuthor.put(id, author);
-        return author;
+    public Author updateAuthorByID(Long ID, Author author) {
+        if (baseAuthor.containsKey(ID)) {
+            author.setID(ID);
+            baseAuthor.put(author.getID(), author);
+            return baseAuthor.get(author.getID());
+        }
+        return null;
     }
 
-    public Author remove(long id) {
-    Author byId = findById(id);
-    myAuthor.remove(byId);
-    return byId;
+    public Optional<Author> deleteAuthorByID(Long ID) {
+        return Optional.ofNullable(baseAuthor.remove(ID));
     }
 
+
+
+    public Author findAuthorByBook(Long idBook) {
+        Book bookByID = baseAuthor.entrySet()
+                .stream()
+                .flatMap(a -> a.getValue()
+                        .getBooks()
+                        .stream())
+                .filter(f -> f.getId().equals(idBook))
+                .findAny()
+                .orElse(null);
+        return Optional.ofNullable(bookByID).stream()
+                .map(Book::getAuthor).findAny().orElse(null);
+    }
 }

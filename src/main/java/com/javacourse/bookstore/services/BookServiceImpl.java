@@ -1,67 +1,87 @@
 package com.javacourse.bookstore.services;
 
+import com.javacourse.bookstore.domain.Author;
 import com.javacourse.bookstore.domain.Book;
-
-import com.javacourse.bookstore.domain.dto.BookDto;
+import com.javacourse.bookstore.domain.dto.BookReqDTO;
+import com.javacourse.bookstore.domain.dto.BookRespDTO;
+import com.javacourse.bookstore.mappers.MapperForBook;
+import com.javacourse.bookstore.repositories.AuthorRepositories;
 import com.javacourse.bookstore.repositories.BookRepositories;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
-
     private final BookRepositories bookRepositories;
+    private final AuthorRepositories authorRepositories;
 
-    @Autowired
-    public BookServiceImpl(BookRepositories bookRepositories) {
-        this.bookRepositories = bookRepositories;
-    }
+    private final MapperForBook mapperForBook;
 
-//TODO string example; ArrayList vs LinkedList
-
-//    public List<BookDto> allBooks() {
-//        List<Book> books = bookRepositories.findAll();
-//        List<BookDto> booksDto = new LinkedList<>();
-//        for (Book bookFor : books) {
-//            booksDto.add(new BookDto(bookFor.getId(), bookFor.getTitle(), bookFor.getCost()));
-//        }
-//        return booksDto;
-//    }  //GET/books - show all books
-
-    public List<BookDto> allBooks() {
+    public List<BookRespDTO> allBooks() {
         return bookRepositories.findAll()
                 .stream()
-                .map(r -> new BookDto(r.getId(), r.getTitle(), r.getCost()))
+                .map(mapperForBook::toBookRespDTO)
                 .collect(Collectors.toList());
     }
 
-    public BookDto getBookById(long id) {
-        Book book = bookRepositories.findById(id);
-        return new BookDto(book.getId(), book.getTitle(), book.getCost());
-
-    }  //GET/books/{id}- display a book by id
-
-    public BookDto create(Book book) {
-        Book createBook = bookRepositories.save(book);
-        return new BookDto(createBook.getId(), createBook.getTitle(), createBook.getCost());
-    } //POST/books- create new book
-
-    //TODO chek ID
-    public BookDto upDate(long id, Book book) {
-        Book bookUpdate = bookRepositories.update(id, book);
-        return new BookDto(bookUpdate.getId(), bookUpdate.getTitle(), bookUpdate.getCost());
-    }//PUT/books/{id}    - update a book by id
-
-    //TODO chek NPE
-    public BookDto delete(long id) {
-        Book deleteBook = bookRepositories.remove(id);
-        return new BookDto(deleteBook.getId(), deleteBook.getTitle(), deleteBook.getCost());
+    @Override
+    public List<BookRespDTO> allBooksAuthor(Long idAuthor) {
+        return bookRepositories.findAllByAuthorID(idAuthor)
+                .stream()
+                .map(mapperForBook::toBookRespDTO)
+                .collect(Collectors.toList());
     }
-    //DELETE/{id} - delete a book by id
 
+    public BookRespDTO getBookById(Long idBook) {
+        return bookRepositories.findById(idBook)
+                .map(mapperForBook::toBookRespDTO)
+                .orElse(null);
+    }
 
+    public BookRespDTO create(BookReqDTO bookReqDTO) {
+        Author authorByID = authorRepositories.getAuthorByID(bookReqDTO.getAuthorID()).get();
+        Book book = mapperForBook.getBook(bookReqDTO);
+        book.setAuthor(authorByID);
+        Book saveBook = bookRepositories.save(book);
+        authorByID.addBook(saveBook);
+        authorRepositories.updateAuthorByID(authorByID.getID(), authorByID);
+        return mapperForBook.toBookRespDTO(saveBook);
+    }
+
+    public BookRespDTO update(Long idBook, BookReqDTO bookReqDTO) {
+        Author authorByIdFromBookReqDTO = authorRepositories.getAuthorByID(bookReqDTO.getAuthorID()).get();
+        if (authorByIdFromBookReqDTO!=null && idBook != null) {
+            Book bookFromReqDTO = mapperForBook.getBook(bookReqDTO);
+            Book bookInBase = bookRepositories.findById(idBook).get();
+            Author authorByIdFromBookInBase = bookInBase.getAuthor();
+            bookFromReqDTO.setESBI(bookInBase.getESBI());
+            bookFromReqDTO.setId(bookInBase.getId());
+            bookFromReqDTO.setAuthor(authorByIdFromBookReqDTO);
+            Book updateBook = bookRepositories.update(idBook, bookFromReqDTO);
+            if (authorByIdFromBookReqDTO.getID() == authorByIdFromBookInBase.getID()) {
+                authorByIdFromBookInBase.delete(bookInBase);
+                authorByIdFromBookInBase.addBook(updateBook);
+                authorRepositories.updateAuthorByID(authorByIdFromBookInBase.getID(), authorByIdFromBookInBase);
+            } else {
+                authorByIdFromBookInBase.delete(bookInBase);
+                authorRepositories.updateAuthorByID(authorByIdFromBookInBase.getID(), authorByIdFromBookInBase);
+                authorByIdFromBookReqDTO.addBook(updateBook);
+                authorRepositories.updateAuthorByID(authorByIdFromBookReqDTO.getID(), authorByIdFromBookReqDTO);
+            }
+            return mapperForBook.toBookRespDTO(updateBook);
+        }
+        return null;
+    }
+
+    public BookRespDTO delete(Long id) {
+        return bookRepositories.remove(id)
+                .map(mapperForBook::toBookRespDTO)
+                .stream()
+                .findAny()
+                .orElse(null);
+    }
 }

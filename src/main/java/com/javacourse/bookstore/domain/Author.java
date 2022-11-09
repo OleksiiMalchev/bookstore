@@ -1,88 +1,50 @@
 package com.javacourse.bookstore.domain;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+
+@Getter
+@Setter
+@Builder
+@JsonAutoDetect
+
 
 public class Author {
+    private final List<Book> books = new ArrayList<>();
+    private Long ID;
     private String firstName;
     private String lastName;
     private String surName;
-    private int dateOfBirth;
-    private int dateOfDeath;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
+    private LocalDate dateOfBirth;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
+    private LocalDate dateOfDeath;
     private String biography;
     private String countryOfBirth;
-    private long id;
 
-    public Author(String firstName, String lastName, String surName, int dateOfBirth, int dateOfDeath, String biography, String countryOfBirth, long id) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.surName = surName;
-        this.dateOfBirth = dateOfBirth;
-        this.dateOfDeath = dateOfDeath;
-        this.biography = biography;
-        this.countryOfBirth = countryOfBirth;
-        this.id = id;
+    public Book addBook(Book book) {
+         this.books.add(book);
+         return book;
+    }
+    public Book delete(Book book) {
+        books.remove(book);
+        return book;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getSurName() {
-        return surName;
-    }
-
-    public void setSurName(String surName) {
-        this.surName = surName;
-    }
-
-    public int getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(int dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public int getDateOfDeath() {
-        return dateOfDeath;
-    }
-
-    public void setDateOfDeath(int dateOfDeath) {
-        this.dateOfDeath = dateOfDeath;
-    }
-
-    public String getBiography() {
-        return biography;
-    }
-
-    public void setBiography(String biography) {
-        this.biography = biography;
-    }
-
-    public String getCountryOfBirth() {
-        return countryOfBirth;
-    }
-
-    public void setCountryOfBirth(String countryOfBirth) {
-        this.countryOfBirth = countryOfBirth;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 }
