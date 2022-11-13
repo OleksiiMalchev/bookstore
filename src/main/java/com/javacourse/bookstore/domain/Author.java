@@ -1,42 +1,36 @@
 package com.javacourse.bookstore.domain;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
-
+@Entity(name = "author")
 @Getter
 @Setter
 @ToString
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_Name")
     private String lastName;
+    @Column(name = "sur_Name")
     private String surName;
+    @Column(name = "date_Of_Birth")
     private LocalDate dateOfBirth;
+    @Column(name = "date_Of_Death")
     private LocalDate dateOfDeath;
+    @Column(name = "biography")
     private String biography;
+    @Column(name = "country_Of_Birth")
     private String countryOfBirth;
-
-
-    private final List<Book> books = new ArrayList<>();
-
-    public Book addBook(Book book) {
-         this.books.add(book);
-         return book;
-    }
-    public Book delete(Book book) {
-        books.remove(book);
-        return book;
-    }
+    @Column(name = "gender")
+    private String gender;
 
 }

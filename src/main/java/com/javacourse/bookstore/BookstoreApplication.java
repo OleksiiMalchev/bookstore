@@ -1,6 +1,5 @@
 package com.javacourse.bookstore;
 
-import com.javacourse.bookstore.domain.AuthorEntity;
 import com.javacourse.bookstore.repositories.AuthorRepository;
 import com.javacourse.bookstore.services.SomeСlass;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +8,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import java.util.stream.StreamSupport;
 
 @Slf4j
 @SpringBootApplication
@@ -24,10 +25,10 @@ public class BookstoreApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(@Autowired AuthorRepository authorRepository){
 		return t->{
-//			StreamSupport.stream(authorRepository.findAll().spliterator(), false)
-//					.map(String::valueOf).forEach(log::info);
-			AuthorEntity john = authorRepository.findAuthor("John");
-			log.info(String.valueOf(john));
+			StreamSupport.stream(authorRepository.findAll().spliterator(), false)
+					.map(String::valueOf).forEach(log::info);
+//			Iterable<Author> all = authorRepository.findAll();
+//			log.info(String.valueOf(john));
 
 		};
 	}

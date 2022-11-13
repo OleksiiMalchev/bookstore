@@ -6,6 +6,7 @@ import com.javacourse.bookstore.domain.dto.AuthorRespDTOWithBooks;
 import com.javacourse.bookstore.mappers.MapperAuthorToRespDTO;
 import com.javacourse.bookstore.mappers.MapperForAuthor;
 import com.javacourse.bookstore.repositories.AuthorRepositories;
+import com.javacourse.bookstore.repositories.AuthorRepository;
 import exception.AuthorNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
@@ -22,17 +24,18 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepositories authorRepositories;
     private final MapperForAuthor mapperForAuthor;
     private final MapperAuthorToRespDTO mapperAuthorToRespDTO;
+    private final AuthorRepository authorRepository;
+
 
 
 
 
     @Override
     public List<AuthorRespDTO> getAllAuthor() throws SQLException {
-        return authorRepositories.getAllAuthor()
-                .stream()
+        return StreamSupport.stream(authorRepository.findAll().spliterator(), false)
+                .toList().stream()
                 .map(mapperForAuthor::authorToRespDTOStock)
                 .collect(Collectors.toList());
-
     }
 
     @Override

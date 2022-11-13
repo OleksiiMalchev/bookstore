@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -23,10 +22,10 @@ public class MapperAuthorToRespDTO {
                         .lastName(a.getLastName())
                         .dateOfBirth(a.getDateOfBirth())
                         .id(a.getId())
-                        .books(a.getBooks()
-                                .stream()
-                                .map(mapperForBook::toBookRespDTO)
-                                .collect(Collectors.toList()))
+//                        .books(a.getBooks()
+//                                .stream()
+//                                .map(mapperForBook::toBookRespDTO)
+//                                .collect(Collectors.toList()))
                         .build())
                 .orElse(null);
     }
