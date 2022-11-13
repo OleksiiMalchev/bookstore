@@ -1,7 +1,5 @@
 package com.javacourse.bookstore.services;
 
-import com.javacourse.bookstore.domain.Author;
-import com.javacourse.bookstore.domain.Book;
 import com.javacourse.bookstore.domain.dto.BookReqDTO;
 import com.javacourse.bookstore.domain.dto.BookRespDTO;
 import com.javacourse.bookstore.mappers.MapperForBook;
@@ -43,37 +41,38 @@ public class BookServiceImpl implements BookService {
     }
 
     public BookRespDTO create(BookReqDTO bookReqDTO) {
-        Author authorByID = authorRepositories.getAuthorByID(bookReqDTO.getAuthorID()).get();
-        Book book = mapperForBook.getBook(bookReqDTO);
-        book.setAuthor(authorByID);
-        Book saveBook = bookRepositories.save(book);
-        authorByID.addBook(saveBook);
-        authorRepositories.updateAuthorByID(authorByID.getID(), authorByID);
-        return mapperForBook.toBookRespDTO(saveBook);
+//        Author authorByID = authorRepositories.getAuthorByID(bookReqDTO.getAuthorID()).get();
+//        Book book = mapperForBook.getBook(bookReqDTO);
+//        book.setAuthor(authorByID);
+//        Book saveBook = bookRepositories.save(book);
+//        authorByID.addBook(saveBook);
+//        authorRepositories.updateAuthorByID(authorByID.getId(), authorByID);
+//        return mapperForBook.toBookRespDTO(saveBook);
+        return null;
     }
 
     public BookRespDTO update(Long idBook, BookReqDTO bookReqDTO) {
-        Author authorByIdFromBookReqDTO = authorRepositories.getAuthorByID(bookReqDTO.getAuthorID()).get();
-        if (authorByIdFromBookReqDTO!=null && idBook != null) {
-            Book bookFromReqDTO = mapperForBook.getBook(bookReqDTO);
-            Book bookInBase = bookRepositories.findById(idBook).get();
-            Author authorByIdFromBookInBase = bookInBase.getAuthor();
-            bookFromReqDTO.setESBI(bookInBase.getESBI());
-            bookFromReqDTO.setId(bookInBase.getId());
-            bookFromReqDTO.setAuthor(authorByIdFromBookReqDTO);
-            Book updateBook = bookRepositories.update(idBook, bookFromReqDTO);
-            if (authorByIdFromBookReqDTO.getID() == authorByIdFromBookInBase.getID()) {
-                authorByIdFromBookInBase.delete(bookInBase);
-                authorByIdFromBookInBase.addBook(updateBook);
-                authorRepositories.updateAuthorByID(authorByIdFromBookInBase.getID(), authorByIdFromBookInBase);
-            } else {
-                authorByIdFromBookInBase.delete(bookInBase);
-                authorRepositories.updateAuthorByID(authorByIdFromBookInBase.getID(), authorByIdFromBookInBase);
-                authorByIdFromBookReqDTO.addBook(updateBook);
-                authorRepositories.updateAuthorByID(authorByIdFromBookReqDTO.getID(), authorByIdFromBookReqDTO);
-            }
-            return mapperForBook.toBookRespDTO(updateBook);
-        }
+//        Author authorByIdFromBookReqDTO = authorRepositories.getAuthorByID(bookReqDTO.getAuthorID()).get();
+//        if (authorByIdFromBookReqDTO!=null && idBook != null) {
+//            Book bookFromReqDTO = mapperForBook.getBook(bookReqDTO);
+//            Book bookInBase = bookRepositories.findById(idBook).get();
+//            Author authorByIdFromBookInBase = bookInBase.getAuthor();
+//            bookFromReqDTO.setESBI(bookInBase.getESBI());
+//            bookFromReqDTO.setId(bookInBase.getId());
+//            bookFromReqDTO.setAuthor(authorByIdFromBookReqDTO);
+//            Book updateBook = bookRepositories.update(idBook, bookFromReqDTO);
+//            if (authorByIdFromBookReqDTO.getId() == authorByIdFromBookInBase.getId()) {
+//                authorByIdFromBookInBase.delete(bookInBase);
+//                authorByIdFromBookInBase.addBook(updateBook);
+//                authorRepositories.updateAuthorByID(authorByIdFromBookInBase.getId(), authorByIdFromBookInBase);
+//            } else {
+//                authorByIdFromBookInBase.delete(bookInBase);
+//                authorRepositories.updateAuthorByID(authorByIdFromBookInBase.getId(), authorByIdFromBookInBase);
+//                authorByIdFromBookReqDTO.addBook(updateBook);
+//                authorRepositories.updateAuthorByID(authorByIdFromBookReqDTO.getId(), authorByIdFromBookReqDTO);
+//            }
+//            return mapperForBook.toBookRespDTO(updateBook);
+//        }
         return null;
     }
 

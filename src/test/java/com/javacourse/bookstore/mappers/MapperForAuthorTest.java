@@ -42,13 +42,13 @@ class MapperForAuthorTest {
         Assertions.assertEquals(author.getFirstName(), authorRespDTO.getFirstName());
         Assertions.assertEquals(author.getLastName(), authorRespDTO.getLastName());
         Assertions.assertEquals(author.getDateOfBirth(), authorRespDTO.getDateOfBirth());
-        Assertions.assertEquals(author.getID(), authorRespDTO.getId());
+        Assertions.assertEquals(author.getId(), authorRespDTO.getId());
     }
 
     @Test
     void authorRespDTOID() {
         AuthorRespDTOID authorRespDTOID = mapperForAuthor.authorRespDTOID(author);
-        Assertions.assertEquals(authorRespDTOID.getId(), author.getID());
+        Assertions.assertEquals(authorRespDTOID.getId(), author.getId());
     }
 
 }

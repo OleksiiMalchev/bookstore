@@ -44,16 +44,16 @@ class AuthorControllerTest {
 
         Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne")
                 .dateOfBirth(LocalDate.of(1881,5,20))
-                .ID(12547L).build();
-        Mockito.when(authorService.getAuthorByID(authorAlexander.getID()))
+                .id(12547L).build();
+        Mockito.when(authorService.getAuthorByID(authorAlexander.getId()))
                 .thenReturn(AuthorRespDTO
                         .builder()
-                        .id(authorAlexander.getID())
+                        .id(authorAlexander.getId())
                         .firstName(authorAlexander.getFirstName())
                         .lastName(authorAlexander.getLastName())
                         .dateOfBirth(authorAlexander.getDateOfBirth())
                         .build());
-        mockMvc.perform(MockMvcRequestBuilders.get("/authors/{id}", authorAlexander.getID()))
+        mockMvc.perform(MockMvcRequestBuilders.get("/authors/{id}", authorAlexander.getId()))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.firstName")
@@ -67,15 +67,15 @@ class AuthorControllerTest {
     @Test
     void getAuthorByBook() throws Exception {
         Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne")
-                .dateOfBirth(LocalDate.of(1881,05,20)).ID(125L).build();
-        Book saveBook = Book.builder().authorID(authorAlexander.getID()).title("The Day's Play")
+                .dateOfBirth(LocalDate.of(1881,05,20)).id(125L).build();
+        Book saveBook = Book.builder().authorID(authorAlexander.getId()).title("The Day's Play")
                 .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1910, 5, 20))
                 .price(200L).cost(50).barCode(1124)
                 .id(555L).build();
         Mockito.when(authorService.findAuthorByBook(555L))
                 .thenReturn(AuthorRespDTO
                         .builder()
-                        .id(authorAlexander.getID())
+                        .id(authorAlexander.getId())
                         .firstName(authorAlexander.getFirstName())
                         .lastName(authorAlexander.getLastName())
                         .dateOfBirth(authorAlexander.getDateOfBirth())
@@ -107,21 +107,21 @@ class AuthorControllerTest {
     @Test
     void getAuthorWithDetails() throws Exception {
         Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne")
-                .dateOfBirth(LocalDate.of(1881,05,20)).ID(125L).build();
+                .dateOfBirth(LocalDate.of(1881,05,20)).id(125L).build();
         BookRespDTO saveBook = BookRespDTO.builder().title("The Day's Play")
                 .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1910, 5, 20))
                 .price(200L).barCode(1124)
                 .id(555L).build();
-        Mockito.when(authorService.getAuthorWithDetails(authorAlexander.getID()))
+        Mockito.when(authorService.getAuthorWithDetails(authorAlexander.getId()))
                 .thenReturn(AuthorRespDTOWithBooks
                         .builder()
-                        .id(authorAlexander.getID())
+                        .id(authorAlexander.getId())
                         .firstName(authorAlexander.getFirstName())
                         .lastName(authorAlexander.getLastName())
                         .dateOfBirth(authorAlexander.getDateOfBirth())
                         .books(List.of(saveBook))
                         .build());
-        mockMvc.perform(MockMvcRequestBuilders.get("/authorWith/{idAuthor}", authorAlexander.getID()))
+        mockMvc.perform(MockMvcRequestBuilders.get("/authorWith/{idAuthor}", authorAlexander.getId()))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.firstName")
@@ -185,16 +185,16 @@ class AuthorControllerTest {
     @Test
     void delete() throws Exception {
         Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne")
-                .dateOfBirth(LocalDate.parse("2020-01-08")).ID(125L).build();
-        Mockito.when(authorService.deleteAuthor(authorAlexander.getID()))
+                .dateOfBirth(LocalDate.parse("2020-01-08")).id(125L).build();
+        Mockito.when(authorService.deleteAuthor(authorAlexander.getId()))
                 .thenReturn(AuthorRespDTO
                         .builder()
-                        .id(authorAlexander.getID())
+                        .id(authorAlexander.getId())
                         .firstName(authorAlexander.getFirstName())
                         .lastName(authorAlexander.getLastName())
                         .dateOfBirth(authorAlexander.getDateOfBirth())
                         .build());
-        mockMvc.perform(MockMvcRequestBuilders.delete("/authors/{id}", authorAlexander.getID()))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/authors/{id}", authorAlexander.getId()))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value(authorAlexander.getFirstName()))

@@ -27,7 +27,7 @@ public class MapperForAuthor {
                         .firstName(a.getFirstName())
                         .lastName(a.getLastName())
                         .dateOfBirth(a.getDateOfBirth())
-                        .id(a.getID())
+                        .id(a.getId())
                         .build())
                 .orElse(null);
     }
@@ -36,7 +36,7 @@ public class MapperForAuthor {
         return Optional.ofNullable(author)
                 .map(a -> AuthorRespDTOID
                         .builder()
-                        .id(a.getID())
+                        .id(a.getId())
                         .build())
                 .orElse(null);
     }

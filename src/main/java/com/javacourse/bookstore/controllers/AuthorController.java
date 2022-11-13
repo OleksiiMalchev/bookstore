@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -43,7 +44,7 @@ public class AuthorController {
     }
 
     @GetMapping("/authors")
-    public ResponseEntity<? super List<AuthorRespDTO>> allAuthors() {
+    public ResponseEntity<? super List<AuthorRespDTO>> allAuthors() throws SQLException {
         List<AuthorRespDTO> allAuthor = authorServiceImpl.getAllAuthor();
         if (allAuthor != null) {
             return ResponseEntity.status(200).body(allAuthor);

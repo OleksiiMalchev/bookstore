@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +21,7 @@ class AuthorRepositoriesTest {
     private AuthorRepositories authorRepositories;
 
     @Test
-    void getAllAuthors() {
+    void getAllAuthors() throws SQLException {
         Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne")
                 .dateOfBirth(LocalDate.of(1881, 05, 20)).build();
         Author authorDan = Author.builder().firstName("Dan").lastName("Brown")
@@ -57,7 +58,7 @@ class AuthorRepositoriesTest {
         Author authorID = Author.builder().firstName("Alexander").lastName("Milne")
                 .dateOfBirth(LocalDate.of(1881, 05, 20)).build();
         authorRepositories.saveAuthorInBase(authorID);
-        Assertions.assertEquals(authorRepositories.getAuthorByID(authorID.getID()).get(), authorID);
+        Assertions.assertEquals(authorRepositories.getAuthorByID(authorID.getId()).get(), authorID);
     }
 
     @Test
@@ -65,7 +66,7 @@ class AuthorRepositoriesTest {
         Author authorForAdd = Author.builder().firstName("Alexander").lastName("Milne")
                 .dateOfBirth(LocalDate.of(1881, 05, 20)).build();
         authorRepositories.saveAuthorInBase(authorForAdd);
-        Optional<Author> authorByID = authorRepositories.getAuthorByID(authorForAdd.getID());
+        Optional<Author> authorByID = authorRepositories.getAuthorByID(authorForAdd.getId());
         Assertions.assertNotNull(authorByID);
         Assertions.assertEquals(authorByID.get(), authorForAdd);
         Author saveAuthorInBase = authorRepositories.saveAuthorInBase(null);
@@ -79,7 +80,7 @@ class AuthorRepositoriesTest {
         Author authorForUpdate = Author.builder().firstName("Dan").lastName("Brown")
                 .dateOfBirth(LocalDate.of(1881, 05, 20)).build();
         authorRepositories.saveAuthorInBase(authorForAdd);
-        Author authorUpdate = authorRepositories.updateAuthorByID(authorForAdd.getID(), authorForUpdate);
+        Author authorUpdate = authorRepositories.updateAuthorByID(authorForAdd.getId(), authorForUpdate);
         Assertions.assertEquals(authorUpdate, authorForUpdate);
     }
 
@@ -89,7 +90,7 @@ class AuthorRepositoriesTest {
                 .dateOfBirth(LocalDate.of(1881, 05, 20)).build();
         Author authorForUpdate = Author.builder().firstName("Dan").lastName("Brown")
                 .dateOfBirth(LocalDate.of(1881, 05, 20)).build();
-        Author authorUpdate = authorRepositories.updateAuthorByID(authorForAdd.getID(), authorForUpdate);
+        Author authorUpdate = authorRepositories.updateAuthorByID(authorForAdd.getId(), authorForUpdate);
         Assertions.assertNull(authorUpdate);
     }
 
@@ -98,16 +99,16 @@ class AuthorRepositoriesTest {
         Author authorForAdd = Author.builder().firstName("Alexander").lastName("Milne")
                 .dateOfBirth(LocalDate.of(1881, 05, 20)).build();
         Author authorInBase = authorRepositories.saveAuthorInBase(authorForAdd);
-        Optional<Author> authorDelete = authorRepositories.deleteAuthorByID(authorInBase.getID());
+        Optional<Author> authorDelete = authorRepositories.deleteAuthorByID(authorInBase.getId());
         Assertions.assertEquals(authorDelete.get(), authorForAdd);
     }
 
     @Test
     void findAuthorByBook() {
-        Author addAuthor = Author.builder().firstName("Alexander").lastName("Milne").ID(125L)
+        Author addAuthor = Author.builder().firstName("Alexander").lastName("Milne").id(125L)
                 .dateOfBirth(LocalDate.of(1881, 05, 20)).build();
         authorRepositories.saveAuthorInBase(addAuthor);
-        Book testBook = Book.builder().author(addAuthor).authorID(addAuthor.getID()).id(555L).build();
+        Book testBook = Book.builder().author(addAuthor).authorID(addAuthor.getId()).id(555L).build();
         addAuthor.addBook(testBook);
         Author authorByBook = authorRepositories.findAuthorByBook(testBook.getId());
         Assertions.assertEquals(addAuthor, authorByBook);

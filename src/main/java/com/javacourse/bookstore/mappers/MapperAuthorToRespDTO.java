@@ -22,13 +22,12 @@ public class MapperAuthorToRespDTO {
                         .firstName(a.getFirstName())
                         .lastName(a.getLastName())
                         .dateOfBirth(a.getDateOfBirth())
-                        .id(a.getID())
+                        .id(a.getId())
                         .books(a.getBooks()
                                 .stream()
                                 .map(mapperForBook::toBookRespDTO)
                                 .collect(Collectors.toList()))
                         .build())
                 .orElse(null);
-
     }
 }

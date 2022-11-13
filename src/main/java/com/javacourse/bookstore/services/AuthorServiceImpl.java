@@ -10,6 +10,7 @@ import exception.AuthorNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,12 +24,15 @@ public class AuthorServiceImpl implements AuthorService {
     private final MapperAuthorToRespDTO mapperAuthorToRespDTO;
 
 
+
+
     @Override
-    public List<AuthorRespDTO> getAllAuthor() {
+    public List<AuthorRespDTO> getAllAuthor() throws SQLException {
         return authorRepositories.getAllAuthor()
                 .stream()
                 .map(mapperForAuthor::authorToRespDTOStock)
                 .collect(Collectors.toList());
+
     }
 
     @Override
