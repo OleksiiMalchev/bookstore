@@ -1,5 +1,6 @@
 package com.javacourse.bookstore.services;
 
+import com.javacourse.bookstore.domain.Author;
 import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
 import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
 import com.javacourse.bookstore.domain.dto.AuthorRespDTOWithBooks;
@@ -40,17 +41,27 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorRespDTO getAuthorByID(Long ID) throws AuthorNotFoundException {
-        return authorRepositories.getAuthorByID(ID)
+        return authorRepository.findById(ID)
                 .map(mapperForAuthor::authorToRespDTOStock)
                 .orElseThrow(() -> new AuthorNotFoundException("Author not found"));
+
     }
 
     @Override
     public AuthorRespDTO createAuthor(AuthorReqDTO authorReqDTO) {
-        return Optional.ofNullable(mapperForAuthor.authorReqDTOToAuthor(authorReqDTO))
-                .map(authorRepositories::saveAuthorInBase)
-                .map(mapperForAuthor::authorToRespDTOStock)
-                .orElse(null);
+        Author author = mapperForAuthor.authorReqDTOToAuthor(authorReqDTO);
+        Author save = authorRepository.save(author);
+        return mapperForAuthor.authorToRespDTOStock(save);
+//        return Optional.ofNullable(mapperForAuthor.authorReqDTOToAuthor(authorReqDTO))
+//                .map(authorRepository::save)
+//                .map(mapperForAuthor::authorToRespDTOStock)
+//                .orElse(null);
+
+
+//        return Optional.ofNullable(mapperForAuthor.authorReqDTOToAuthor(authorReqDTO))
+//                .map(authorRepositories::saveAuthorInBase)
+//                .map(mapperForAuthor::authorToRespDTOStock)
+//                .orElse(null);
     }
 
     @Override

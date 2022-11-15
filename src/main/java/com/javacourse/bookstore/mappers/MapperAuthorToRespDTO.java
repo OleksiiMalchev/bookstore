@@ -20,7 +20,7 @@ public class MapperAuthorToRespDTO {
                         .builder()
                         .firstName(a.getFirstName())
                         .lastName(a.getLastName())
-                        .dateOfBirth(a.getDateOfBirth())
+                      //  .dateOfBirth(a.getDateOfBirth())
                         .id(a.getId())
 //                        .books(a.getBooks()
 //                                .stream()

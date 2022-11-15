@@ -8,8 +8,9 @@ import lombok.Setter;
 @Getter
 @Builder
 public class UserRespDTO {
+    private Long id;
     private String firstName;
+    private String lastName;
     private String email;
     private String nickName;
-    private Long id;
 }

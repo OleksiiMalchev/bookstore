@@ -10,11 +10,10 @@ import java.time.LocalDate;
 @Setter
 @Builder
 public class AuthorRespDTO {
+    private Long id;
     private String firstName;
     private String lastName;
+    private String countryOfBirth;
     private LocalDate dateOfBirth;
     private LocalDate dateOfDeath;
-    private String countryOfBirth;
-    private Long id;
-
 }

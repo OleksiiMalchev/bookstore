@@ -10,6 +10,4 @@ public interface AuthorRepository extends CrudRepository<Author, Long> {
 //    @Query("SELECT a FROM author a where a.firstName = :name")
 //    AuthorEntity findAuthor(@Param("name") String authorName);
 
-
-
 }

@@ -24,20 +24,20 @@ public class UserRepositories {
     }
 
     public User saveUserInBase(User user) {
-        if (user != null) {
-            user.setId(randomID.nextLong());
-            baseUser.put(user.getId(), user);
-            return user;
-        }
+//        if (user != null) {
+//            user.setIid(randomID.nextLong());
+//            baseUser.put(user.getIid(), user);
+//            return user;
+//        }
         return null;
     }
 
     public User updateUserByID(Long IDUser, User user) {
-        if (baseUser.containsKey(IDUser)) {
-            user.setId(IDUser);
-            baseUser.put(user.getId(), user);
-            return baseUser.get(user.getId());
-        }
+//        if (baseUser.containsKey(IDUser)) {
+//            user.setIid(IDUser);
+//            baseUser.put(user.getIid(), user);
+//            return baseUser.get(user.getIid());
+//        }
         return null;
     }
 

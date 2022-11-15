@@ -11,12 +11,12 @@ import java.time.LocalDate;
 @Setter
 @Builder
 public class AuthorReqDTO {
+    private Long id;
     private String firstName;
     private String lastName;
-    private LocalDate dateOfBirth;
     private String surName;
-    private LocalDate dateOfDeath;
     private String biography;
     private String countryOfBirth;
-    private Long id;
+    private LocalDate dateOfBirth;
+    private LocalDate dateOfDeath;
 }

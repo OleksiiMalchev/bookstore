@@ -23,7 +23,7 @@ public class BookRepositories {
 
     public List<Book> findAllByAuthorID(Long authorID) {
         return baseBook.values()
-                .stream().filter(b->b.getAuthorID().equals(authorID))
+                .stream().filter(b->b.getAuthorId().equals(authorID))
                 .collect(Collectors.toList());
     }
 
@@ -33,7 +33,7 @@ public class BookRepositories {
 
     public Book save(Book book) {
         book.setId(randomID.nextLong());
-        book.setESBI(randomID.nextLong());
+        book.setIsbn((int) randomID.nextLong());
         baseBook.put(book.getId(), book);
         return book;
     }

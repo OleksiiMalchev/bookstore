@@ -11,14 +11,14 @@ import java.time.LocalDate;
 @Getter
 @Builder
 public class BookReqDTO {
+    private Long id;
+    private Long authorId;
+    private Long cost;
     private String title;
-    private Author author;
     private String cover;
     private String publishingHouse;
+    private Integer barCode;
+    private Integer pages;
     private LocalDate yearOfPublication;
-    private long cost;
-    private int barCode;
-    private Long id;
-    private int pages;
-    private Long authorID;
+    private Author author;
 }
