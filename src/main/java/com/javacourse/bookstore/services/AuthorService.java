@@ -6,11 +6,12 @@ import com.javacourse.bookstore.domain.dto.AuthorRespDTOWithBooks;
 import exception.AuthorNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
 public interface AuthorService {
-    List<AuthorRespDTO> getAllAuthor();
+    List<AuthorRespDTO> getAllAuthor() throws SQLException;
 
     AuthorRespDTO getAuthorByID(Long ID) throws AuthorNotFoundException;
 

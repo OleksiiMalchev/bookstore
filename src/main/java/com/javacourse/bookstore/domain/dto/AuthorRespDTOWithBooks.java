@@ -11,11 +11,11 @@ import java.util.List;
 @Getter
 @Builder
 public class AuthorRespDTOWithBooks {
+    private Long id;
     private String firstName;
     private String lastName;
+    private String countryOfBirth;
     private LocalDate dateOfBirth;
     private LocalDate dateOfDeath;
-    private String countryOfBirth;
-    private Long id;
     private List<BookRespDTO> books;
 }

@@ -30,7 +30,7 @@ public class MapperForBook {
                         .barCode(b.getBarCode())
                         .id(b.getId())
                         .pages(b.getPages())
-                        .ESBI(b.getESBI())
+                        .isbn(b.getIsbn())
                         .build())
                 .orElse(null);
     }
@@ -41,12 +41,11 @@ public class MapperForBook {
                 .map(b -> Book
                         .builder()
                         .title(b.getTitle())
-                        .authorID(b.getAuthorID())
+                        .authorId(b.getAuthorId())
                         .cover(b.getCover())
-                        .authorID(b.getAuthorID())
                         .publishingHouse(b.getPublishingHouse())
                         .yearOfPublication(b.getYearOfPublication())
-                        .price(b.getCost() * 2)
+                        .price(b.getCost() * 2L)
                         .cost(b.getCost())
                         .barCode(b.getBarCode())
                         .pages(b.getPages())

@@ -1,6 +1,7 @@
 package com.javacourse.bookstore;
 
-import com.javacourse.bookstore.repositories.AuthorRealRepository;
+import com.javacourse.bookstore.repositories.AuthorRepository;
+import com.javacourse.bookstore.repositories.BookRepository;
 import com.javacourse.bookstore.services.SomeСlass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,20 @@ public class BookstoreApplication {
 		return new SomeСlass();
 	}
 	@Bean
-	public CommandLineRunner commandLineRunner(@Autowired AuthorRealRepository authorRealRepository){
+	public CommandLineRunner commandLineRunner(@Autowired AuthorRepository authorRepository){
 		return t->{
-			StreamSupport.stream(authorRealRepository.findAll().spliterator(), false).map(String::valueOf).forEach(log::info);
+			StreamSupport.stream(authorRepository.findAll().spliterator(), false)
+					.map(String::valueOf).forEach(log::info);
+
+		};
+	}
+
+	@Bean
+	public CommandLineRunner commandLineRunner1(@Autowired BookRepository bookRepository){
+		return t->{
+			StreamSupport.stream(bookRepository.findAll().spliterator(), false)
+					.map(String::valueOf).forEach(log::info);
+
 		};
 	}
 

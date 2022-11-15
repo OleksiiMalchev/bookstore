@@ -17,10 +17,10 @@ public class MapperAuthorToRespDTOTest {
 
     @Test
     void authorToRespDTO() {
-        Author authorTest = Author.builder().ID(125L).firstName("Alexandr").lastName("Mixio").build();
+        Author authorTest = Author.builder().id(125L).firstName("Alexandr").lastName("Mixio").build();
         AuthorRespDTOWithBooks authorRespDTOWithBooks = mapperAuthorToRespDTO.authorToRespDTO(authorTest);
         Assertions.assertNotNull(authorRespDTOWithBooks);
-        Assertions.assertEquals(authorTest.getID(), authorRespDTOWithBooks.getId());
+        Assertions.assertEquals(authorTest.getId(), authorRespDTOWithBooks.getId());
         Assertions.assertEquals(authorTest.getFirstName(), authorRespDTOWithBooks.getFirstName());
         Assertions.assertEquals(authorTest.getLastName(), authorRespDTOWithBooks.getLastName());
     }

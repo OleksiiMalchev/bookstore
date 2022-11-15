@@ -1,27 +1,42 @@
 package com.javacourse.bookstore.domain;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
-@Setter
+@Entity(name = "book")
 @Getter
+@Setter
+//@ToString
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Book {
-
-    private String title;
-    private Author author;
-    private String cover;
-    private String publishingHouse;
-    private LocalDate yearOfPublication;
-    private long price;
-    private long cost;
-    private int barCode;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int pages;
-    private long ESBI;
-    private Long authorID;
-
+    @Column(name="author_id",insertable = false, updatable = false)
+    private Long authorId;
+    @Column(name="price")
+    private Long price;
+    @Column(name="cost")
+    private Long cost;
+    @Column(name="title")
+    private String title;
+    @Column(name="cover")
+    private String cover;
+    @Column(name="publishing_house")
+    private String publishingHouse;
+    @Column(name="bar_code")
+    private Integer barCode;
+    @Column(name="pages")
+    private Integer pages;
+    @Column(name="isbn")
+    private Integer isbn;
+    @Column(name="year_of_publication")
+    private LocalDate yearOfPublication;
+    @ManyToOne
+    @JoinColumn(name="author_id")
+    private Author author;
 }

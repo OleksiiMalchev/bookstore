@@ -37,11 +37,11 @@ class AuthorServiceImplTest {
 
     @Test
     void getAllAuthor() {
-        Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne").ID(555L)
+        Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne").id(555L)
                 .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
-        Author authorDan = Author.builder().firstName("Dan").lastName("Brown").ID(444L)
+        Author authorDan = Author.builder().firstName("Dan").lastName("Brown").id(444L)
                 .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
-        Author authorJoanne = Author.builder().firstName("Joanne").lastName("Rowling").ID(333L)
+        Author authorJoanne = Author.builder().firstName("Joanne").lastName("Rowling").id(333L)
                 .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
         AuthorRespDTO authorAlexanderRespDTO = AuthorRespDTO.builder().firstName("Alexander").lastName("Milne")
                 .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
@@ -67,11 +67,11 @@ class AuthorServiceImplTest {
 
     @Test
     void getAuthorByID() throws AuthorNotFoundException {
-        Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne").ID(555L)
+        Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne").id(555L)
                 .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
         AuthorRespDTO authorAlexanderRespDTO = AuthorRespDTO.builder().firstName("Alexander").lastName("Milne")
                 .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
-        Mockito.when(authorRepositories.getAuthorByID(authorAlexander.getID()))
+        Mockito.when(authorRepositories.getAuthorByID(authorAlexander.getId()))
                 .thenReturn(Optional.of(authorAlexander));
         Mockito.when(mapperForAuthor.authorToRespDTOStock(authorAlexander))
                 .thenReturn(authorAlexanderRespDTO);
@@ -106,7 +106,7 @@ class AuthorServiceImplTest {
     void updateAuthor() {
         AuthorReqDTO authorReqDTO = AuthorReqDTO.builder().firstName("Alexander").lastName("Milne")
                 .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
-        Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne").ID(555L)
+        Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne").id(555L)
                 .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
         AuthorRespDTO authorRespDTO = AuthorRespDTO.builder().firstName("Alexander").lastName("Milne")
                 .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
@@ -124,7 +124,7 @@ class AuthorServiceImplTest {
 
     @Test
     void deleteAuthor() {
-        Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne").ID(555L)
+        Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne").id(555L)
                 .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
         AuthorRespDTO authorRespDTO = AuthorRespDTO.builder().firstName("Alexander").lastName("Milne")
                 .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
@@ -140,7 +140,7 @@ class AuthorServiceImplTest {
 
     @Test
     void findAuthorByBook() {
-        Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne").ID(555L)
+        Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne").id(555L)
                 .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
         AuthorRespDTO authorRespDTO = AuthorRespDTO.builder().firstName("Alexander").lastName("Milne")
                 .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
@@ -156,7 +156,7 @@ class AuthorServiceImplTest {
 
     @Test
     void getAuthorWithDetails() {
-        Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne").ID(555L)
+        Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne").id(555L)
                 .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
         BookRespDTO bookRespDTO = BookRespDTO.builder().title("Book").cover("soft").publishingHouse("Home")
                 .pages(500).build();

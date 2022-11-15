@@ -56,11 +56,11 @@ class UserServiceImplTest {
     void getUserByID() {
         User user = User.builder().dateOfBirth(LocalDate.of(1955, 10, 12))
                 .age(10).email("a@gmail.com")
-                .firstName("Alex").lastName("DSJ").id(555L).build();
+                .firstName("Alex").lastName("DSJ").iid(555L).build();
         UserRespDTO userRespDTO = UserRespDTO.builder().email("a@gmail.com").firstName("Alex").build();
-        Mockito.when(userRepositories.getUserByID(user.getId())).thenReturn(Optional.of(user));
+        Mockito.when(userRepositories.getUserByID(user.getIid())).thenReturn(Optional.of(user));
         Mockito.when(mapperUser.toUserRespDTO(user)).thenReturn(userRespDTO);
-        UserRespDTO userByID = userService.getUserByID(user.getId());
+        UserRespDTO userByID = userService.getUserByID(user.getIid());
         Assertions.assertEquals(userByID.getEmail(), user.getEmail());
         Assertions.assertEquals(userByID.getFirstName(), user.getFirstName());
     }
@@ -70,7 +70,7 @@ class UserServiceImplTest {
         UserReqDTO userReqDTO = UserReqDTO.builder().dateOfBirth(LocalDate.of(1955, 10, 12))
                 .age(10).email("a@gmail.com").firstName("Alex").lastName("DSJ").build();
         User user = User.builder().dateOfBirth(LocalDate.of(1955, 10, 12))
-                .age(10).email("a@gmail.com").firstName("Alex").lastName("DSJ").id(555L).build();
+                .age(10).email("a@gmail.com").firstName("Alex").lastName("DSJ").iid(555L).build();
         UserRespDTO userRespDTO = UserRespDTO.builder().email("a@gmail.com").firstName("Alex").build();
         Mockito.when(mapperUser.userReqDTOToUser(userReqDTO)).thenReturn(user);
         Mockito.when(userRepositories.saveUserInBase(user)).thenReturn(user);
@@ -86,10 +86,10 @@ class UserServiceImplTest {
         UserReqDTO userReqDTO = UserReqDTO.builder().dateOfBirth(LocalDate.of(1955, 10, 12))
                 .age(10).email("a@gmail.com").firstName("Alex").lastName("DSJ").build();
         User user = User.builder().dateOfBirth(LocalDate.of(1955, 10, 12))
-                .age(10).email("a@gmail.com").firstName("Alex").lastName("DSJ").id(555L).build();
+                .age(10).email("a@gmail.com").firstName("Alex").lastName("DSJ").iid(555L).build();
         UserRespDTO userRespDTO = UserRespDTO.builder().email("a@gmail.com").firstName("Alex").build();
         Mockito.when(mapperUser.userReqDTOToUser(userReqDTO)).thenReturn(user);
-        Mockito.when(userRepositories.updateUserByID(user.getId(),user)).thenReturn(user);
+        Mockito.when(userRepositories.updateUserByID(user.getIid(),user)).thenReturn(user);
         Mockito.when(mapperUser.toUserRespDTO(user)).thenReturn(userRespDTO);
         UserRespDTO userCreate = userService.updateUser(555L,userReqDTO);
         Assertions.assertEquals(userRespDTO.getFirstName(),userCreate.getFirstName());
@@ -99,9 +99,9 @@ class UserServiceImplTest {
     @Test
     void deleteUser() {
         User user = User.builder().dateOfBirth(LocalDate.of(1955, 10, 12))
-                .age(10).email("a@gmail.com").firstName("Alex").lastName("DSJ").id(555L).build();
+                .age(10).email("a@gmail.com").firstName("Alex").lastName("DSJ").iid(555L).build();
         UserRespDTO userRespDTO = UserRespDTO.builder().email("a@gmail.com").firstName("Alex").build();
-        Mockito.when(userRepositories.deleteUserByID(user.getId())).thenReturn(Optional.of(user));
+        Mockito.when(userRepositories.deleteUserByID(user.getIid())).thenReturn(Optional.of(user));
         Mockito.when(mapperUser.toUserRespDTO(user)).thenReturn(userRespDTO);
         UserRespDTO deleteUser = userService.deleteUser(555L);
         Assertions.assertEquals(deleteUser.getFirstName(),user.getFirstName());

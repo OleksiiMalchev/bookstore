@@ -38,11 +38,11 @@ class UserControllerTest {
     @Test
     void getUserByID() throws Exception {
         User user = User.builder().dateOfBirth(LocalDate.of(1955, 10, 12))
-                .age(10).email("a@gmail.com").firstName("Alex").lastName("DSJ").id(125L).build();
+                .age(10).email("a@gmail.com").firstName("Alex").lastName("DSJ").iid(125L).build();
         UserRespDTO userRespDTO = UserRespDTO.builder().email("a@gmail.com").firstName("Alex").build();
-        Mockito.when(userServiceImpl.getUserByID(user.getId()))
+        Mockito.when(userServiceImpl.getUserByID(user.getIid()))
                 .thenReturn(userRespDTO);
-        mockMvc.perform(MockMvcRequestBuilders.get("/users/{id}", user.getId()))
+        mockMvc.perform(MockMvcRequestBuilders.get("/users/{id}", user.getIid()))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.firstName")
@@ -92,7 +92,7 @@ class UserControllerTest {
                 .age(10).email("a@gmail.com").firstName("Alex").lastName("DSJ").build();
         UserRespDTO userRespDTO = UserRespDTO.builder().email("a@gmail.com").firstName("Alex").build();
         User user = User.builder().dateOfBirth(LocalDate.of(1955, 10, 12))
-                .age(10).email("a@gmail.com").firstName("Alex").lastName("DSJ").id(555L).build();
+                .age(10).email("a@gmail.com").firstName("Alex").lastName("DSJ").iid(555L).build();
         Mockito
                 .when(userServiceImpl.updateUser(Mockito.any(),Mockito.any(UserReqDTO.class))).thenReturn(userRespDTO);
         String writeValueAsString = objectMapper.writeValueAsString(userReqDTO);
@@ -109,11 +109,11 @@ class UserControllerTest {
     @Test
     void deleteUser() throws Exception {
         User user = User.builder().dateOfBirth(LocalDate.of(1955, 10, 12))
-                .age(10).id(444L).email("a@gmail.com")
-                .firstName("Alex").lastName("DSJ").id(555L).build();
+                .age(10).iid(444L).email("a@gmail.com")
+                .firstName("Alex").lastName("DSJ").iid(555L).build();
         UserRespDTO userRespDTO = UserRespDTO.builder().email("a@gmail.com").firstName("Alex").build();
-        Mockito.when(userServiceImpl.deleteUser(user.getId())).thenReturn(userRespDTO);
-        mockMvc.perform(MockMvcRequestBuilders.delete("/user/{id}", user.getId()))
+        Mockito.when(userServiceImpl.deleteUser(user.getIid())).thenReturn(userRespDTO);
+        mockMvc.perform(MockMvcRequestBuilders.delete("/user/{id}", user.getIid()))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value(userRespDTO.getFirstName()))

@@ -10,11 +10,11 @@ import java.time.LocalDate;
 @Getter
 @Builder
 public class UserReqDTO {
+    private Long phoneNumber;
     private String firstName;
     private String lastName;
-    private int age;
-    private LocalDate dateOfBirth;
-    private long phoneNumber;
     private String email;
     private String nickName;
+    private Integer age;
+    private LocalDate dateOfBirth;
 }

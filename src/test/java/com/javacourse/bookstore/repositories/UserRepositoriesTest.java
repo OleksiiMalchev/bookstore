@@ -49,7 +49,7 @@ class UserRepositoriesTest {
         User user = User.builder().firstName("Alex1").lastName("Ramwtainov1").email("ar1@gmail.com")
                 .dateOfBirth(LocalDate.of(1881, 05, 20)).build();
         User saveUserInBase = userRepositories.saveUserInBase(user);
-        Assertions.assertEquals(userRepositories.getUserByID(saveUserInBase.getId()).get(), user);
+        Assertions.assertEquals(userRepositories.getUserByID(saveUserInBase.getIid()).get(), user);
     }
 
     @Test
@@ -69,7 +69,7 @@ class UserRepositoriesTest {
         User userForUpdate = User.builder().firstName("Alex2").lastName("Ramwtainov2").email("ar2@gmail.com")
                 .dateOfBirth(LocalDate.of(1881, 05, 20)).build();
         userRepositories.saveUserInBase(userForAdd);
-        User updateUserByID = userRepositories.updateUserByID(userForAdd.getId(), userForUpdate);
+        User updateUserByID = userRepositories.updateUserByID(userForAdd.getIid(), userForUpdate);
         Assertions.assertEquals(updateUserByID, userForUpdate);
     }
 
@@ -79,7 +79,7 @@ class UserRepositoriesTest {
                 .dateOfBirth(LocalDate.of(1881, 05, 20)).build();
         User userForUpdate = User.builder().firstName("Alex2").lastName("Ramwtainov2").email("ar2@gmail.com")
                 .dateOfBirth(LocalDate.of(1881, 05, 20)).build();
-        User updateUserByID = userRepositories.updateUserByID(userForAdd.getId(), userForUpdate);
+        User updateUserByID = userRepositories.updateUserByID(userForAdd.getIid(), userForUpdate);
         Assertions.assertNull(updateUserByID);
     }
 
@@ -88,7 +88,7 @@ class UserRepositoriesTest {
         User userForAdd = User.builder().firstName("Alex1").lastName("Ramwtainov1").email("ar1@gmail.com")
                 .dateOfBirth(LocalDate.of(1881, 05, 20)).build();
         User saveUserInBase = userRepositories.saveUserInBase(userForAdd);
-        Optional<User> deleteUserByID = userRepositories.deleteUserByID(saveUserInBase.getId());
+        Optional<User> deleteUserByID = userRepositories.deleteUserByID(saveUserInBase.getIid());
         Assertions.assertEquals(deleteUserByID.get(), userForAdd);
     }
 }

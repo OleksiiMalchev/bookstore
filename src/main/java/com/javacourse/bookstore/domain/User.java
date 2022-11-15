@@ -1,22 +1,33 @@
 package com.javacourse.bookstore.domain;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
-@Setter
+@Entity(name = "user")
 @Getter
+@Setter
+//@ToString
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
-    private String firstName;
-    private String lastName;
-    private int age;
-    private LocalDate dateOfBirth;
-    private long phoneNumber;
-    private String email;
-    private String nickName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(name="phone_number")
+    private Long phoneNumber;
+    @Column(name="first_name")
+    private String firstName;
+    @Column(name="last_name")
+    private String lastName;
+    @Column(name="nick_name")
+    private String nickName;
+    @Column(name="email")
+    private String email;
+    @Column(name="age")
+    private Integer age;
+    @Column(name="date_of_birth")
+    private LocalDate dateOfBirth;
 }

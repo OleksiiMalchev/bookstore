@@ -16,7 +16,7 @@ public class MapperForAuthor {
                 .map(a -> Author.builder()
                         .firstName(a.getFirstName())
                         .lastName(a.getLastName())
-                        .dateOfBirth(a.getDateOfBirth())
+                       // .dateOfBirth(a.getDateOfBirth())
                         .build())
                 .orElse(null);
     }
@@ -26,8 +26,8 @@ public class MapperForAuthor {
                 .map(a -> AuthorRespDTO.builder()
                         .firstName(a.getFirstName())
                         .lastName(a.getLastName())
-                        .dateOfBirth(a.getDateOfBirth())
-                        .id(a.getID())
+                  //      .dateOfBirth(a.getDateOfBirth())
+                        .id(a.getId())
                         .build())
                 .orElse(null);
     }
@@ -36,7 +36,7 @@ public class MapperForAuthor {
         return Optional.ofNullable(author)
                 .map(a -> AuthorRespDTOID
                         .builder()
-                        .id(a.getID())
+                        .id(a.getId())
                         .build())
                 .orElse(null);
     }

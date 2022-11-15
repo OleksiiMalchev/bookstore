@@ -1,50 +1,38 @@
 package com.javacourse.bookstore.domain;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
-
+@Entity(name = "author")
 @Getter
 @Setter
+//@ToString
 @Builder
-@JsonAutoDetect
-
-
+@NoArgsConstructor
+@AllArgsConstructor
 public class Author {
-    private final List<Book> books = new ArrayList<>();
-    private Long ID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
+    @Column(name = "sur_name")
     private String surName;
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
-    private LocalDate dateOfBirth;
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
-    private LocalDate dateOfDeath;
+    @Column(name = "biography")
     private String biography;
+    @Column(name = "country_of_birth")
     private String countryOfBirth;
-
-    public Book addBook(Book book) {
-         this.books.add(book);
-         return book;
-    }
-    public Book delete(Book book) {
-        books.remove(book);
-        return book;
-    }
-
+    @Column(name = "gender")
+    private String gender;
+    @Column(name = "date_of_birth")
+    private LocalDate dateOfBirth;
+    @Column(name = "date_of_death")
+    private LocalDate dateOfDeath;
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
+    private List<Book> books;
 }

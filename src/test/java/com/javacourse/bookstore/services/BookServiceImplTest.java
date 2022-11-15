@@ -127,15 +127,15 @@ class BookServiceImplTest {
                 .pages(500).build();
         Author authorByID;
         Mockito.when(authorRepositories.getAuthorByID(bookReqDTO.getAuthorID()))
-                .thenReturn(Optional.ofNullable(authorByID = Author.builder().ID(125l).firstName("Alex").build()));
+                .thenReturn(Optional.ofNullable(authorByID = Author.builder().id(125l).firstName("Alex").build()));
         Book book;
         Mockito.when(mapperForBook.getBook(bookReqDTO)).thenReturn(book = Book.builder().title("Book").authorID(125L)
                 .cover("soft").publishingHouse("Home").pages(500).build());
         Book saveBook;
         Mockito.when(bookRepositories.save(book)).thenReturn(saveBook = Book.builder().title("Book").authorID(125L)
                 .cover("soft").publishingHouse("Home").pages(500).build());
-        Mockito.when(authorRepositories.updateAuthorByID(authorByID.getID(), authorByID))
-                .thenReturn(Author.builder().ID(125l).firstName("Alex").build());
+        Mockito.when(authorRepositories.updateAuthorByID(authorByID.getId(), authorByID))
+                .thenReturn(Author.builder().id(125l).firstName("Alex").build());
         Mockito.when(mapperForBook.toBookRespDTO(saveBook)).thenReturn(BookRespDTO.builder().title("Book")
                 .cover("soft").publishingHouse("Home").pages(500).build());
         BookRespDTO bookRespDTO = bookService.create(bookReqDTO);
@@ -145,7 +145,7 @@ class BookServiceImplTest {
 
     @Test
     void update() {
-        Author authorByIdFromBookInBase = Author.builder().firstName("Dan").lastName("Brown").ID(444L)
+        Author authorByIdFromBookInBase = Author.builder().firstName("Dan").lastName("Brown").id(444L)
                 .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
 
         Book bookInBase = Book.builder().authorID(555L).title("The Day's Play")
@@ -168,7 +168,7 @@ class BookServiceImplTest {
                 .cost(50).barCode(1124).authorID(555L)
                 .build();
 
-        Author authorByIdFromBookReqDTO = Author.builder().firstName("Alexander").lastName("Milne").ID(555L)
+        Author authorByIdFromBookReqDTO = Author.builder().firstName("Alexander").lastName("Milne").id(555L)
                 .dateOfBirth(LocalDate.of(1881, 5, 20)).build();
         Mockito.when(authorRepositories.getAuthorByID(bookReqDTO.getAuthorID()))
                 .thenReturn(Optional.of(authorByIdFromBookReqDTO));
