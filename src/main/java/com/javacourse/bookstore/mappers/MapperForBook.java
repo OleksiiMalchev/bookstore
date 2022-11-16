@@ -48,6 +48,7 @@ public class MapperForBook {
                         .price(b.getCost() * 2L)
                         .cost(b.getCost())
                         .barCode(b.getBarCode())
+                        .isbn(b.getIsbn())
                         .pages(b.getPages())
                         .build())
                 .orElse(null);

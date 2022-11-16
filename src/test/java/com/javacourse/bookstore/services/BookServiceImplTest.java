@@ -5,7 +5,6 @@ import com.javacourse.bookstore.domain.Book;
 import com.javacourse.bookstore.domain.dto.BookReqDTO;
 import com.javacourse.bookstore.domain.dto.BookRespDTO;
 import com.javacourse.bookstore.mappers.MapperForBook;
-import com.javacourse.bookstore.repositories.AuthorRepositories;
 import com.javacourse.bookstore.repositories.BookRepositories;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

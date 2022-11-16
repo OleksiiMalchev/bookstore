@@ -6,7 +6,6 @@ import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
 import com.javacourse.bookstore.domain.dto.AuthorRespDTOWithBooks;
 import com.javacourse.bookstore.mappers.MapperAuthorToRespDTO;
 import com.javacourse.bookstore.mappers.MapperForAuthor;
-import com.javacourse.bookstore.repositories.AuthorRepositories;
 import com.javacourse.bookstore.repositories.AuthorRepository;
 import exception.AuthorNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,14 +20,9 @@ import java.util.stream.StreamSupport;
 @Service
 @RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
-
-    private final AuthorRepositories authorRepositories;
     private final MapperForAuthor mapperForAuthor;
     private final MapperAuthorToRespDTO mapperAuthorToRespDTO;
     private final AuthorRepository authorRepository;
-
-
-
 
 
     @Override
@@ -40,11 +34,10 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public AuthorRespDTO getAuthorByID(Long ID) throws AuthorNotFoundException {
-        return authorRepository.findById(ID)
+    public AuthorRespDTO getAuthorById(Long id) throws AuthorNotFoundException {
+        return authorRepository.findById(id)
                 .map(mapperForAuthor::authorToRespDTOStock)
                 .orElseThrow(() -> new AuthorNotFoundException("Author not found"));
-
     }
 
     @Override
@@ -52,44 +45,41 @@ public class AuthorServiceImpl implements AuthorService {
         Author author = mapperForAuthor.authorReqDTOToAuthor(authorReqDTO);
         Author save = authorRepository.save(author);
         return mapperForAuthor.authorToRespDTOStock(save);
-//        return Optional.ofNullable(mapperForAuthor.authorReqDTOToAuthor(authorReqDTO))
-//                .map(authorRepository::save)
-//                .map(mapperForAuthor::authorToRespDTOStock)
-//                .orElse(null);
-
-
-//        return Optional.ofNullable(mapperForAuthor.authorReqDTOToAuthor(authorReqDTO))
-//                .map(authorRepositories::saveAuthorInBase)
-//                .map(mapperForAuthor::authorToRespDTOStock)
-//                .orElse(null);
     }
 
     @Override
-    public AuthorRespDTO updateAuthor(Long authorID, AuthorReqDTO authorReqDTO) {
-        return Optional.ofNullable(mapperForAuthor.authorReqDTOToAuthor(authorReqDTO))
-                .map(a -> authorRepositories.updateAuthorByID(authorID, a))
-                .map(mapperForAuthor::authorToRespDTOStock)
-                .orElse(null);
+    public AuthorRespDTO updateAuthor(Long authorId, AuthorReqDTO authorReqDTO) {
+        Author authorInDataBase = authorRepository.findById(authorId).get();
+        Author authorInReq = mapperForAuthor.authorReqDTOToAuthor(authorReqDTO);
+        authorInDataBase.setFirstName(authorInReq.getFirstName());
+        authorInDataBase.setLastName(authorInReq.getLastName());
+        authorInDataBase.setSurName(authorInReq.getSurName());
+        authorInDataBase.setBiography(authorInReq.getBiography());
+        authorInDataBase.setCountryOfBirth(authorInReq.getCountryOfBirth());
+        authorInDataBase.setDateOfBirth(authorInReq.getDateOfBirth());
+        authorInDataBase.setDateOfDeath(authorInReq.getDateOfBirth());
+        Author saveAuthor = authorRepository.save(authorInDataBase);
+        return mapperForAuthor.authorToRespDTOStock(saveAuthor);
     }
 
     @Override
-    public AuthorRespDTO deleteAuthor(Long authorID) {
-        return authorRepositories.deleteAuthorByID(authorID)
-                .map(mapperForAuthor::authorToRespDTOStock)
-                .orElse(null);
+    public AuthorRespDTO deleteAuthor(Long authorId) {
+        Author authorInBase = authorRepository.findById(authorId).get();
+        AuthorRespDTO authorRespDTO = mapperForAuthor.authorToRespDTOStock(authorInBase);
+        authorRepository.delete(authorInBase);
+        return authorRespDTO;
     }
 
     @Override
-    public AuthorRespDTO findAuthorByBook(Long ID) {
-        return Optional.ofNullable(authorRepositories.findAuthorByBook(ID))
-                .map(mapperForAuthor::authorToRespDTOStock)
-                .orElse(null);
+    public Optional<AuthorRespDTO> findAuthorByBook(Long idBook) {
+        return authorRepository.findAuthorByBook(idBook)
+                .map(mapperForAuthor::authorToRespDTOStock);
     }
 
     @Override
-    public AuthorRespDTOWithBooks getAuthorWithDetails(Long authorID) {
-        return authorRepositories.getAuthorByID(authorID)
-                .map(mapperAuthorToRespDTO::authorToRespDTO)
-                .orElse(null);
+    public Optional<AuthorRespDTOWithBooks> getAuthorWithDetails(Long idAuthor) {
+        return authorRepository.findById(idAuthor)
+                .map(mapperAuthorToRespDTO::authorToRespDTO);
+
     }
 }

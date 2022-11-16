@@ -20,6 +20,4 @@ public class BookRespDTO {
     private Integer isbn;
     private LocalDate yearOfPublication;
     private AuthorRespDTOID author;
-
-
 }

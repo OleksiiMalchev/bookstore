@@ -25,6 +25,7 @@ public class MapperUser {
                 .map(u -> UserRespDTO
                         .builder()
                         .firstName(u.getFirstName())
+                        .lastName(u.getLastName())
                         .email(u.getEmail())
                         .nickName(u.getNickName())
                         .id(u.getId())

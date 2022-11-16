@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class AuthorController {
@@ -26,7 +27,7 @@ public class AuthorController {
     @GetMapping("/authors/{id}")
     public ResponseEntity<AuthorRespDTO> getBookByID(@PathVariable("id") Long id) {
         try {
-            AuthorRespDTO authorByID = authorServiceImpl.getAuthorByID(id);
+            AuthorRespDTO authorByID = authorServiceImpl.getAuthorById(id);
             return ResponseEntity.ok(authorByID);
         } catch (AuthorNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Provide correct Author Id",ex);
@@ -35,7 +36,7 @@ public class AuthorController {
 
     @GetMapping("/authorBooks/{idBook}")
     public ResponseEntity<? super AuthorRespDTO> getAuthorByBook(@PathVariable("idBook") long idBook) {
-        AuthorRespDTO authorByBook = authorServiceImpl.findAuthorByBook(idBook);
+        Optional<AuthorRespDTO> authorByBook = authorServiceImpl.findAuthorByBook(idBook);
         if (authorByBook != null) {
             return ResponseEntity.status(200).body(authorByBook);
         } else {
@@ -55,7 +56,8 @@ public class AuthorController {
 
     @GetMapping("/authorWith/{idAuthor}")
     public ResponseEntity<? super AuthorRespDTOWithBooks> getAuthorWithDetails(@PathVariable("idAuthor") long idAuthor) {
-        AuthorRespDTOWithBooks authorWithDetails = authorServiceImpl.getAuthorWithDetails(idAuthor);
+       // AuthorRespDTOWithBooks authorWithDetails = authorServiceImpl.getAuthorWithDetails(idAuthor);
+        Optional<AuthorRespDTOWithBooks> authorWithDetails = authorServiceImpl.getAuthorWithDetails(idAuthor);
         if (authorWithDetails != null) {
             return ResponseEntity.status(200).body(authorWithDetails);
         }

@@ -15,7 +15,7 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/user/{id}")
     public ResponseEntity<? super UserRespDTO> getUserByID(@PathVariable("id") Long idUser) {
         UserRespDTO userByID = userService.getUserByID(idUser);
         if (userByID != null) {

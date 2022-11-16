@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Entity(name = "book")
 @Getter
 @Setter
-//@ToString
+@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,7 +16,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name="author_id",insertable = false, updatable = false)
+    @Column(name="author_id")
     private Long authorId;
     @Column(name="price")
     private Long price;
@@ -37,6 +37,6 @@ public class Book {
     @Column(name="year_of_publication")
     private LocalDate yearOfPublication;
     @ManyToOne
-    @JoinColumn(name="author_id")
+    @JoinColumn(name="author_id",insertable = false, updatable = false)
     private Author author;
 }

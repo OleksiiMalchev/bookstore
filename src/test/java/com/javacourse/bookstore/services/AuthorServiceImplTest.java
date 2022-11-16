@@ -7,7 +7,6 @@ import com.javacourse.bookstore.domain.dto.AuthorRespDTOWithBooks;
 import com.javacourse.bookstore.domain.dto.BookRespDTO;
 import com.javacourse.bookstore.mappers.MapperAuthorToRespDTO;
 import com.javacourse.bookstore.mappers.MapperForAuthor;
-import com.javacourse.bookstore.repositories.AuthorRepositories;
 import exception.AuthorNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -75,7 +74,7 @@ class AuthorServiceImplTest {
                 .thenReturn(Optional.of(authorAlexander));
         Mockito.when(mapperForAuthor.authorToRespDTOStock(authorAlexander))
                 .thenReturn(authorAlexanderRespDTO);
-        AuthorRespDTO authorByID = authorServiceImpl.getAuthorByID(555L);
+        AuthorRespDTO authorByID = authorServiceImpl.getauthorbyid(555L);
         Assertions.assertNotNull(authorByID);
         Assertions.assertEquals(authorByID.getFirstName(), authorAlexander.getFirstName());
         Assertions.assertEquals(authorByID.getLastName(), authorAlexander.getLastName());

@@ -45,7 +45,7 @@ class AuthorControllerTest {
         Author authorAlexander = Author.builder().firstName("Alexander").lastName("Milne")
                 .dateOfBirth(LocalDate.of(1881,5,20))
                 .id(12547L).build();
-        Mockito.when(authorService.getAuthorByID(authorAlexander.getId()))
+        Mockito.when(authorService.getauthorbyid(authorAlexander.getId()))
                 .thenReturn(AuthorRespDTO
                         .builder()
                         .id(authorAlexander.getId())

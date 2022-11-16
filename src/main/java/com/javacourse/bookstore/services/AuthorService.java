@@ -8,12 +8,13 @@ import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface AuthorService {
     List<AuthorRespDTO> getAllAuthor() throws SQLException;
 
-    AuthorRespDTO getAuthorByID(Long ID) throws AuthorNotFoundException;
+    AuthorRespDTO getAuthorById(Long ID) throws AuthorNotFoundException;
 
     AuthorRespDTO createAuthor(AuthorReqDTO authorReqDTO);
 
@@ -21,7 +22,7 @@ public interface AuthorService {
 
     AuthorRespDTO deleteAuthor(Long ID);
 
-    AuthorRespDTO findAuthorByBook(Long ID);
+    Optional<AuthorRespDTO> findAuthorByBook(Long ID);
 
-    AuthorRespDTOWithBooks getAuthorWithDetails(Long authorID);
+    Optional<AuthorRespDTOWithBooks> getAuthorWithDetails(Long authorID);
 }
