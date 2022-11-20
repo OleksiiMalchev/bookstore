@@ -34,7 +34,7 @@ public class MapperForBook {
                         .build())
                 .orElse(null);
     }
-    public Book getBook(BookReqDTO bookReqDTO) {
+    public Optional<Book> getBook(BookReqDTO bookReqDTO) {
         return Optional.ofNullable(bookReqDTO)
                 .stream()
                 .findAny()
@@ -50,7 +50,6 @@ public class MapperForBook {
                         .barCode(b.getBarCode())
                         .isbn(b.getIsbn())
                         .pages(b.getPages())
-                        .build())
-                .orElse(null);
+                        .build());
     }
 }

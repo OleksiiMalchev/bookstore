@@ -1,32 +1,29 @@
 package com.javacourse.bookstore.services;
 
-import com.javacourse.bookstore.domain.Book;
 import com.javacourse.bookstore.domain.dto.BookReqDTO;
 import com.javacourse.bookstore.domain.dto.BookRespDTO;
 import com.javacourse.bookstore.mappers.MapperForBook;
-import com.javacourse.bookstore.repositories.BookRepositories;
 import com.javacourse.bookstore.repositories.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
-    private final BookRepositories bookRepositories;
 
     private final BookRepository bookRepository;
-
     private final MapperForBook mapperForBook;
 
     public List<BookRespDTO> allBooks() {
         return StreamSupport.stream(bookRepository.findAll().spliterator(), false)
                 .toList().stream()
                 .map(mapperForBook::toBookRespDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -34,42 +31,49 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAllByAuthorID(idAuthor)
                 .stream()
                 .map(mapperForBook::toBookRespDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
-    public BookRespDTO getBookById(Long idBook) {
+    public Optional<BookRespDTO> getBookById(Long idBook) {
         return bookRepository.findById(idBook)
-                .map(mapperForBook::toBookRespDTO)
-                .orElse(null);
+                .map(mapperForBook::toBookRespDTO);
+
     }
 
-    public BookRespDTO create(BookReqDTO bookReqDTO) {
-        Book bookFromReq = mapperForBook.getBook(bookReqDTO);
-        Book saveInBase = bookRepository.save(bookFromReq);
-        Book book = bookRepository.findById(saveInBase.getId()).get();
-        return mapperForBook.toBookRespDTO(book);
+    public Optional<BookRespDTO> create(BookReqDTO bookReqDTO) {
+        return mapperForBook.getBook(bookReqDTO)
+                .map(bookRepository::save)
+                .map(mapperForBook::toBookRespDTO);
+
     }
 
-    public BookRespDTO update(Long idBook, BookReqDTO bookReqDTO) {
-        Book bookInBase = bookRepository.findById(idBook).get();
-        Book bookFromReq = mapperForBook.getBook(bookReqDTO);
-        bookInBase.setPrice(bookFromReq.getPrice());
-        bookInBase.setTitle(bookFromReq.getTitle());
-        bookInBase.setCost(bookFromReq.getCost());
-        bookInBase.setPublishingHouse(bookFromReq.getPublishingHouse());
-        bookInBase.setBarCode(bookFromReq.getBarCode());
-        bookInBase.setPages(bookFromReq.getPages());
-        bookInBase.setIsbn(bookFromReq.getIsbn());
-        bookInBase.setAuthorId(bookFromReq.getAuthorId());
-        bookInBase.setYearOfPublication(bookFromReq.getYearOfPublication());
-        bookRepository.save(bookInBase);
-        return mapperForBook.toBookRespDTO(bookInBase);
+    @Transactional
+    public Optional<BookRespDTO> update(Long idBook, BookReqDTO bookReqDTO) {
+        return bookRepository.findById(idBook)
+                .map(book -> {
+                    if (bookReqDTO != null) {
+                        book.setPrice(bookReqDTO.getCost());
+                        book.setTitle(bookReqDTO.getTitle());
+                        book.setCost(bookReqDTO.getCost());
+                        book.setPublishingHouse(bookReqDTO.getPublishingHouse());
+                        book.setBarCode(bookReqDTO.getBarCode());
+                        book.setPages(bookReqDTO.getPages());
+                        book.setIsbn(bookReqDTO.getIsbn());
+                        book.setCover(bookReqDTO.getCover());
+                        book.setAuthorId(bookReqDTO.getAuthorId());
+                        book.setYearOfPublication(bookReqDTO.getYearOfPublication());
+                        return book;
+                    }
+                    return null;
+                })
+                .map(mapperForBook::toBookRespDTO);
     }
 
-    public BookRespDTO delete(Long idBook) {
-        Book bookInBase = bookRepository.findById(idBook).get();
-        BookRespDTO bookRespDTO = mapperForBook.toBookRespDTO(bookInBase);
-        bookRepository.delete(bookInBase);
+    public Optional<BookRespDTO> delete(Long idBook) {
+        Optional<BookRespDTO> bookRespDTO = bookRepository.findById(idBook).map(mapperForBook::toBookRespDTO);
+        if (bookRespDTO.isPresent()) {
+            bookRepository.deleteById(idBook);
+        }
         return bookRespDTO;
     }
 }

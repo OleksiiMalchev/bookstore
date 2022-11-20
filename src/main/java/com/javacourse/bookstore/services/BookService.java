@@ -6,16 +6,19 @@ import com.javacourse.bookstore.domain.dto.BookRespDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface BookService {
     List<BookRespDTO> allBooks();
 
-    List<BookRespDTO> allBooksAuthor(Long ID);
+    List<BookRespDTO> allBooksAuthor(Long id);
 
-    BookRespDTO getBookById(Long ID);
-    BookRespDTO create(BookReqDTO bookReqDTO);
-    BookRespDTO update(Long ID, BookReqDTO bookReqDTO);
-    BookRespDTO delete(Long ID);
+    Optional<BookRespDTO> getBookById(Long id);
+    Optional<BookRespDTO> create(BookReqDTO bookReqDTO);
+    Optional<BookRespDTO> update(Long id, BookReqDTO bookReqDTO);
+    Optional<BookRespDTO> delete(Long id);
+
+
 
 }

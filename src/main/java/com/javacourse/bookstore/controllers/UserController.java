@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,9 +18,9 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public ResponseEntity<? super UserRespDTO> getUserByID(@PathVariable("id") Long idUser) {
-        UserRespDTO userByID = userService.getUserByID(idUser);
-        if (userByID != null) {
-            return ResponseEntity.ok(userByID);
+        Optional<UserRespDTO> userById = userService.getUserById(idUser);
+        if (userById.isPresent()) {
+            return ResponseEntity.ok(userById);
         }
         return new ResponseEntity<>("User not found ", HttpStatus.NOT_FOUND);
     }
@@ -27,33 +28,36 @@ public class UserController {
     @GetMapping("/users")
     public ResponseEntity<? super UserRespDTO> allUsers() {
         List<UserRespDTO> allUsers = userService.getAllUser();
-        if (allUsers != null) {
-            return ResponseEntity.status(200).body(allUsers);
+        if (allUsers.isEmpty()) {
+            return new ResponseEntity<>("Users not found", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        return ResponseEntity.status(200).body(allUsers);
     }
 
     @PostMapping("/user")
     public ResponseEntity<? super UserRespDTO> createUser(@RequestBody(required = false) UserReqDTO userReqDTO) {
-        if (userReqDTO != null) {
-            return ResponseEntity.status(201).body(userService.createUser(userReqDTO));
+        Optional<UserRespDTO> user = userService.createUser(userReqDTO);
+        if (user.isPresent()) {
+            return ResponseEntity.status(201).body(user);
         }
-        return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Invalid request. User not create", HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/user/{id}")
     public ResponseEntity<? super UserRespDTO> updateUser(@PathVariable("id") Long idUser,
                                                           @RequestBody(required = false) UserReqDTO userReqDTO) {
-        if (userReqDTO != null && idUser != null) {
-            return ResponseEntity.status(200).body(userService.updateUser(idUser, userReqDTO));
+        Optional<UserRespDTO> userRespDTO = userService.updateUser(idUser, userReqDTO);
+        if (userRespDTO.isPresent()) {
+            return ResponseEntity.status(200).body(userRespDTO);
         }
-        return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Invalid request. User not update", HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/user/{id}")
     public ResponseEntity<? super UserRespDTO> deleteUser(@PathVariable("id") Long idUser) {
-        if (idUser != null) {
-            return ResponseEntity.status(200).body(userService.deleteUser(idUser));
+        Optional<UserRespDTO> userRespDTO = userService.deleteUser(idUser);
+        if (userRespDTO.isPresent()) {
+            return ResponseEntity.status(200).body(userRespDTO);
         }
         return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
     }

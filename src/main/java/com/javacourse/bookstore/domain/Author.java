@@ -5,11 +5,10 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
-
-@Entity(name = "author")
+@Table(name="author")
+@Entity
 @Getter
 @Setter
-
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,6 +32,6 @@ public class Author {
     private LocalDate dateOfBirth;
     @Column(name = "date_of_death")
     private LocalDate dateOfDeath;
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Book> books;
 }

@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -36,18 +37,18 @@ class BookControllerTest {
 
     @Test
     void getBookByID() throws Exception {
-        Book saveBook = Book.builder().authorID(1235L).title("The Day's Play")
+        Book saveBook = Book.builder().authorId(1235L).title("The Day's Play")
                 .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1910, 5, 20))
-                .price(200L).cost(50).barCode(1124)
+                .price(200L).cost(50L).barCode(1124)
                 .id(555L).build();
         Mockito.when(bookService.getBookById(saveBook.getId()))
-                .thenReturn(BookRespDTO
+                .thenReturn(Optional.ofNullable(BookRespDTO
                         .builder()
                         .id(saveBook.getId())
                         .title(saveBook.getTitle())
                         .cover(saveBook.getCover())
                         .publishingHouse(saveBook.getPublishingHouse())
-                        .build());
+                        .build()));
         mockMvc.perform(MockMvcRequestBuilders.get("/books/{id}", saveBook.getId()))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -61,9 +62,9 @@ class BookControllerTest {
 
     @Test
     void findAllByAuthorID() throws Exception {
-        Book saveBook = Book.builder().authorID(1235L).title("The Day's Play")
+        Book saveBook = Book.builder().authorId(1235L).title("The Day's Play")
                 .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1910, 5, 20))
-                .price(200L).cost(50).barCode(1124).id(555L).build();
+                .price(200L).cost(50L).barCode(1124).id(555L).build();
         Mockito.when(bookService.allBooksAuthor(10L))
                 .thenReturn(List.of(BookRespDTO
                         .builder()
@@ -80,9 +81,9 @@ class BookControllerTest {
 
     @Test
     void allBooks() throws Exception {
-        Book saveBook = Book.builder().authorID(1235L).title("The Day's Play")
+        Book saveBook = Book.builder().authorId(1235L).title("The Day's Play")
                 .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20))
-                .price(200L).cost(50).barCode(1124).id(555L).build();
+                .price(200L).cost(50L).barCode(1124).id(555L).build();
         Mockito.when(bookService.allBooks())
                 .thenReturn(List.of(BookRespDTO
                         .builder()
@@ -101,12 +102,12 @@ class BookControllerTest {
     void create() throws Exception {
         BookReqDTO bookReqDTO = BookReqDTO.builder().title("The Day's Play")
                 .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20))
-                .cost(50).barCode(1124).build();
+                .cost(50L).barCode(1124).build();
         BookRespDTO bookRespDTO = BookRespDTO.builder().title("The Day's Play")
                 .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20))
                 .price(200L).barCode(1124).id(314L).build();
         Mockito
-                .when(bookService.create(Mockito.any(BookReqDTO.class))).thenReturn(bookRespDTO);
+                .when(bookService.create(Mockito.any(BookReqDTO.class))).thenReturn(Optional.ofNullable(bookRespDTO));
         String writeValueAsString = objectMapper.writeValueAsString(bookReqDTO);
         mockMvc.perform(MockMvcRequestBuilders.post("/books").content(writeValueAsString )
                         .contentType(MediaType.APPLICATION_JSON))
@@ -122,14 +123,14 @@ class BookControllerTest {
     void update() throws Exception {
         BookReqDTO bookReqDTO = BookReqDTO.builder().title("The Day's Play")
                 .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1910, 5, 20))
-                .cost(50).barCode(1124).id(125L)
+                .cost(50L).barCode(1124).id(125L)
                 .build();
         BookRespDTO bookRespDTO = BookRespDTO.builder().title("The Day's Play")
                 .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20))
                 .price(200L).barCode(1124).id(125L).build();
         Mockito
                 .when(bookService.update(Mockito.any(),Mockito.any(BookReqDTO.class)))
-                .thenReturn(bookRespDTO);
+                .thenReturn(Optional.ofNullable(bookRespDTO));
 
         String writeValueAsString = objectMapper.writeValueAsString(bookReqDTO);
         mockMvc.perform(MockMvcRequestBuilders.put("/books/{id}", bookReqDTO.getId())
@@ -147,14 +148,14 @@ class BookControllerTest {
     @Test
     void delete() throws Exception {
 
-        Book bookInBase = Book.builder().authorID(555L).title("The Day's Play")
+        Book bookInBase = Book.builder().authorId(555L).title("The Day's Play")
                 .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1910, 5, 20))
-                .price(200L).cost(50).barCode(1124).id(314L).build();
+                .price(200L).cost(50L).barCode(1124).id(314L).build();
         BookRespDTO bookRespDTO = BookRespDTO.builder().title("The Day's Play")
                 .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1910, 5, 20))
                 .price(200L).barCode(1124)
                 .id(314L).build();
-        Mockito.when(bookService.delete(bookInBase.getId())).thenReturn(bookRespDTO);
+        Mockito.when(bookService.delete(bookInBase.getId())).thenReturn(Optional.ofNullable(bookRespDTO));
         mockMvc.perform(MockMvcRequestBuilders.delete("/books/{id}", bookInBase.getId()))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

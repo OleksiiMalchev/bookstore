@@ -4,8 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-
-@Entity(name = "book")
+@Table(name="book")
+@Entity
 @Getter
 @Setter
 @ToString

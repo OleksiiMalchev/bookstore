@@ -5,15 +5,17 @@ import com.javacourse.bookstore.domain.dto.UserRespDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public interface UserService {
     List<UserRespDTO> getAllUser();
 
-    UserRespDTO getUserByID(Long IDUser);
+    Optional<UserRespDTO> getUserById(Long userId);
 
-    UserRespDTO createUser(UserReqDTO userReqDTO);
+    Optional<UserRespDTO> createUser(UserReqDTO userReqDTO);
 
-    UserRespDTO updateUser(Long IDUser, UserReqDTO userReqDTO);
+    Optional<UserRespDTO> updateUser(Long userId, UserReqDTO userReqDTO);
 
-    UserRespDTO deleteUser(Long IDUser);
+    Optional<UserRespDTO> deleteUser(Long userId);
 }

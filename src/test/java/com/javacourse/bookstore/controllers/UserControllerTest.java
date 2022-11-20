@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -36,19 +37,22 @@ class UserControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void getUserByID() throws Exception {
+    void getUserById() throws Exception {
         User user = User.builder().dateOfBirth(LocalDate.of(1955, 10, 12))
-                .age(10).email("a@gmail.com").firstName("Alex").lastName("DSJ").iid(125L).build();
-        UserRespDTO userRespDTO = UserRespDTO.builder().email("a@gmail.com").firstName("Alex").build();
-        Mockito.when(userServiceImpl.getUserByID(user.getIid()))
-                .thenReturn(userRespDTO);
-        mockMvc.perform(MockMvcRequestBuilders.get("/users/{id}", user.getIid()))
+                .age(10).email("a@gmail.com").firstName("Alex").lastName("DSJ").id(125L).build();
+        Mockito.when(userServiceImpl.getUserById(125L))
+                .thenReturn(Optional.ofNullable(UserRespDTO
+                        .builder()
+                        .email("a@gmail.com")
+                        .firstName("Alex")
+                        .build()));
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/{id}",125L))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.firstName")
-                        .value(userRespDTO.getFirstName()))
+                        .value(user.getFirstName()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email")
-                        .value(userRespDTO.getEmail()));
+                        .value(user.getEmail()));
     }
 
     @Test
@@ -76,7 +80,7 @@ class UserControllerTest {
         UserRespDTO userRespDTO = UserRespDTO.builder().email("a@gmail.com").firstName("Alex").build();
 
         Mockito
-                .when(userServiceImpl.createUser(Mockito.any(UserReqDTO.class))).thenReturn(userRespDTO);
+                .when(userServiceImpl.createUser(Mockito.any(UserReqDTO.class))).thenReturn(Optional.ofNullable(userRespDTO));
         String writeValueAsString = objectMapper.writeValueAsString(userReqDTO);
         mockMvc.perform(MockMvcRequestBuilders.post("/user").content(writeValueAsString)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -92,9 +96,10 @@ class UserControllerTest {
                 .age(10).email("a@gmail.com").firstName("Alex").lastName("DSJ").build();
         UserRespDTO userRespDTO = UserRespDTO.builder().email("a@gmail.com").firstName("Alex").build();
         User user = User.builder().dateOfBirth(LocalDate.of(1955, 10, 12))
-                .age(10).email("a@gmail.com").firstName("Alex").lastName("DSJ").iid(555L).build();
+                .age(10).email("a@gmail.com").firstName("Alex").lastName("DSJ").id(555L).build();
         Mockito
-                .when(userServiceImpl.updateUser(Mockito.any(),Mockito.any(UserReqDTO.class))).thenReturn(userRespDTO);
+                .when(userServiceImpl.updateUser(Mockito.any(),Mockito.any(UserReqDTO.class)))
+                .thenReturn(Optional.ofNullable(userRespDTO));
         String writeValueAsString = objectMapper.writeValueAsString(userReqDTO);
         mockMvc.perform(MockMvcRequestBuilders.put("/user/{id}",555L).content(writeValueAsString)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -109,15 +114,14 @@ class UserControllerTest {
     @Test
     void deleteUser() throws Exception {
         User user = User.builder().dateOfBirth(LocalDate.of(1955, 10, 12))
-                .age(10).iid(444L).email("a@gmail.com")
-                .firstName("Alex").lastName("DSJ").iid(555L).build();
+                .age(10).id(444L).email("a@gmail.com")
+                .firstName("Alex").lastName("DSJ").id(555L).build();
         UserRespDTO userRespDTO = UserRespDTO.builder().email("a@gmail.com").firstName("Alex").build();
-        Mockito.when(userServiceImpl.deleteUser(user.getIid())).thenReturn(userRespDTO);
-        mockMvc.perform(MockMvcRequestBuilders.delete("/user/{id}", user.getIid()))
+        Mockito.when(userServiceImpl.deleteUser(user.getId())).thenReturn(Optional.ofNullable(userRespDTO));
+        mockMvc.perform(MockMvcRequestBuilders.delete("/user/{id}", user.getId()))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value(userRespDTO.getFirstName()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email").value(userRespDTO.getEmail()));
-
     }
 }
