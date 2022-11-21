@@ -1,8 +1,8 @@
 package com.javacourse.bookstore.services;
 
-import com.javacourse.bookstore.domain.User;
-import com.javacourse.bookstore.domain.dto.UserReqDTO;
-import com.javacourse.bookstore.domain.dto.UserRespDTO;
+import com.javacourse.bookstore.mappers.domain.User;
+import com.javacourse.bookstore.mappers.domain.dto.UserReqDTO;
+import com.javacourse.bookstore.mappers.domain.dto.UserRespDTO;
 import com.javacourse.bookstore.mappers.MapperUser;
 import com.javacourse.bookstore.repositories.UserRepository;
 import org.junit.jupiter.api.Assertions;

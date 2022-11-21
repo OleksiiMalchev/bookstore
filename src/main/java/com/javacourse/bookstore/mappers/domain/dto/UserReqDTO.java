@@ -1,16 +1,20 @@
-package com.javacourse.bookstore.domain.dto;
+package com.javacourse.bookstore.mappers.domain.dto;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Setter
 @Getter
 @Builder
-public class UserRespDTO {
-    private Long id;
+public class UserReqDTO {
+    private Long phoneNumber;
     private String firstName;
     private String lastName;
     private String email;
     private String nickName;
+    private Integer age;
+    private LocalDate dateOfBirth;
 }

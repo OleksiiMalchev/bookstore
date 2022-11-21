@@ -2,12 +2,12 @@ package com.javacourse.bookstore.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javacourse.bookstore.BookstoreApplication;
-import com.javacourse.bookstore.domain.Author;
-import com.javacourse.bookstore.domain.Book;
-import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
-import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
-import com.javacourse.bookstore.domain.dto.AuthorRespDTOWithBooks;
-import com.javacourse.bookstore.domain.dto.BookRespDTO;
+import com.javacourse.bookstore.mappers.domain.Author;
+import com.javacourse.bookstore.mappers.domain.Book;
+import com.javacourse.bookstore.mappers.domain.dto.AuthorReqDTO;
+import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTO;
+import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTOWithBooks;
+import com.javacourse.bookstore.mappers.domain.dto.BookRespDTO;
 import com.javacourse.bookstore.services.AuthorService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;

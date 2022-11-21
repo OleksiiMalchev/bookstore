@@ -1,4 +1,4 @@
-package com.javacourse.bookstore.domain.dto;
+package com.javacourse.bookstore.mappers.domain.dto;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.javacourse.bookstore.mappers;
 
-import com.javacourse.bookstore.domain.Author;
-import com.javacourse.bookstore.domain.dto.AuthorRespDTOWithBooks;
+import com.javacourse.bookstore.mappers.domain.Author;
+import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTOWithBooks;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

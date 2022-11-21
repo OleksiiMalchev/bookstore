@@ -1,6 +1,6 @@
 package com.javacourse.bookstore.repositories;
 
-import com.javacourse.bookstore.domain.Author;
+import com.javacourse.bookstore.mappers.domain.Author;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

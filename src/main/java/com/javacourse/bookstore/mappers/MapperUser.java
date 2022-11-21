@@ -1,8 +1,8 @@
 package com.javacourse.bookstore.mappers;
 
-import com.javacourse.bookstore.domain.User;
-import com.javacourse.bookstore.domain.dto.UserReqDTO;
-import com.javacourse.bookstore.domain.dto.UserRespDTO;
+import com.javacourse.bookstore.mappers.domain.User;
+import com.javacourse.bookstore.mappers.domain.dto.UserReqDTO;
+import com.javacourse.bookstore.mappers.domain.dto.UserRespDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
