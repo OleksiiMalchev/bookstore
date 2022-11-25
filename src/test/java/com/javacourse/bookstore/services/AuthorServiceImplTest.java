@@ -122,6 +122,18 @@ class AuthorServiceImplTest {
         Assertions.assertEquals(newAuthorRespDTO.getFirstName(), authorReqDTO.getFirstName());
         Assertions.assertEquals(newAuthorRespDTO.getDateOfBirth(), authorReqDTO.getDateOfBirth());
     }
+//    @Test
+//    void updateAuthorWhereReqNull() {
+//
+//        Mockito.when(mapperForAuthor.authorReqDTOToAuthor(null))
+//                .thenReturn(Optional.empty());
+//        Mockito.when(authorRepository.findById(555L))
+//                .thenReturn(Optional.empty());
+//        Mockito.when(mapperForAuthor.authorToRespDTOStock(null))
+//                .thenReturn(null);
+//        AuthorRespDTO authorRespDTO = authorServiceImpl.updateAuthor(555L, null).get();
+//        Assertions.assertNull(authorRespDTO);
+//    }
 
     @Test
     void deleteAuthor() {

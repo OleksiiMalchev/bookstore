@@ -1,17 +1,21 @@
 package com.javacourse.bookstore.services;
 
+import com.javacourse.bookstore.mappers.MapperUser;
 import com.javacourse.bookstore.mappers.domain.dto.UserReqDTO;
 import com.javacourse.bookstore.mappers.domain.dto.UserRespDTO;
-import com.javacourse.bookstore.mappers.MapperUser;
 import com.javacourse.bookstore.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -39,9 +43,10 @@ public class UserServiceImpl implements UserService {
                 .map(userRepository::save)
                 .map(mapperUser::toUserRespDTO);
     }
-
+    @Transactional
     @Override
     public Optional<UserRespDTO> updateUser(Long userId, UserReqDTO userReqDTO) {
+        log.info(String.valueOf(TransactionSynchronizationManager.isActualTransactionActive()));
         return userRepository.findById(userId)
                 .map(u -> {
                     if (userReqDTO != null) {

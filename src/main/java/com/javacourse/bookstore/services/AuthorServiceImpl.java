@@ -1,13 +1,15 @@
 package com.javacourse.bookstore.services;
 
+import com.javacourse.bookstore.mappers.MapperAuthorToRespDTO;
+import com.javacourse.bookstore.mappers.MapperForAuthor;
 import com.javacourse.bookstore.mappers.domain.dto.AuthorReqDTO;
 import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTO;
 import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTOWithBooks;
-import com.javacourse.bookstore.mappers.MapperAuthorToRespDTO;
-import com.javacourse.bookstore.mappers.MapperForAuthor;
 import com.javacourse.bookstore.repositories.AuthorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +17,7 @@ import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
-public class AuthorServiceImpl implements AuthorService {
+public final class AuthorServiceImpl implements AuthorService {
     private final MapperForAuthor mapperForAuthor;
     private final MapperAuthorToRespDTO mapperAuthorToRespDTO;
     private final AuthorRepository authorRepository;
@@ -35,6 +37,7 @@ public class AuthorServiceImpl implements AuthorService {
                 .map(mapperForAuthor::authorToRespDTOStock);
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public Optional<AuthorRespDTO> createAuthor(AuthorReqDTO authorReqDTO) {
         return mapperForAuthor.authorReqDTOToAuthor(authorReqDTO)
@@ -42,6 +45,7 @@ public class AuthorServiceImpl implements AuthorService {
                 .map(mapperForAuthor::authorToRespDTOStock);
     }
 
+    @Transactional
     @Override
     public Optional<AuthorRespDTO> updateAuthor(Long authorId, AuthorReqDTO authorReqDTO) {
         return authorRepository.findById(authorId)

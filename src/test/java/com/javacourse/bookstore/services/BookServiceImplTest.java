@@ -1,10 +1,10 @@
 package com.javacourse.bookstore.services;
 
+import com.javacourse.bookstore.mappers.MapperForBook;
 import com.javacourse.bookstore.mappers.domain.Author;
 import com.javacourse.bookstore.mappers.domain.Book;
 import com.javacourse.bookstore.mappers.domain.dto.BookReqDTO;
 import com.javacourse.bookstore.mappers.domain.dto.BookRespDTO;
-import com.javacourse.bookstore.mappers.MapperForBook;
 import com.javacourse.bookstore.repositories.BookRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -28,6 +28,8 @@ class BookServiceImplTest {
     private BookRepository bookRepository;
     @MockBean
     private MapperForBook mapperForBook;
+    @Autowired
+    private AuthorService authorService;
 //    @MockBean
 //    private AuthorRepositories authorRepositories;
 
@@ -123,19 +125,43 @@ class BookServiceImplTest {
 
     @Test
     void create() {
-        BookReqDTO bookReqDTO = BookReqDTO.builder().title("Book").authorId(125L).cover("soft").publishingHouse("Home")
-                .pages(500).build();
+
+        BookReqDTO bookReqDTO = BookReqDTO.builder().title("Book").authorId(null).cover("soft").publishingHouse("Home")
+                .pages(500).cost(500L).build();
+        Book book;
+        bookReqDTO.setAuthorId(125L);
+        Mockito.when(mapperForBook.getBook(bookReqDTO)).thenReturn(Optional.ofNullable(book = Book.builder()
+                .title("Book").authorId(125L).cover("soft").publishingHouse("Home").pages(500).build()));
+        Book saveBook;
+        Mockito.when(bookRepository.save(book))
+                .thenReturn(saveBook = Book.builder().title("Book").authorId(125L)
+                .cover("soft").publishingHouse("Home").pages(500).build());
+        Mockito.when(mapperForBook.toBookRespDTO(saveBook))
+                .thenReturn(BookRespDTO.builder().title("Book")
+                .cover("soft").publishingHouse("Home").pages(500).build());
+        Optional<BookRespDTO> bookRespDTO = bookService.create(bookReqDTO);
+        Assertions.assertNotNull(bookRespDTO.get());
+        Assertions.assertEquals(bookReqDTO.getTitle(), bookRespDTO.get().getTitle());
+    }
+
+
+    @Test
+    void createWhereTransactionFailed() {
+
+        BookReqDTO bookReqDTO = BookReqDTO.builder().title("Book").authorId(null).cover("soft").publishingHouse("Home")
+                .pages(500).cost(null).build();
         Book book;
         Mockito.when(mapperForBook.getBook(bookReqDTO)).thenReturn(Optional.ofNullable(book = Book.builder()
                 .title("Book").authorId(125L).cover("soft").publishingHouse("Home").pages(500).build()));
         Book saveBook;
-        Mockito.when(bookRepository.save(book)).thenReturn(saveBook = Book.builder().title("Book").authorId(125L)
-                .cover("soft").publishingHouse("Home").pages(500).build());
-        Mockito.when(mapperForBook.toBookRespDTO(saveBook)).thenReturn(BookRespDTO.builder().title("Book")
-                .cover("soft").publishingHouse("Home").pages(500).build());
-        Optional<BookRespDTO> bookRespDTO = bookService.create(bookReqDTO);
-        Assertions.assertNotNull(bookRespDTO);
-        Assertions.assertEquals(bookReqDTO.getTitle(), bookRespDTO.get().getTitle());
+        Mockito.when(bookRepository.save(book))
+                .thenReturn(saveBook = Book.builder().title("Book").authorId(125L)
+                        .cover("soft").publishingHouse("Home").pages(500).build());
+        Mockito.when(mapperForBook.toBookRespDTO(saveBook))
+                .thenReturn(BookRespDTO.builder().title("Book")
+                        .cover("soft").publishingHouse("Home").pages(500).build());
+        Optional <BookRespDTO> bookRespDTO = bookService.create(bookReqDTO);
+        Assertions.assertFalse(bookRespDTO.isPresent());
     }
 
     @Test

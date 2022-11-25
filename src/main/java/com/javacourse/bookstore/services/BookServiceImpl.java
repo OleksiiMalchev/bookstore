@@ -1,22 +1,29 @@
 package com.javacourse.bookstore.services;
 
+import com.javacourse.bookstore.mappers.MapperForBook;
+import com.javacourse.bookstore.mappers.domain.dto.AuthorReqDTO;
+import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTO;
 import com.javacourse.bookstore.mappers.domain.dto.BookReqDTO;
 import com.javacourse.bookstore.mappers.domain.dto.BookRespDTO;
-import com.javacourse.bookstore.mappers.MapperForBook;
 import com.javacourse.bookstore.repositories.BookRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final MapperForBook mapperForBook;
+    private final AuthorService authorService;
 
     @Override
     public List<BookRespDTO> allBooks() {
@@ -41,9 +48,14 @@ public class BookServiceImpl implements BookService {
 
     }
 
+//    @Transactional
     @Override
     public Optional<BookRespDTO> create(BookReqDTO bookReqDTO) {
-        if (bookReqDTO.getCost() != null && bookReqDTO.getAuthorId() != null) {
+        Long authorId = bookReqDTO.getAuthorId();
+        if (authorId == null) {
+            Optional<AuthorRespDTO> author = authorService.createAuthor(AuthorReqDTO.builder().build());
+            bookReqDTO.setAuthorId(author.get().getId());
+        } else if (bookReqDTO.getCost() != null) {
             return mapperForBook.getBook(bookReqDTO)
                     .map(bookRepository::save)
                     .map(mapperForBook::toBookRespDTO);
@@ -51,6 +63,7 @@ public class BookServiceImpl implements BookService {
         return Optional.empty();
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public Optional<BookRespDTO> update(Long idBook, BookReqDTO bookReqDTO) {
         return bookRepository.findById(idBook)
