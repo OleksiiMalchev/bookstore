@@ -5,7 +5,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
-@Table(name="author")
+
+@Table(name = "author")
 @Entity
 @Getter
 @Setter
@@ -22,7 +23,8 @@ public class Author {
     private String lastName;
     @Column(name = "sur_name")
     private String surName;
-    @Column(name = "biography")
+    @Lob
+    @Column(name = "biography", columnDefinition = "TEXT")
     private String biography;
     @Column(name = "country_of_birth")
     private String countryOfBirth;

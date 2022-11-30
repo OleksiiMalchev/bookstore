@@ -1,5 +1,6 @@
 package com.javacourse.bookstore.mappers;
 
+import com.javacourse.bookstore.configuration.TestLightConfig;
 import com.javacourse.bookstore.mappers.domain.Author;
 import com.javacourse.bookstore.mappers.domain.Book;
 import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTOWithBooks;
@@ -9,15 +10,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-public class MapperAuthorToRespDTOTest {
+
+public class MapperAuthorToRespDTOTest extends TestLightConfig {
     @Autowired
     private MapperAuthorToRespDTO mapperAuthorToRespDTO;
     @MockBean

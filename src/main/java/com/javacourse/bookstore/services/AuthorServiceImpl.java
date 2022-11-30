@@ -17,7 +17,7 @@ import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
-public final class AuthorServiceImpl implements AuthorService {
+public class AuthorServiceImpl implements AuthorService {
     private final MapperForAuthor mapperForAuthor;
     private final MapperAuthorToRespDTO mapperAuthorToRespDTO;
     private final AuthorRepository authorRepository;
