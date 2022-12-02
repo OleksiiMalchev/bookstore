@@ -1,9 +1,9 @@
 package com.javacourse.bookstore.mappers;
 
-import com.javacourse.bookstore.domain.Author;
-import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
-import com.javacourse.bookstore.domain.dto.AuthorRespDTOID;
-import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
+import com.javacourse.bookstore.mappers.domain.Author;
+import com.javacourse.bookstore.mappers.domain.dto.AuthorReqDTO;
+import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTOID;
+import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -11,14 +11,15 @@ import java.util.Optional;
 @Component
 public class MapperForAuthor {
 
-    public Author authorReqDTOToAuthor(AuthorReqDTO authorReqDTO) {
+    public Optional<Author> authorReqDTOToAuthor(AuthorReqDTO authorReqDTO) {
         return Optional.ofNullable(authorReqDTO)
                 .map(a -> Author.builder()
                         .firstName(a.getFirstName())
                         .lastName(a.getLastName())
-                       // .dateOfBirth(a.getDateOfBirth())
-                        .build())
-                .orElse(null);
+                        .dateOfBirth(a.getDateOfBirth())
+                        .dateOfDeath(a.getDateOfDeath())
+                        .build());
+
     }
 
     public AuthorRespDTO authorToRespDTOStock(Author author) {
@@ -26,10 +27,11 @@ public class MapperForAuthor {
                 .map(a -> AuthorRespDTO.builder()
                         .firstName(a.getFirstName())
                         .lastName(a.getLastName())
-                  //      .dateOfBirth(a.getDateOfBirth())
+                        .dateOfBirth(a.getDateOfBirth())
+                        .dateOfDeath(a.getDateOfDeath())
                         .id(a.getId())
-                        .build())
-                .orElse(null);
+                        .build()).orElse(null);
+
     }
 
     public AuthorRespDTOID authorRespDTOID(Author author) {

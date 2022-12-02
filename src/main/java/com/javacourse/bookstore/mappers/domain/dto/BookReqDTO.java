@@ -1,6 +1,5 @@
-package com.javacourse.bookstore.domain.dto;
+package com.javacourse.bookstore.mappers.domain.dto;
 
-import com.javacourse.bookstore.domain.Author;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +18,6 @@ public class BookReqDTO {
     private String publishingHouse;
     private Integer barCode;
     private Integer pages;
+    private Integer isbn;
     private LocalDate yearOfPublication;
-    private Author author;
 }

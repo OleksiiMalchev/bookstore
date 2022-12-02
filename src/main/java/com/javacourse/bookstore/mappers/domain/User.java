@@ -1,4 +1,4 @@
-package com.javacourse.bookstore.domain;
+package com.javacourse.bookstore.mappers.domain;
 
 import lombok.*;
 

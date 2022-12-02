@@ -1,9 +1,9 @@
 package com.javacourse.bookstore.mappers;
 
-import com.javacourse.bookstore.domain.Author;
-import com.javacourse.bookstore.domain.Book;
-import com.javacourse.bookstore.domain.dto.BookReqDTO;
-import com.javacourse.bookstore.domain.dto.BookRespDTO;
+import com.javacourse.bookstore.mappers.domain.Author;
+import com.javacourse.bookstore.mappers.domain.Book;
+import com.javacourse.bookstore.mappers.domain.dto.BookReqDTO;
+import com.javacourse.bookstore.mappers.domain.dto.BookRespDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +26,7 @@ public class MapperForBook {
                         .cover(b.getCover())
                         .publishingHouse(b.getPublishingHouse())
                         .yearOfPublication(b.getYearOfPublication())
-                        .price(b.getCost() * 2)
+                        .price(b.getPrice())
                         .barCode(b.getBarCode())
                         .id(b.getId())
                         .pages(b.getPages())
@@ -34,7 +34,7 @@ public class MapperForBook {
                         .build())
                 .orElse(null);
     }
-    public Book getBook(BookReqDTO bookReqDTO) {
+    public Optional<Book> getBook(BookReqDTO bookReqDTO) {
         return Optional.ofNullable(bookReqDTO)
                 .stream()
                 .findAny()
@@ -45,11 +45,11 @@ public class MapperForBook {
                         .cover(b.getCover())
                         .publishingHouse(b.getPublishingHouse())
                         .yearOfPublication(b.getYearOfPublication())
-                        .price(b.getCost() * 2L)
+                        .price(b.getCost() * 2)
                         .cost(b.getCost())
                         .barCode(b.getBarCode())
+                        .isbn(b.getIsbn())
                         .pages(b.getPages())
-                        .build())
-                .orElse(null);
+                        .build());
     }
 }

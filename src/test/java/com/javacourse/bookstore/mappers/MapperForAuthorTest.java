@@ -1,9 +1,9 @@
 package com.javacourse.bookstore.mappers;
 
-import com.javacourse.bookstore.domain.Author;
-import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
-import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
-import com.javacourse.bookstore.domain.dto.AuthorRespDTOID;
+import com.javacourse.bookstore.mappers.domain.Author;
+import com.javacourse.bookstore.mappers.domain.dto.AuthorReqDTO;
+import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTO;
+import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTOID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -28,10 +29,10 @@ class MapperForAuthorTest {
 
     @Test
     void authorReqDTOToAuthor() {
-        Author authorTest = mapperForAuthor.authorReqDTOToAuthor(authorReqDTO);
-        Assertions.assertEquals(authorTest.getFirstName(), authorReqDTO.getFirstName());
-        Assertions.assertEquals(authorTest.getLastName(), authorReqDTO.getLastName());
-        Assertions.assertEquals(authorTest.getDateOfBirth(), authorReqDTO.getDateOfBirth());
+        Optional<Author> authorTest = mapperForAuthor.authorReqDTOToAuthor(authorReqDTO);
+        Assertions.assertEquals(authorTest.get().getFirstName(), authorReqDTO.getFirstName());
+        Assertions.assertEquals(authorTest.get().getLastName(), authorReqDTO.getLastName());
+        Assertions.assertEquals(authorTest.get().getDateOfBirth(), authorReqDTO.getDateOfBirth());
         Assertions.assertNotNull(authorTest);
     }
 

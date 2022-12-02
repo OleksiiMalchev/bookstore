@@ -1,27 +1,27 @@
 package com.javacourse.bookstore.services;
 
-import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
-import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
-import com.javacourse.bookstore.domain.dto.AuthorRespDTOWithBooks;
-import exception.AuthorNotFoundException;
+import com.javacourse.bookstore.mappers.domain.dto.AuthorReqDTO;
+import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTO;
+import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTOWithBooks;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface AuthorService {
     List<AuthorRespDTO> getAllAuthor() throws SQLException;
 
-    AuthorRespDTO getAuthorByID(Long ID) throws AuthorNotFoundException;
+    Optional<AuthorRespDTO> getAuthorById(Long id);
 
-    AuthorRespDTO createAuthor(AuthorReqDTO authorReqDTO);
+    Optional<AuthorRespDTO>  createAuthor(AuthorReqDTO authorReqDTO);
 
-    AuthorRespDTO updateAuthor(Long ID, AuthorReqDTO authorReqDTO);
+    Optional<AuthorRespDTO> updateAuthor(Long id, AuthorReqDTO authorReqDTO);
 
-    AuthorRespDTO deleteAuthor(Long ID);
+    Optional<AuthorRespDTO> deleteAuthor(Long id);
 
-    AuthorRespDTO findAuthorByBook(Long ID);
+    Optional<AuthorRespDTO> findAuthorByBook(Long id);
 
-    AuthorRespDTOWithBooks getAuthorWithDetails(Long authorID);
+    Optional<AuthorRespDTOWithBooks> getAuthorWithDetails(Long authorId);
 }
