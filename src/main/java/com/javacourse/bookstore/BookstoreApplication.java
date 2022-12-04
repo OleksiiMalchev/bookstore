@@ -28,13 +28,17 @@ public class BookstoreApplication {
 		return t->{
 			StreamSupport.stream(authorRepository.findAll().spliterator(), false)
 					.map(String::valueOf).forEach(log::info);
+
 		};
 	}
+
 	@Bean
 	public CommandLineRunner commandLineRunner1(@Autowired BookRepository bookRepository){
 		return t->{
 			StreamSupport.stream(bookRepository.findAll().spliterator(), false)
 					.map(String::valueOf).forEach(log::info);
+
 		};
 	}
+
 }
