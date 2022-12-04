@@ -69,7 +69,6 @@ class AuthorControllerTest {
                 .dateOfBirth(LocalDate.of(1881,05,20)).id(125L).build();
         Book saveBook = Book.builder().authorId(authorAlexander.getId()).title("The Day's Play")
                 .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1910, 5, 20))
-                .price(200L).cost(50L).barCode(1124)
                 .id(555L).build();
         Mockito.when(authorService.findAuthorByBook(555L))
                 .thenReturn(Optional.ofNullable(AuthorRespDTO

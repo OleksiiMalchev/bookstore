@@ -69,10 +69,7 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findById(idBook)
                 .map(book -> {
                     if (bookReqDTO.getCost() != null) {
-                        book.setPrice(bookReqDTO.getCost() * 2);
-                        book.setCost(bookReqDTO.getCost());
                         book.setTitle(bookReqDTO.getTitle());
-                        book.setCost(bookReqDTO.getCost());
                         book.setPublishingHouse(bookReqDTO.getPublishingHouse());
                         book.setBarCode(bookReqDTO.getBarCode());
                         book.setPages(bookReqDTO.getPages());
