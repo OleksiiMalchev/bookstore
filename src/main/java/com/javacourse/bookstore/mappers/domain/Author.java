@@ -3,7 +3,6 @@ package com.javacourse.bookstore.mappers.domain;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.List;
 
 @Table(name = "author")
@@ -21,19 +20,19 @@ public class Author {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @Column(name = "sur_name")
-    private String surName;
-    @Lob
-    @Column(name = "biography", columnDefinition = "TEXT")
-    private String biography;
-    @Column(name = "country_of_birth")
-    private String countryOfBirth;
-    @Column(name = "gender")
-    private String gender;
-    @Column(name = "date_of_birth")
-    private LocalDate dateOfBirth;
-    @Column(name = "date_of_death")
-    private LocalDate dateOfDeath;
     @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Book> books;
 }
+//    @Column(name = "sur_name")
+//    private String surName;
+//    @Lob
+//    @Column(name = "biography", columnDefinition = "TEXT")
+//    private String biography;
+//    @Column(name = "country_of_birth")
+//    private String countryOfBirth;
+//    @Column(name = "gender")
+//    private String gender;
+//    @Column(name = "date_of_birth")
+//    private LocalDate dateOfBirth;
+//    @Column(name = "date_of_death")
+//    private LocalDate dateOfDeath;

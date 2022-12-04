@@ -18,10 +18,8 @@ public class Book {
     private Long id;
     @Column(name="author_id")
     private Long authorId;
-    @Column(name="price")
-    private Long price;
-    @Column(name="cost")
-    private Long cost;
+    @Column(name="warehouse_id")
+    private Long warehouseId;
     @Column(name="title")
     private String title;
     @Column(name="cover")
@@ -37,6 +35,12 @@ public class Book {
     @Column(name="year_of_publication")
     private LocalDate yearOfPublication;
     @ManyToOne
+    @JoinColumn(name="warehouse_id",insertable = false, updatable = false)
+    private Warehouse warehouse;
+    @ManyToOne
     @JoinColumn(name="author_id",insertable = false, updatable = false)
     private Author author;
 }
+
+//    @Column(name="cost")
+//    private Long cost;
