@@ -39,7 +39,6 @@ class BookControllerTest {
     void getBookByID() throws Exception {
         Book saveBook = Book.builder().authorId(1235L).title("The Day's Play")
                 .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1910, 5, 20))
-                .price(200L).cost(50L).barCode(1124)
                 .id(555L).build();
         Mockito.when(bookService.getBookById(saveBook.getId()))
                 .thenReturn(Optional.ofNullable(BookRespDTO
@@ -63,8 +62,7 @@ class BookControllerTest {
     @Test
     void findAllByAuthorID() throws Exception {
         Book saveBook = Book.builder().authorId(1235L).title("The Day's Play")
-                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1910, 5, 20))
-                .price(200L).cost(50L).barCode(1124).id(555L).build();
+                .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1910, 5, 20)).barCode(1124).id(555L).build();
         Mockito.when(bookService.allBooksAuthor(10L))
                 .thenReturn(List.of(BookRespDTO
                         .builder()
@@ -83,7 +81,7 @@ class BookControllerTest {
     void allBooks() throws Exception {
         Book saveBook = Book.builder().authorId(1235L).title("The Day's Play")
                 .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20))
-                .price(200L).cost(50L).barCode(1124).id(555L).build();
+                .barCode(1124).id(555L).build();
         Mockito.when(bookService.allBooks())
                 .thenReturn(List.of(BookRespDTO
                         .builder()
@@ -150,7 +148,7 @@ class BookControllerTest {
 
         Book bookInBase = Book.builder().authorId(555L).title("The Day's Play")
                 .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1910, 5, 20))
-                .price(200L).cost(50L).barCode(1124).id(314L).build();
+                .barCode(1124).id(314L).build();
         BookRespDTO bookRespDTO = BookRespDTO.builder().title("The Day's Play")
                 .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1910, 5, 20))
                 .price(200L).barCode(1124)
