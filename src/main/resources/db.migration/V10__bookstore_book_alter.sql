@@ -1,1 +1,0 @@
-ALTER TABLE book DROP COLUMN price, DROP COLUMN cost;
