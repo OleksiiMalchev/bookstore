@@ -25,7 +25,6 @@ public class MapperForAuthor {
                 .map(a -> AuthorRespDTO.builder()
                         .firstName(a.getFirstName())
                         .lastName(a.getLastName())
-
                         .id(a.getId())
                         .build()).orElse(null);
 
