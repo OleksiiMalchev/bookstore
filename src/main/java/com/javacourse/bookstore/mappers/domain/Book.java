@@ -42,5 +42,3 @@ public class Book {
     private Author author;
 }
 
-//    @Column(name="cost")
-//    private Long cost;
