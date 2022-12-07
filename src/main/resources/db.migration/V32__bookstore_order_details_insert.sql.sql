@@ -1,0 +1,9 @@
+INSERT INTO `order_details` (`order_id`, `product_id`, `quantity`) VALUES (10, 1, 10);
+INSERT INTO `order_details` (`order_id`, `product_id`, `quantity`) VALUES (11, 2, 5);
+INSERT INTO `order_details` (`order_id`, `product_id`, `quantity`) VALUES (11, 1, 1);
+INSERT INTO `order_details` (`order_id`, `product_id`, `quantity`) VALUES (12, 3, 1);
+INSERT INTO `order_details` (`order_id`, `product_id`, `quantity`) VALUES (13, 4, 7);
+INSERT INTO `order_details` (`order_id`, `product_id`, `quantity`) VALUES (14, 5, 1);
+INSERT INTO `order_details` (`order_id`, `product_id`, `quantity`) VALUES (15, 6, 100);
+INSERT INTO `order_details` (`order_id`, `product_id`, `quantity`) VALUES (16, 5, 12);
+INSERT INTO `order_details` (`order_id`, `product_id`, `quantity`) VALUES (17, 4, 3);

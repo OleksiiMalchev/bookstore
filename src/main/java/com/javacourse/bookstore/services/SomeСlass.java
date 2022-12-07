@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 public class SomeСlass {
     static Logger LOGGER;
     static {
-        try(FileInputStream ins = new FileInputStream("C:\\Users\\Anselis\\IdeaProjects\\bookstore\\src\\log.config")){
+        try(FileInputStream ins = new FileInputStream("src\\log.config")){
             LogManager.getLogManager().readConfiguration(ins);
             LOGGER = Logger.getLogger(SomeСlass.class.getName());
         }catch (Exception ignore){
