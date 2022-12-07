@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Table(name = "order")
@@ -20,23 +21,17 @@ public class Order {
     private Long id;
     @Column(name = "customer_id")
     private Long customerId;
-    @Column(name = "shipment_id")
-    private Long shipmentId;
-    @Column(name = "order_status_id")
-    private Long orderStatusId;
     @Column(name = "created_at")
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
     @Column(name = "change_at")
-    private LocalDate changeAt;
+    private LocalDateTime changeAt;
     @ManyToOne
     @JoinColumn(name = "customer_id", insertable = false, updatable = false)
     private Customer customer;
-    //    @ManyToOne
-//    @JoinColumn(name="shipment_id",insertable = false, updatable = false)
-//    private Shipment shipment;
-    @ManyToOne
-    @JoinColumn(name = "order_status_id", insertable = false, updatable = false)
-    private OrderStatus orderStatus;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<OrderStatus> orderStatus;
+//    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+//    private List<Shipment> shipment;
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<OrderDetails> orderDetails;
 }

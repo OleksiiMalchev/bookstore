@@ -28,6 +28,5 @@ public class OrderDetails {
 //    @ManyToOne
 //    @JoinColumn(name="product_id",insertable = false, updatable = false)
 //    private Product product;
-
 }
 
