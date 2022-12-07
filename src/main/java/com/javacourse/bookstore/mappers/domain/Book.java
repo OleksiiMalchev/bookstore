@@ -18,8 +18,6 @@ public class Book {
     private Long id;
     @Column(name="author_id")
     private Long authorId;
-    @Column(name="warehouse_id")
-    private Long warehouseId;
     @Column(name="title")
     private String title;
     @Column(name="cover")
@@ -41,6 +39,3 @@ public class Book {
     @JoinColumn(name="author_id",insertable = false, updatable = false)
     private Author author;
 }
-
-//    @Column(name="cost")
-//    private Long cost;
