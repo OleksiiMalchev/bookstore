@@ -19,7 +19,7 @@ public class Product {
     @Column(name="price")
     private Long price;
     @Lob
-    @Column(name="discription")
+    @Column(name="discription", columnDefinition = "TEXT")
     private String discription;
     @ManyToOne
     @JoinColumn(name="book_id",insertable = false, updatable = false)

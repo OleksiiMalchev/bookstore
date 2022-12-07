@@ -3,7 +3,6 @@ package com.javacourse.bookstore.mappers.domain;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Table(name = "warehouse")
 @Entity
@@ -24,6 +23,7 @@ public class Warehouse {
     private Integer reserve;
     @Column(name = "sale")
     private Integer sale;
-    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<Book> books;
+    @ManyToOne
+    @JoinColumn(name="book_id",insertable = false, updatable = false)
+    private Book book;
 }

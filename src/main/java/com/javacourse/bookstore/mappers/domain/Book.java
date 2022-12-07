@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
+
 @Table(name="book")
 @Entity
 @Getter
@@ -32,9 +34,8 @@ public class Book {
     private Integer isbn;
     @Column(name="year_of_publication")
     private LocalDate yearOfPublication;
-    @ManyToOne
-    @JoinColumn(name="warehouse_id",insertable = false, updatable = false)
-    private Warehouse warehouse;
+    @OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    private List<Warehouse> warehouses;
     @ManyToOne
     @JoinColumn(name="author_id",insertable = false, updatable = false)
     private Author author;
