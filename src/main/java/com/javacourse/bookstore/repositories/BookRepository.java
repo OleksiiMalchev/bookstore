@@ -12,6 +12,4 @@ import java.util.List;
 public interface BookRepository extends CrudRepository<Book, Long> {
     @Query( "SELECT book FROM Book book JOIN book.author a WHERE a.id = :id")
     List<Book> findAllByAuthorID(@Param("id") Long idAuthor);
-
-
 }
