@@ -52,12 +52,7 @@ public class AuthorServiceImpl implements AuthorService {
                 .map(a -> {
                     if (authorReqDTO != null) {
                         a.setFirstName(authorReqDTO.getFirstName());
-                        a.setLastName(authorReqDTO.getLastName());
-                        a.setSurName(authorReqDTO.getSurName());
-                        a.setBiography(authorReqDTO.getBiography());
-                        a.setCountryOfBirth(authorReqDTO.getCountryOfBirth());
-                        a.setDateOfDeath(authorReqDTO.getDateOfDeath());
-                        a.setDateOfBirth(authorReqDTO.getDateOfBirth());
+                        a.setLastName(authorReqDTO.getLastName());;
                         return a;
                     }
                     return null;
