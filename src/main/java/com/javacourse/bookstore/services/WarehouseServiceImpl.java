@@ -25,14 +25,6 @@ public class WarehouseServiceImpl implements WarehouseService {
                 .toList();
     }
 
-    public List<WarehouseRespDTO> getAllWarehouseWithDetails() {
-        return StreamSupport.stream(warehouseRepository.findAll().spliterator(), false)
-                .toList()
-                .stream()
-                .map(mapperForWarehouse::warehouseToWarehouseRespDTO)
-                .toList();
-    }
-
     public Optional<WarehouseRespDTO> getWarehouseById(Long idWarehouse) {
         return warehouseRepository.findById(idWarehouse)
                 .map(mapperForWarehouse::warehouseToWarehouseRespDTO);
