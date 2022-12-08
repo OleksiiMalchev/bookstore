@@ -24,6 +24,6 @@ public class Warehouse {
     @Column(name = "sale")
     private Integer sale;
     @ManyToOne
-    @JoinColumn(name="book_id",insertable = false, updatable = false)
-    private Book book;
+    @JoinColumn(name="product_id",insertable = false, updatable = false)
+    private Product product;
 }
