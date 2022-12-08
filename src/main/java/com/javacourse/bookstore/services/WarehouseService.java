@@ -16,7 +16,7 @@ public interface WarehouseService {
 
     Optional<WarehouseRespDTO> getWarehouseById(Long idWarehouse);
 
-    Optional<WarehouseRespDTO> createWarehouse(WarehouseReqDTO warehouseReqDTO);
+    Optional<WarehouseRespDTO> createWarehouse(WarehouseReqDTO warehouseReqDTO) throws Exception;
 
     Optional<WarehouseRespDTO> updateWarehouse(WarehouseReqDTO warehouseReqDTO, Long idWarehouse);
 
