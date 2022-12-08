@@ -20,8 +20,8 @@ public class Product {
     @Column(name="price")
     private Long price;
     @Lob
-    @Column(name="discription", columnDefinition = "TEXT")
-    private String discription;
+    @Column(name="description", columnDefinition = "TEXT")
+    private String description;
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Warehouse> warehouses;
     @ManyToOne
