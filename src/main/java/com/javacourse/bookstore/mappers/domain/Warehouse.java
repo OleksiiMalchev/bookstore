@@ -17,13 +17,13 @@ public class Warehouse {
     private Long id;
     @Column(name = "book_quantity")
     private Integer bookQuantity;
-    @Column(name = "initional_price")
-    private Long initionalPrice;
+    @Column(name = "initial_price")
+    private Long initial_price;
     @Column(name = "reserve")
     private Integer reserve;
     @Column(name = "sale")
     private Integer sale;
     @ManyToOne
-    @JoinColumn(name="book_id",insertable = false, updatable = false)
-    private Book book;
+    @JoinColumn(name="product_id",insertable = false, updatable = false)
+    private Product product;
 }
