@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter
 @Builder
 public class ProductReqDTO {
-    private Long id;
-    private Long price;
-    private String discription;
+    private Long bookId;
+    private String description;
 }

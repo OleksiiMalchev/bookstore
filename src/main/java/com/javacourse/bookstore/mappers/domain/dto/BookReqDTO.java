@@ -10,9 +10,7 @@ import java.time.LocalDate;
 @Getter
 @Builder
 public class BookReqDTO {
-    private Long id;
     private Long authorId;
-    private Long cost;
     private String title;
     private String cover;
     private String publishingHouse;
