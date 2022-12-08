@@ -30,3 +30,5 @@ INFO: Starting ProtocolHandler ["http-nio-8080"]
 INFO: Starting ProtocolHandler ["http-nio-8080"]
 дек. 07, 2022 5:26:30 PM org.apache.coyote.AbstractProtocol start
 INFO: Starting ProtocolHandler ["http-nio-8080"]
+дек. 08, 2022 5:45:28 PM org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["http-nio-8080"]
