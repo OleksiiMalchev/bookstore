@@ -48,14 +48,14 @@ public class BookServiceImpl implements BookService {
 
     }
 
-//    @Transactional
+    //    @Transactional
     @Override
     public Optional<BookRespDTO> create(BookReqDTO bookReqDTO) {
         Long authorId = bookReqDTO.getAuthorId();
         if (authorId == null) {
             Optional<AuthorRespDTO> author = authorService.createAuthor(AuthorReqDTO.builder().build());
-            bookReqDTO.setAuthorId(author.get().getId());
-        } else if (bookReqDTO.getCost() != null) {
+            bookReqDTO.setAuthorId(author.get().getAuthorId());
+        } else  {
             return mapperForBook.getBook(bookReqDTO)
                     .map(bookRepository::save)
                     .map(mapperForBook::toBookRespDTO);
@@ -68,18 +68,15 @@ public class BookServiceImpl implements BookService {
     public Optional<BookRespDTO> update(Long idBook, BookReqDTO bookReqDTO) {
         return bookRepository.findById(idBook)
                 .map(book -> {
-                    if (bookReqDTO.getCost() != null) {
-                        book.setTitle(bookReqDTO.getTitle());
-                        book.setPublishingHouse(bookReqDTO.getPublishingHouse());
-                        book.setBarCode(bookReqDTO.getBarCode());
-                        book.setPages(bookReqDTO.getPages());
-                        book.setIsbn(bookReqDTO.getIsbn());
-                        book.setCover(bookReqDTO.getCover());
-                        book.setAuthorId(bookReqDTO.getAuthorId());
-                        book.setYearOfPublication(bookReqDTO.getYearOfPublication());
-                        return book;
-                    }
-                    return null;
+                    book.setTitle(bookReqDTO.getTitle());
+                    book.setPublishingHouse(bookReqDTO.getPublishingHouse());
+                    book.setBarCode(bookReqDTO.getBarCode());
+                    book.setPages(bookReqDTO.getPages());
+                    book.setIsbn(bookReqDTO.getIsbn());
+                    book.setCover(bookReqDTO.getCover());
+                    book.setAuthorId(bookReqDTO.getAuthorId());
+                    book.setYearOfPublication(bookReqDTO.getYearOfPublication());
+                    return book;
                 })
                 .map(mapperForBook::toBookRespDTO);
     }

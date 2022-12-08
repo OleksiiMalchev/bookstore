@@ -15,6 +15,8 @@ public class Warehouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name="product_id")
+    private Long productId;
     @Column(name = "book_quantity")
     private Integer bookQuantity;
     @Column(name = "initial_price")

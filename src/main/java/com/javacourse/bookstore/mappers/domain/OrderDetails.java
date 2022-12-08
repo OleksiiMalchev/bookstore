@@ -25,8 +25,8 @@ public class OrderDetails {
     @ManyToOne
     @JoinColumn(name="order_id",insertable = false, updatable = false)
     private Order order;
-//    @ManyToOne
-//    @JoinColumn(name="product_id",insertable = false, updatable = false)
-//    private Product product;
+    @ManyToOne
+    @JoinColumn(name="product_id",insertable = false, updatable = false)
+    private Product product;
 }
 

@@ -23,9 +23,9 @@ public class MapperForAuthor {
     public AuthorRespDTO authorToRespDTOStock(Author author) {
         return Optional.ofNullable(author)
                 .map(a -> AuthorRespDTO.builder()
+                        .authorId(a.getId())
                         .firstName(a.getFirstName())
                         .lastName(a.getLastName())
-                        .id(a.getId())
                         .build()).orElse(null);
 
     }
