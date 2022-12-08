@@ -4,11 +4,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-
-@Getter
 @Setter
+@Getter
 @Builder
-public class AuthorReqDTO {
-    private String firstName;
-    private String lastName;
+public class WarehouseRespDTO {
+    private Long productId;
+    private Integer bookQuantity;
 }

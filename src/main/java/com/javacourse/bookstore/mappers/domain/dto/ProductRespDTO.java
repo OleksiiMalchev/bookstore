@@ -10,5 +10,8 @@ import lombok.Setter;
 public class ProductRespDTO {
     private Long id;
     private Long price;
-    private String discription;
+    private String description;
+    private BookRespDTO book;
+    private WarehouseRespDTO warehouse;
+
 }

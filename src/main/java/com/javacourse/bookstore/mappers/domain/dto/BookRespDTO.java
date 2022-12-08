@@ -10,8 +10,7 @@ import java.time.LocalDate;
 @Getter
 @Builder
 public class BookRespDTO {
-    private Long id;
-    private Long price;
+    private Long bookId;
     private String title;
     private String cover;
     private String publishingHouse;
@@ -19,5 +18,5 @@ public class BookRespDTO {
     private Integer pages;
     private Integer isbn;
     private LocalDate yearOfPublication;
-    private AuthorRespDTOID author;
+    private AuthorRespDTO author;
 }

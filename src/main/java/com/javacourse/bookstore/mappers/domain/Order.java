@@ -3,7 +3,6 @@ package com.javacourse.bookstore.mappers.domain;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,8 +29,6 @@ public class Order {
     private Customer customer;
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<OrderStatus> orderStatus;
-//    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-//    private List<Shipment> shipment;
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<OrderDetails> orderDetails;
 }
