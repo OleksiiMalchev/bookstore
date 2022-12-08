@@ -23,7 +23,7 @@ public class MapperForWarehouse {
                         .builder()
                         .product(productRepository.findById(warehouseReqDTO.getProductId()).get())
                         .bookQuantity(w.getBookQuantity())
-                        .initial_price(w.getInitial_price())
+                        .initial_price(w.getInitialPrice())
                         .build());
     }
     public WarehouseRespDTO warehouseToWarehouseRespDTO(Warehouse warehouse) {

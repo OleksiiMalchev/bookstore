@@ -33,7 +33,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     public Optional<WarehouseRespDTO> createWarehouse(WarehouseReqDTO warehouseReqDTO) throws Exception {
         Long idProduct = warehouseReqDTO.getProductId();
         Integer bookQuantity = warehouseReqDTO.getBookQuantity();
-        Long initialPrice = warehouseReqDTO.getInitial_price();
+        Long initialPrice = warehouseReqDTO.getInitialPrice();
         if (idProduct == null || bookQuantity == null || initialPrice == null) {
             throw new Exception("Can not create warehouse without product, book quantity and initial price.");
         }
@@ -46,7 +46,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     public Optional<WarehouseRespDTO> updateWarehouse(WarehouseReqDTO warehouseReqDTO, Long idWarehouse) {
         return warehouseRepository.findById(idWarehouse)
                 .map(warehouse -> {
-                    warehouse.setInitial_price(warehouseReqDTO.getInitial_price());
+                    warehouse.setInitial_price(warehouseReqDTO.getInitialPrice());
                     warehouse.setBookQuantity(warehouse.getBookQuantity());
                     return warehouse;
                 })
