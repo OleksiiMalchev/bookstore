@@ -12,6 +12,4 @@ public class ProductRespDTO {
     private Long price;
     private String description;
     private BookRespDTO book;
-    private WarehouseRespDTO warehouse;
-
 }

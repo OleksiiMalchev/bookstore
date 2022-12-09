@@ -24,7 +24,7 @@ public class Product {
     @Lob
     @Column(name="description", columnDefinition = "TEXT")
     private String description;
-    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Warehouse> warehouses;
     @ManyToOne
     @JoinColumn(name="book_id",insertable = false, updatable = false)

@@ -3,6 +3,7 @@ package com.javacourse.bookstore.mappers;
 import com.javacourse.bookstore.mappers.domain.Product;
 import com.javacourse.bookstore.mappers.domain.dto.ProductReqDTO;
 import com.javacourse.bookstore.mappers.domain.dto.ProductRespDTO;
+import com.javacourse.bookstore.mappers.domain.dto.ProductRespDTOWithWarehouseInfo;
 import com.javacourse.bookstore.repositories.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -12,9 +13,10 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class MapperForProduct {
-    private final MapperForAuthor mapperForAuthor;
+
     private final BookRepository bookRepository;
     private final MapperForBook mapperForBook;
+    private final MapperForWarehouse mapperForWarehouse;
 
     public Optional<Product> productReqDTOToProduct(ProductReqDTO productReqDTO) {
         return Optional.ofNullable(productReqDTO)
@@ -42,4 +44,22 @@ public class MapperForProduct {
                 .orElse(null);
     }
 
+    public ProductRespDTOWithWarehouseInfo productToProductRespDTOWithInfo(Product product) {
+        return Optional.ofNullable(product)
+                .stream()
+                .findAny()
+                .map(p -> ProductRespDTOWithWarehouseInfo.builder()
+                        .id(p.getId())
+                        .price(p.getPrice())
+                        .description(p.getDescription())
+                        .book(mapperForBook.toBookRespDTO(p.getBook()))
+                        .warehouse(p.getWarehouses()
+                                .stream()
+                                .map(mapperForWarehouse::warehouseToWarehouseRespDTO)
+                                .filter(w -> w.getProductId().equals(product.getId()))
+                                .findAny().orElse(null))
+                        .build())
+                .orElse(null);
+    }
 }
+

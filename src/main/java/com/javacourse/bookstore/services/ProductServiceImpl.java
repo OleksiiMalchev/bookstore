@@ -25,14 +25,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<ProductRespDTO> getProductByWarehouseId(Long idWarehouse) {
-        return Optional.empty();
+    public List<ProductRespDTOWithWarehouseInfo> getAllProductWithWarehouseInfo() {
+        return StreamSupport.stream(productRepository.findAll().spliterator(), false)
+                .toList().stream()
+                .map(mapperForProduct::productToProductRespDTOWithInfo)
+                .toList();
     }
+
 
     @Override
     public Optional<ProductRespDTO> getProductById(Long idProduct) {
         return productRepository.findById(idProduct)
                 .map(mapperForProduct::productToProductRespDTO);
+    }
+
+    @Override
+    public Optional<ProductRespDTOWithWarehouseInfo> getProductByIdWithWarehouseInfo(Long idProduct) {
+        return productRepository.findById(idProduct)
+                .map(mapperForProduct::productToProductRespDTOWithInfo);
     }
 
     @Override
@@ -49,8 +59,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Optional<ProductRespDTO> updateProduct(Long idProduct, ProductReqDTO productReqDTO) {
-        return Optional.empty();
+        return productRepository.findById(idProduct)
+                .map(p -> {
+                    p.setPrice(productReqDTO.getPrice());
+                    p.setDescription(productReqDTO.getDescription());
+                    return p;
+                })
+                .map(mapperForProduct::productToProductRespDTO);
     }
+
 
     @Override
     public Optional<ProductRespDTO> deleteProduct(Long idProduct) {
