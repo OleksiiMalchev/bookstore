@@ -463,3 +463,5 @@ java.sql.SQLIntegrityConstraintViolationException: Column 'product_id' cannot be
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.base/java.lang.Thread.run(Thread.java:833)
 
+дек. 08, 2022 10:09:43 PM org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["http-nio-8080"]
