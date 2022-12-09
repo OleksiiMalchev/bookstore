@@ -23,7 +23,7 @@ public class MapperForWarehouse {
                         .builder()
                         .product(productRepository.findById(warehouseReqDTO.getProductId()).get())
                         .bookQuantity(w.getBookQuantity())
-                        .initial_price(w.getInitial_price())
+                        .initialPrice(w.getInitialPrice())
                         .build());
     }
     public WarehouseRespDTO warehouseToWarehouseRespDTO(Warehouse warehouse) {
@@ -31,8 +31,9 @@ public class MapperForWarehouse {
                 .stream()
                 .findAny()
                 .map(w -> WarehouseRespDTO.builder()
-                        .productId(warehouse.getProduct().getId())
+                        .productId(w.getProduct().getId())
                         .bookQuantity(w.getBookQuantity())
+                        .initialPrice(w.getInitialPrice())
                         .build())
                 .orElse(null);
     }

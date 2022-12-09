@@ -10,4 +10,7 @@ import lombok.Setter;
 public class WarehouseRespDTO {
     private Long productId;
     private Integer bookQuantity;
+    private Long initialPrice;
+    private Integer reserve;
+    private Integer sale;
 }

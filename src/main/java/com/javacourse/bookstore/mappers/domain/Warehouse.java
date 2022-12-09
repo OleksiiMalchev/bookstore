@@ -20,7 +20,7 @@ public class Warehouse {
     @Column(name = "book_quantity")
     private Integer bookQuantity;
     @Column(name = "initial_price")
-    private Long initial_price;
+    private Long initialPrice;
     @Column(name = "reserve")
     private Integer reserve;
     @Column(name = "sale")
