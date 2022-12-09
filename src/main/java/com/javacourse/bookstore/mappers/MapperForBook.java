@@ -4,6 +4,7 @@ import com.javacourse.bookstore.mappers.domain.Author;
 import com.javacourse.bookstore.mappers.domain.Book;
 import com.javacourse.bookstore.mappers.domain.dto.BookReqDTO;
 import com.javacourse.bookstore.mappers.domain.dto.BookRespDTO;
+import com.javacourse.bookstore.mappers.domain.dto.BookRespDTOForAuthorWithBooks;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,24 @@ import java.util.Optional;
 public class MapperForBook {
     private final MapperForAuthor mapperForAuthor;
 
+
+
+    public Optional<Book> getBook(BookReqDTO bookReqDTO) {
+        return Optional.ofNullable(bookReqDTO)
+                .stream()
+                .findAny()
+                .map(b -> Book
+                        .builder()
+                        .title(b.getTitle())
+                        .authorId(b.getAuthorId())
+                        .cover(b.getCover())
+                        .publishingHouse(b.getPublishingHouse())
+                        .yearOfPublication(b.getYearOfPublication())
+                        .barCode(b.getBarCode())
+                        .isbn(b.getIsbn())
+                        .pages(b.getPages())
+                        .build());
+    }
 
     public BookRespDTO toBookRespDTO(Book book) {
         Author author = book.getAuthor();
@@ -33,20 +52,23 @@ public class MapperForBook {
                         .build())
                 .orElse(null);
     }
-    public Optional<Book> getBook(BookReqDTO bookReqDTO) {
-        return Optional.ofNullable(bookReqDTO)
+
+    public BookRespDTOForAuthorWithBooks bookRespDTOForAuthorWithBooks(Book book) {
+        Author author = book.getAuthor();
+        return Optional.ofNullable(book)
                 .stream()
                 .findAny()
-                .map(b -> Book
-                        .builder()
+                .map(b -> BookRespDTOForAuthorWithBooks.builder()
                         .title(b.getTitle())
-                        .authorId(b.getAuthorId())
+                        .author(mapperForAuthor.authorRespDTOID(author))
                         .cover(b.getCover())
                         .publishingHouse(b.getPublishingHouse())
                         .yearOfPublication(b.getYearOfPublication())
                         .barCode(b.getBarCode())
-                        .isbn(b.getIsbn())
+                        .bookId(b.getId())
                         .pages(b.getPages())
-                        .build());
+                        .isbn(b.getIsbn())
+                        .build())
+                .orElse(null);
     }
 }
