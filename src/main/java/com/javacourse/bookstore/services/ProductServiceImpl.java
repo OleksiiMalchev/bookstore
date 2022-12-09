@@ -26,8 +26,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductRespDTOWithWarehouseInfo> getAllProductWithWarehouseInfo() {
-        return StreamSupport.stream(productRepository.findAll().spliterator(), false)
-                .toList().stream()
+        return productRepository.findAllWithInfo()
+                .stream()
                 .map(mapperForProduct::productToProductRespDTOWithInfo)
                 .toList();
     }

@@ -24,7 +24,7 @@ public class MapperAuthorToRespDTO {
                         .id(a.getId())
                         .books(a.getBooks()
                                 .stream()
-                                .map(mapperForBook::toBookRespDTO)
+                                .map(mapperForBook::bookRespDTOForAuthorWithBooks)
                                 .collect(Collectors.toList()))
                         .build())
                 .orElse(null);
