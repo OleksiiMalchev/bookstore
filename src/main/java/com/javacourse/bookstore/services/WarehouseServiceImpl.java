@@ -43,10 +43,10 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     }
 
-    public Optional<WarehouseRespDTO> updateWarehouse(WarehouseReqDTO warehouseReqDTO, Long idWarehouse) {
+    public Optional<WarehouseRespDTO> updateWarehouse(Long idWarehouse, WarehouseReqDTO warehouseReqDTO) {
         return warehouseRepository.findById(idWarehouse)
                 .map(warehouse -> {
-                    warehouse.setBookQuantity(warehouse.getBookQuantity());
+                    warehouse.setBookQuantity(warehouseReqDTO.getBookQuantity());
                     return warehouse;
                 })
                 .map(mapperForWarehouse::warehouseToWarehouseRespDTO);
