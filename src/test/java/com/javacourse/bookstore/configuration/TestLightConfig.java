@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 @ImportAutoConfiguration(exclude = {FlywayAutoConfiguration.class,
         JpaRepositoriesAutoConfiguration.class,
         DataSourceAutoConfiguration.class})
-
 public class TestLightConfig {
 
 }

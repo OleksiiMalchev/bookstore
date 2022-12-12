@@ -41,7 +41,7 @@ public class MapperForProduct {
 
     public ProductRespDTOWithWarehouseInfo productToProductRespDTOWithInfo(Product product) {
         if(product!=null){
-            ProductRespDTOWithWarehouseInfo.builder()
+            return ProductRespDTOWithWarehouseInfo.builder()
                     .id(product.getId())
                     .price(product.getPrice())
                     .description(product.getDescription())

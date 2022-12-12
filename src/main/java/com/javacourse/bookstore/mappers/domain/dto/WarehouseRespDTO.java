@@ -11,7 +11,6 @@ public class WarehouseRespDTO {
     private Long id;
     private Long productId;
     private Integer bookQuantity;
-    private Long initialPrice;
     private Integer reserve;
     private Integer sale;
 }

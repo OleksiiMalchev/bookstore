@@ -80,7 +80,7 @@ public class BookServiceImpl implements BookService {
                         book.setIsbn(bookReqDTO.getIsbn());
                         book.setCover(bookReqDTO.getCover());
                         book.setAuthorId(bookReqDTO.getAuthorId());
-                        book.setAuthor(authorRepository.findById(bookReqDTO.getAuthorId()).get());
+                       // book.setAuthor(authorRepository.findById(bookReqDTO.getAuthorId()).get());
                         book.setYearOfPublication(bookReqDTO.getYearOfPublication());
                         return book;
                     })

@@ -50,18 +50,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<ProductRespDTO> createProduct(ProductReqDTO productReqDTO)  {
+    public Optional<ProductRespDTO> createProduct(ProductReqDTO productReqDTO) {
         Long bookId = productReqDTO.getBookId();
-        if (bookId == null) {
-           return Optional.empty();
-        } else if(bookRepository.existsById(bookId)) {
+        if (bookId != null && bookRepository.existsById(bookId)) {
             Optional<Product> product = mapperForProduct.productReqDTOToProduct(productReqDTO)
                     .map(productRepository::save);
             return productRepository.findById(product.get().getId())
-                     .map(mapperForProduct::productToProductRespDTO);
+                    .map(mapperForProduct::productToProductRespDTO);
         }
         return Optional.empty();
     }
+
     @Transactional
     @Override
     public Optional<ProductRespDTO> updateProduct(Long idProduct, ProductReqDTO productReqDTO) {
@@ -71,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
                     .map(p -> {
                         p.setDescription(productReqDTO.getDescription());
                         p.setInitialPrice(productReqDTO.getInitialPrice());
-                        p.setPrice((long) (productReqDTO.getInitialPrice()*1.2));
+                        p.setPrice((long) (productReqDTO.getInitialPrice() * 1.2));
                         return p;
                     })
                     .map(mapperForProduct::productToProductRespDTO);

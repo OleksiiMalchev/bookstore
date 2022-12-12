@@ -10,5 +10,4 @@ import lombok.Setter;
 public class WarehouseReqDTO {
     private Long productId;
     private Integer bookQuantity;
-    private Long initialPrice;
 }

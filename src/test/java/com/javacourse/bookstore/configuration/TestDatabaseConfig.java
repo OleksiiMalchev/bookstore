@@ -18,7 +18,8 @@ public class TestDatabaseConfig {
     public void config() {
         mySQLContainer = new MySQLContainer<>("mysql:8.0.30")
                 .withDatabaseName("test_db")
-                .withUsername("test").withPassword("test")
+                .withUsername("test")
+                .withPassword("test")
                 .withEnv("MYSQL_ROOT_HOST", "%");
         mySQLContainer.addExposedPort(3338);
         mySQLContainer.start();
