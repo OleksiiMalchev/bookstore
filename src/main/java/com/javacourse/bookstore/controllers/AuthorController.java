@@ -20,23 +20,13 @@ public class AuthorController {
     private final AuthorService authorService;
 
     @GetMapping("/authors/{id}")
-    public ResponseEntity<? super AuthorRespDTO> getAuthorByID(@PathVariable("id") Long idAuthor) {
-        Optional<AuthorRespDTO> authorById = authorService.getAuthorById(idAuthor);
-        if (authorById.isPresent()) {
-            return ResponseEntity.status(200).body(authorById);
-        } else {
-            return new ResponseEntity<>("Author not found ", HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<? super AuthorRespDTO> getAuthorById(@PathVariable("id") Long idAuthor) {
+        return checking(authorService.getAuthorById(idAuthor));
     }
 
     @GetMapping("/authorBooks/{idBook}")
     public ResponseEntity<? super AuthorRespDTO> getAuthorByBook(@PathVariable("idBook") Long idBook) {
-        Optional<AuthorRespDTO> authorByBook = authorService.findAuthorByBook(idBook);
-        if (authorByBook.isPresent()) {
-            return ResponseEntity.status(200).body(authorByBook);
-        } else {
-            return new ResponseEntity<>("Author not found ", HttpStatus.NOT_FOUND);
-        }
+        return checking(authorService.findAuthorByBook(idBook));
     }
 
     @GetMapping("/authors")
@@ -60,30 +50,24 @@ public class AuthorController {
 
     @PostMapping("/authors")
     public ResponseEntity<? super AuthorRespDTO> create(@RequestBody(required = false) AuthorReqDTO authorReqDTO) {
-        Optional<AuthorRespDTO> author = authorService.createAuthor(authorReqDTO);
-        if (author.isPresent()) {
-            return ResponseEntity.status(201).body(author);
-        }
-        return new ResponseEntity<>("Invalid request. Author not create", HttpStatus.NOT_FOUND);
-
+        return checking(authorService.createAuthor(authorReqDTO));
     }
 
     @PutMapping("/authors/{id}")
     public ResponseEntity<? super AuthorRespDTO> update(@PathVariable("id") Long id,
                                                         @RequestBody(required = false) AuthorReqDTO authorReqDTO) {
-        Optional<AuthorRespDTO> authorRespDTO = authorService.updateAuthor(id, authorReqDTO);
-        if (authorRespDTO.isPresent()) {
-            return ResponseEntity.status(200).body(authorRespDTO);
-        }
-        return new ResponseEntity<>("Invalid request. Author not update", HttpStatus.NOT_FOUND);
+        return checking(authorService.updateAuthor(id, authorReqDTO));
     }
 
     @DeleteMapping("/authors/{id}")
     public ResponseEntity<? super AuthorRespDTO> delete(@PathVariable("id") Long id) throws AuthorNotFoundException {
-        Optional<AuthorRespDTO> authorDelete = authorService.deleteAuthor(id);
-        if (authorDelete.isPresent()) {
-            return ResponseEntity.status(200).body(authorDelete);
+        return checking(authorService.deleteAuthor(id));
+    }
+
+    private static ResponseEntity<? super AuthorRespDTO> checking(Optional<AuthorRespDTO> authorRespDTO){
+        if (authorRespDTO.isPresent()) {
+            return ResponseEntity.status(200).body(authorRespDTO);
         }
-        return new ResponseEntity<>("Authors not found ", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Author not found. No action taken.", HttpStatus.NOT_FOUND);
     }
 }

@@ -1,20 +1,19 @@
 package com.javacourse.bookstore.services;
 
 import com.javacourse.bookstore.mappers.MapperForBook;
-import com.javacourse.bookstore.mappers.domain.dto.AuthorReqDTO;
-import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTO;
+import com.javacourse.bookstore.mappers.domain.Author;
+import com.javacourse.bookstore.mappers.domain.Book;
 import com.javacourse.bookstore.mappers.domain.dto.BookReqDTO;
 import com.javacourse.bookstore.mappers.domain.dto.BookRespDTO;
+import com.javacourse.bookstore.repositories.AuthorRepository;
 import com.javacourse.bookstore.repositories.BookRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
@@ -23,19 +22,19 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final MapperForBook mapperForBook;
-    private final AuthorService authorService;
+    private final AuthorRepository authorRepository;
 
     @Override
     public List<BookRespDTO> allBooks() {
-        return StreamSupport.stream(bookRepository.findAll().spliterator(), false)
-                .toList().stream()
+        return bookRepository.findAll()
+                .stream()
                 .map(mapperForBook::toBookRespDTO)
                 .toList();
     }
 
     @Override
     public List<BookRespDTO> allBooksAuthor(Long idAuthor) {
-        return bookRepository.findAllByAuthorID(idAuthor)
+        return bookRepository.findAllByAuthorId(idAuthor)
                 .stream()
                 .map(mapperForBook::toBookRespDTO)
                 .toList();
@@ -48,42 +47,52 @@ public class BookServiceImpl implements BookService {
 
     }
 
-    //    @Transactional
+    @Transactional
     @Override
     public Optional<BookRespDTO> create(BookReqDTO bookReqDTO) {
         Long authorId = bookReqDTO.getAuthorId();
         if (authorId == null) {
-            Optional<AuthorRespDTO> author = authorService.createAuthor(AuthorReqDTO.builder().build());
-            bookReqDTO.setAuthorId(author.get().getAuthorId());
-        } else  {
-            return mapperForBook.getBook(bookReqDTO)
-                    .map(bookRepository::save)
+            return Optional.empty();
+        } else if (authorRepository.existsById(authorId)) {
+            Optional<Author> authorById = authorRepository.findById(bookReqDTO.getAuthorId());
+            Book book = mapperForBook.getBook(bookReqDTO);
+            book.setAuthor(authorById.get());
+            return
+                    Optional.of(bookRepository.save(book))
+                            .map(mapperForBook::toBookRespDTO);
+        }
+        return Optional.empty();
+    }
+
+    @Transactional
+    @Override
+    public Optional<BookRespDTO> update(Long idBook, BookReqDTO bookReqDTO) {
+        Optional<Book> bookById = bookRepository.findById(idBook);
+        Long authorId = bookReqDTO.getAuthorId();
+        if (authorId == null) {
+            return Optional.empty();
+        } else if (authorRepository.existsById(authorId)) {
+            return bookById.map(book -> {
+                        book.setTitle(bookReqDTO.getTitle());
+                        book.setPublishingHouse(bookReqDTO.getPublishingHouse());
+                        book.setBarCode(bookReqDTO.getBarCode());
+                        book.setPages(bookReqDTO.getPages());
+                        book.setIsbn(bookReqDTO.getIsbn());
+                        book.setCover(bookReqDTO.getCover());
+                        book.setAuthorId(bookReqDTO.getAuthorId());
+                        book.setAuthor(authorRepository.findById(bookReqDTO.getAuthorId()).get());
+                        book.setYearOfPublication(bookReqDTO.getYearOfPublication());
+                        return book;
+                    })
                     .map(mapperForBook::toBookRespDTO);
         }
         return Optional.empty();
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    @Override
-    public Optional<BookRespDTO> update(Long idBook, BookReqDTO bookReqDTO) {
-        return bookRepository.findById(idBook)
-                .map(book -> {
-                    book.setTitle(bookReqDTO.getTitle());
-                    book.setPublishingHouse(bookReqDTO.getPublishingHouse());
-                    book.setBarCode(bookReqDTO.getBarCode());
-                    book.setPages(bookReqDTO.getPages());
-                    book.setIsbn(bookReqDTO.getIsbn());
-                    book.setCover(bookReqDTO.getCover());
-                    book.setAuthorId(bookReqDTO.getAuthorId());
-                    book.setYearOfPublication(bookReqDTO.getYearOfPublication());
-                    return book;
-                })
-                .map(mapperForBook::toBookRespDTO);
-    }
-
     @Override
     public Optional<BookRespDTO> delete(Long idBook) {
-        Optional<BookRespDTO> bookRespDTO = bookRepository.findById(idBook).map(mapperForBook::toBookRespDTO);
+        Optional<BookRespDTO> bookRespDTO = bookRepository.findById(idBook)
+                .map(mapperForBook::toBookRespDTO);
         if (bookRespDTO.isPresent()) {
             bookRepository.deleteById(idBook);
         }

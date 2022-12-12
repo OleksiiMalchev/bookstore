@@ -2,8 +2,8 @@ package com.javacourse.bookstore.mappers;
 
 import com.javacourse.bookstore.mappers.domain.Author;
 import com.javacourse.bookstore.mappers.domain.dto.AuthorReqDTO;
-import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTOID;
 import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTO;
+import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTOID;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -20,22 +20,24 @@ public class MapperForAuthor {
 
     }
 
-    public AuthorRespDTO authorToRespDTOStock(Author author) {
-        return Optional.ofNullable(author)
-                .map(a -> AuthorRespDTO.builder()
-                        .authorId(a.getId())
-                        .firstName(a.getFirstName())
-                        .lastName(a.getLastName())
-                        .build()).orElse(null);
-
+    public AuthorRespDTO authorToRespDTO(Author author) {
+        if(author!=null){
+            return AuthorRespDTO.builder()
+                    .authorId(author.getId())
+                    .firstName(author.getFirstName())
+                    .lastName(author.getLastName())
+                    .build();
+        }
+        return null;
     }
 
     public AuthorRespDTOID authorRespDTOID(Author author) {
-        return Optional.ofNullable(author)
-                .map(a -> AuthorRespDTOID
-                        .builder()
-                        .id(a.getId())
-                        .build())
-                .orElse(null);
+        if(author!=null){
+            return AuthorRespDTOID
+                    .builder()
+                    .id(author.getId())
+                    .build();
+        }
+        return null;
     }
 }
