@@ -13,5 +13,5 @@ public class AuthorRespDTOWithBooks {
     private Long id;
     private String firstName;
     private String lastName;
-    private List<BookRespDTO> books;
+    private List<BookRespDTOForAuthorWithBooks> books;
 }

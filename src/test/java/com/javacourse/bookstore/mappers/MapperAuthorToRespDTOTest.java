@@ -28,7 +28,7 @@ public class MapperAuthorToRespDTOTest extends TestLightConfig {
         Author authorTest = Author.builder().id(125L).firstName("Alexandr").lastName("Mixio").build();
         Book firstBookInList = Book.builder().authorId(125L).title("The Day's Play")
                 .cover("soft").publishingHouse("XZ").yearOfPublication(LocalDate.of(1912, 5, 20))
-                .price(200L).cost(50L).barCode(1124).id(314L).build();
+                .barCode(1124).id(314L).build();
         BookRespDTO firstBookRespDTO = BookRespDTO.builder().title("The Day's Play")
                 .cover("soft").publishingHouse("XZ")
                 .yearOfPublication(LocalDate.of(1912, 5, 20)).build();

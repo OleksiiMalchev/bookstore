@@ -24,7 +24,6 @@ public class MapperForWarehouse {
                         .productId(w.getProductId())
                         .product(productRepository.findById(warehouseReqDTO.getProductId()).get())
                         .bookQuantity(w.getBookQuantity())
-                        .initialPrice(w.getInitialPrice())
                         .build());
     }
     public WarehouseRespDTO warehouseToWarehouseRespDTO(Warehouse warehouse) {
@@ -34,7 +33,6 @@ public class MapperForWarehouse {
                 .map(w -> WarehouseRespDTO.builder()
                         .productId(w.getProduct().getId())
                         .bookQuantity(w.getBookQuantity())
-                        .initialPrice(w.getInitialPrice())
                         .build())
                 .orElse(null);
     }

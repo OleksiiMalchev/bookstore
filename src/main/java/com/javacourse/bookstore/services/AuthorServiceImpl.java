@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
@@ -25,16 +24,16 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public List<AuthorRespDTO> getAllAuthor() {
-        return StreamSupport.stream(authorRepository.findAll().spliterator(), false)
-                .toList().stream()
-                .map(mapperForAuthor::authorToRespDTOStock)
+        return authorRepository.findAll()
+                .stream()
+                .map(mapperForAuthor::authorToRespDTO)
                 .toList();
     }
 
     @Override
     public Optional<AuthorRespDTO> getAuthorById(Long id) {
         return authorRepository.findById(id)
-                .map(mapperForAuthor::authorToRespDTOStock);
+                .map(mapperForAuthor::authorToRespDTO);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -42,7 +41,7 @@ public class AuthorServiceImpl implements AuthorService {
     public Optional<AuthorRespDTO> createAuthor(AuthorReqDTO authorReqDTO) {
         return mapperForAuthor.authorReqDTOToAuthor(authorReqDTO)
                 .map(authorRepository::save)
-                .map(mapperForAuthor::authorToRespDTOStock);
+                .map(mapperForAuthor::authorToRespDTO);
     }
 
     @Transactional
@@ -52,18 +51,18 @@ public class AuthorServiceImpl implements AuthorService {
                 .map(a -> {
                     if (authorReqDTO != null) {
                         a.setFirstName(authorReqDTO.getFirstName());
-                        a.setLastName(authorReqDTO.getLastName());;
+                        a.setLastName(authorReqDTO.getLastName());
                         return a;
                     }
                     return null;
                 })
-                .map(mapperForAuthor::authorToRespDTOStock);
+                .map(mapperForAuthor::authorToRespDTO);
     }
 
     @Override
     public Optional<AuthorRespDTO> deleteAuthor(Long authorId) {
         Optional<AuthorRespDTO> authorRespDTO = authorRepository.findById(authorId)
-                .map(mapperForAuthor::authorToRespDTOStock);
+                .map(mapperForAuthor::authorToRespDTO);
         if (authorRespDTO.isPresent()) {
             authorRepository.deleteById(authorId);
         }
@@ -73,12 +72,12 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Optional<AuthorRespDTO> findAuthorByBook(Long idBook) {
         return authorRepository.findAuthorByBook(idBook)
-                .map(mapperForAuthor::authorToRespDTOStock);
+                .map(mapperForAuthor::authorToRespDTO);
     }
 
     @Override
     public Optional<AuthorRespDTOWithBooks> getAuthorWithDetails(Long idAuthor) {
-        return authorRepository.findById(idAuthor)
+        return authorRepository.findByIdWithBook(idAuthor)
                 .map(mapperAuthorToRespDTO::authorToRespDTO);
     }
 }

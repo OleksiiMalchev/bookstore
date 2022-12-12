@@ -36,4 +36,6 @@ public class Book {
     @ManyToOne
     @JoinColumn(name="author_id",insertable = false, updatable = false)
     private Author author;
+
+
 }

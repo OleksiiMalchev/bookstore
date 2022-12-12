@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -16,17 +15,16 @@ public class MapperAuthorToRespDTO {
     private final MapperForBook mapperForBook;
 
     public AuthorRespDTOWithBooks authorToRespDTO(Author author) {
-        return Optional.ofNullable(author)
-                .map(a -> AuthorRespDTOWithBooks
-                        .builder()
-                        .firstName(a.getFirstName())
-                        .lastName(a.getLastName())
-                        .id(a.getId())
-                        .books(a.getBooks()
-                                .stream()
-                                .map(mapperForBook::toBookRespDTO)
-                                .collect(Collectors.toList()))
-                        .build())
-                .orElse(null);
+        if (author != null) {
+            return AuthorRespDTOWithBooks
+                    .builder()
+                    .firstName(author.getFirstName())
+                    .lastName(author.getLastName())
+                    .id(author.getId())
+                    .books(author.getBooks().stream()
+                            .map(mapperForBook::bookRespDTOForAuthorWithBooks)
+                            .collect(Collectors.toList())).build();
+        }
+        return null;
     }
 }

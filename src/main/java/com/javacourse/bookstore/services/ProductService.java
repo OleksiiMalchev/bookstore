@@ -18,7 +18,7 @@ public interface ProductService {
     Optional<ProductRespDTO> getProductById(Long idProduct);
     Optional<ProductRespDTOWithWarehouseInfo> getProductByIdWithWarehouseInfo(Long idProduct);
 
-    Optional<ProductRespDTO> createProduct(ProductReqDTO productReqDTO) throws Exception;
+    Optional<ProductRespDTO> createProduct(ProductReqDTO productReqDTO);
 
     Optional<ProductRespDTO> updateProduct(Long idProduct, ProductReqDTO productReqDTO);
 
