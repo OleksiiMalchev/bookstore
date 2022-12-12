@@ -37,13 +37,31 @@ public class WarehouseController {
             return ResponseEntity.status(200).body(allWarehouse);
         }
     }
-//    @PostMapping("/warehouses")
-//    public ResponseEntity<? super WarehouseRespDTO> createWarehouse(@RequestBody(required = false)
-//                                                                    WarehouseReqDTO warehouseReqDTO) throws Exception {
-//        Optional<WarehouseRespDTO> newWarehouse = warehouseService.createWarehouse(warehouseReqDTO);
-//        if (newWarehouse.isPresent()) {
-//            return ResponseEntity.status(201).body(warehouseReqDTO);
-//        }
-//        return new ResponseEntity<>("Invalid request. Warehouse not create", HttpStatus.NOT_FOUND);
-//    }
+    @PostMapping("/warehouses")
+    public ResponseEntity<? super WarehouseRespDTO> createWarehouse(@RequestBody(required = false)
+                                                                    WarehouseReqDTO warehouseReqDTO) throws Exception {
+        Optional<WarehouseRespDTO> newWarehouse = warehouseService.createWarehouse(warehouseReqDTO);
+        if (newWarehouse.isPresent()) {
+            return ResponseEntity.status(201).body(warehouseReqDTO);
+        }
+        return new ResponseEntity<>("Invalid request. Warehouse not create", HttpStatus.NOT_FOUND);
+    }
+    @PutMapping("/warehouses/{id}")
+    public ResponseEntity<? super WarehouseRespDTO> update(@PathVariable("id") Long id,
+                                                         @RequestBody(required = false) WarehouseReqDTO warehouseReqDTO) {
+        Optional<WarehouseRespDTO> warehouseUpdate = warehouseService.updateWarehouse(id, warehouseReqDTO);
+        if (warehouseUpdate.isPresent()) {
+            return ResponseEntity.status(200).body(warehouseUpdate);
+        }
+        return new ResponseEntity<>("Invalid request. Warehouse not update", HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/warehouses/{id}")
+    public ResponseEntity<? super WarehouseRespDTO> delete(@PathVariable("id") Long idWarehouse)  {
+        Optional<WarehouseRespDTO> warehouseDelete = warehouseService.deleteWarehouse(idWarehouse);
+        if (warehouseDelete.isPresent()) {
+            return ResponseEntity.status(200).body(warehouseDelete);
+        }
+        return new ResponseEntity<>("Warehouse not found ", HttpStatus.NOT_FOUND);
+    }
 }

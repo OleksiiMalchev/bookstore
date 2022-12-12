@@ -21,6 +21,7 @@ public class MapperForWarehouse {
                 .findAny()
                 .map(w -> Warehouse
                         .builder()
+                        .productId(w.getProductId())
                         .product(productRepository.findById(warehouseReqDTO.getProductId()).get())
                         .bookQuantity(w.getBookQuantity())
                         .initialPrice(w.getInitialPrice())
