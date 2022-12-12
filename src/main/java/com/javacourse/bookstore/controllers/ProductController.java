@@ -19,17 +19,12 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<? super ProductRespDTOWithWarehouseInfo> getProductById(@PathVariable("id") Long idProduct) {
-        Optional<ProductRespDTO> productById = productService.getProductById(idProduct);
-        if (productById.isPresent()) {
-            return ResponseEntity.status(200).body(productById);
-        } else {
-            return new ResponseEntity<>("Product not found ", HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<? super ProductRespDTO> getProductById(@PathVariable("id") Long idProduct) {
+        return checking(productService.getProductById(idProduct));
     }
 
     @GetMapping("/productWarehouse/{idProduct}")
-    public ResponseEntity<? super ProductRespDTOWithWarehouseInfo> getProductByWarehouseId(@PathVariable("idProduct") Long idProduct) {
+    public ResponseEntity<? super ProductRespDTOWithWarehouseInfo> getProductByIdWithDetails(@PathVariable("idProduct") Long idProduct) {
         Optional<ProductRespDTOWithWarehouseInfo> productInfo = productService.getProductByIdWithWarehouseInfo(idProduct);
         if (productInfo.isPresent()) {
             return ResponseEntity.status(200).body(productInfo);
@@ -47,6 +42,7 @@ public class ProductController {
             return ResponseEntity.status(200).body(allProduct);
         }
     }
+
     @GetMapping("/products/info")
     public ResponseEntity<? super List<ProductRespDTOWithWarehouseInfo>> getAllProductWithWarehouseInfo() throws SQLException {
         List<ProductRespDTOWithWarehouseInfo> allProductWithWarehouseInfo = productService.getAllProductWithWarehouseInfo();
@@ -60,31 +56,26 @@ public class ProductController {
 
     @PostMapping("/products")
     public ResponseEntity<? super ProductRespDTO> createProduct(@RequestBody(required = false)
-                                                                    ProductReqDTO productReqDTO) throws Exception {
-        Optional<ProductRespDTO> newProduct = productService.createProduct(productReqDTO);
-        if (newProduct.isPresent()) {
-            return ResponseEntity.status(201).body(newProduct);
-        }
-        return new ResponseEntity<>("Invalid request. Product not create", HttpStatus.NOT_FOUND);
-
+                                                                ProductReqDTO productReqDTO) throws Exception {
+        return checking(productService.createProduct(productReqDTO));
     }
 
     @PutMapping("/products/{idProduct}")
     public ResponseEntity<? super ProductRespDTO> update(@PathVariable("idProduct") Long idProduct,
-                                                        @RequestBody(required = false) ProductReqDTO productReqDTO) {
-        Optional<ProductRespDTO> productUpdate = productService.updateProduct(idProduct, productReqDTO);
-        if (productUpdate.isPresent()) {
-            return ResponseEntity.status(200).body(productUpdate);
-        }
-        return new ResponseEntity<>("Invalid request. Product not update", HttpStatus.NOT_FOUND);
+                                                         @RequestBody(required = false) ProductReqDTO productReqDTO) {
+        return checking(productService.updateProduct(idProduct, productReqDTO));
     }
 
     @DeleteMapping("/products/{idProduct}")
-    public ResponseEntity<? super ProductRespDTO> delete(@PathVariable("idProduct") Long idProduct)  {
-        Optional<ProductRespDTO> productDelete = productService.deleteProduct(idProduct);
-        if (productDelete.isPresent()) {
-            return ResponseEntity.status(200).body(productDelete);
+    public ResponseEntity<? super ProductRespDTO> delete(@PathVariable("idProduct") Long idProduct) {
+        return checking(productService.deleteProduct(idProduct));
+    }
+
+    private static ResponseEntity<? super ProductRespDTO> checking(Optional<ProductRespDTO> productRespDTO) {
+        if (productRespDTO.isPresent()) {
+            return ResponseEntity.status(200).body(productRespDTO);
         }
-        return new ResponseEntity<>("Product not found ", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
     }
 }
+

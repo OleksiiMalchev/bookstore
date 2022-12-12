@@ -1,25 +1,30 @@
 package com.javacourse.bookstore.services;
 
 import com.javacourse.bookstore.mappers.MapperForProduct;
-import com.javacourse.bookstore.mappers.domain.dto.*;
+import com.javacourse.bookstore.mappers.domain.Product;
+import com.javacourse.bookstore.mappers.domain.dto.ProductReqDTO;
+import com.javacourse.bookstore.mappers.domain.dto.ProductRespDTO;
+import com.javacourse.bookstore.mappers.domain.dto.ProductRespDTOWithWarehouseInfo;
+import com.javacourse.bookstore.repositories.BookRepository;
 import com.javacourse.bookstore.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final MapperForProduct mapperForProduct;
     private final ProductRepository productRepository;
+    private final BookRepository bookRepository;
 
     @Override
     public List<ProductRespDTO> getAllProduct() {
-        return StreamSupport.stream(productRepository.findAll().spliterator(), false)
-                .toList().stream()
+        return productRepository.findAll()
+                .stream()
                 .map(mapperForProduct::productToProductRespDTO)
                 .toList();
     }
@@ -32,7 +37,6 @@ public class ProductServiceImpl implements ProductService {
                 .toList();
     }
 
-
     @Override
     public Optional<ProductRespDTO> getProductById(Long idProduct) {
         return productRepository.findById(idProduct)
@@ -41,37 +45,46 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Optional<ProductRespDTOWithWarehouseInfo> getProductByIdWithWarehouseInfo(Long idProduct) {
-        return productRepository.findById(idProduct)
+        return productRepository.findByIdWithInfo(idProduct)
                 .map(mapperForProduct::productToProductRespDTOWithInfo);
     }
 
     @Override
-    public Optional<ProductRespDTO> createProduct(ProductReqDTO productReqDTO) throws Exception {
+    public Optional<ProductRespDTO> createProduct(ProductReqDTO productReqDTO)  {
         Long bookId = productReqDTO.getBookId();
         if (bookId == null) {
-            throw new Exception("Cant create product without book");
-        } else {
-            return mapperForProduct.productReqDTOToProduct(productReqDTO)
-                    .map(productRepository::save)
-                    .map(mapperForProduct::productToProductRespDTO);
+           return Optional.empty();
+        } else if(bookRepository.existsById(bookId)) {
+            Optional<Product> product = mapperForProduct.productReqDTOToProduct(productReqDTO)
+                    .map(productRepository::save);
+            return productRepository.findById(product.get().getId())
+                     .map(mapperForProduct::productToProductRespDTO);
         }
+        return Optional.empty();
     }
-
+    @Transactional
     @Override
     public Optional<ProductRespDTO> updateProduct(Long idProduct, ProductReqDTO productReqDTO) {
-        return productRepository.findById(idProduct)
-                .map(p -> {
-                    p.setPrice(productReqDTO.getPrice());
-                    p.setDescription(productReqDTO.getDescription());
-                    return p;
-                })
-                .map(mapperForProduct::productToProductRespDTO);
+        Optional<Product> productById = productRepository.findById(idProduct);
+        if (productRepository.existsById(idProduct)) {
+            return productById
+                    .map(p -> {
+                        p.setDescription(productReqDTO.getDescription());
+                        p.setInitialPrice(productReqDTO.getInitialPrice());
+                        p.setPrice((long) (productReqDTO.getInitialPrice()*1.2));
+                        return p;
+                    })
+                    .map(mapperForProduct::productToProductRespDTO);
+        }
+        return Optional.empty();
     }
 
 
     @Override
     public Optional<ProductRespDTO> deleteProduct(Long idProduct) {
-        Optional<ProductRespDTO> productRespDTO = productRepository.findById(idProduct).map(mapperForProduct::productToProductRespDTO);
+        Optional<ProductRespDTO> productRespDTO = productRepository
+                .findById(idProduct)
+                .map(mapperForProduct::productToProductRespDTO);
         if (productRespDTO.isPresent()) {
             productRepository.deleteById(idProduct);
         }

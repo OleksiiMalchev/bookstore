@@ -19,8 +19,6 @@ public class Warehouse {
     private Long productId;
     @Column(name = "book_quantity")
     private Integer bookQuantity;
-    @Column(name = "initial_price")
-    private Long initialPrice;
     @Column(name = "reserve")
     private Integer reserve;
     @Column(name = "sale")
