@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Builder
 public class WarehouseRespDTO {
+    private Long id;
     private Long productId;
     private Integer bookQuantity;
     private Long initialPrice;
