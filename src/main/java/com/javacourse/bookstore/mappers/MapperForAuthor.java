@@ -1,9 +1,9 @@
 package com.javacourse.bookstore.mappers;
 
-import com.javacourse.bookstore.mappers.domain.Author;
-import com.javacourse.bookstore.mappers.domain.dto.AuthorReqDTO;
-import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTO;
-import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTOID;
+import com.javacourse.bookstore.domain.Author;
+import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
+import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
+import com.javacourse.bookstore.domain.dto.AuthorRespDTOID;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;

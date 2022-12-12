@@ -1,10 +1,10 @@
 package com.javacourse.bookstore.mappers;
 
-import com.javacourse.bookstore.mappers.domain.Author;
-import com.javacourse.bookstore.mappers.domain.Book;
-import com.javacourse.bookstore.mappers.domain.dto.BookReqDTO;
-import com.javacourse.bookstore.mappers.domain.dto.BookRespDTO;
-import com.javacourse.bookstore.mappers.domain.dto.BookRespDTOForAuthorWithBooks;
+import com.javacourse.bookstore.domain.Author;
+import com.javacourse.bookstore.domain.Book;
+import com.javacourse.bookstore.domain.dto.BookReqDTO;
+import com.javacourse.bookstore.domain.dto.BookRespDTO;
+import com.javacourse.bookstore.domain.dto.BookRespDTOForAuthorWithBooks;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

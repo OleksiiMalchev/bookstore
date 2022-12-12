@@ -1,8 +1,8 @@
 package com.javacourse.bookstore.controllers;
 
-import com.javacourse.bookstore.mappers.domain.dto.AuthorReqDTO;
-import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTO;
-import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTOWithBooks;
+import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
+import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
+import com.javacourse.bookstore.domain.dto.AuthorRespDTOWithBooks;
 import com.javacourse.bookstore.services.AuthorService;
 import exception.AuthorNotFoundException;
 import lombok.RequiredArgsConstructor;

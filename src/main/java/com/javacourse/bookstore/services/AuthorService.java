@@ -1,8 +1,8 @@
 package com.javacourse.bookstore.services;
 
-import com.javacourse.bookstore.mappers.domain.dto.AuthorReqDTO;
-import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTO;
-import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTOWithBooks;
+import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
+import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
+import com.javacourse.bookstore.domain.dto.AuthorRespDTOWithBooks;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
