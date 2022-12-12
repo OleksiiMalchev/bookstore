@@ -31,6 +31,7 @@ public class MapperForWarehouse {
                 .stream()
                 .findAny()
                 .map(w -> WarehouseRespDTO.builder()
+                        .id(w.getId())
                         .productId(w.getProduct().getId())
                         .bookQuantity(w.getBookQuantity())
                         .build())

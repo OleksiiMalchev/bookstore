@@ -18,8 +18,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     private final WarehouseRepository warehouseRepository;
 
     public List<WarehouseRespDTO> getAllWarehouse() {
-        return StreamSupport.stream(warehouseRepository.findAll().spliterator(), false)
-                .toList()
+        return warehouseRepository.findAll()
                 .stream()
                 .map(mapperForWarehouse::warehouseToWarehouseRespDTO)
                 .toList();
@@ -30,12 +29,11 @@ public class WarehouseServiceImpl implements WarehouseService {
                 .map(mapperForWarehouse::warehouseToWarehouseRespDTO);
     }
 
-    public Optional<WarehouseRespDTO> createWarehouse(WarehouseReqDTO warehouseReqDTO) throws Exception {
+    public Optional<WarehouseRespDTO> createWarehouse(WarehouseReqDTO warehouseReqDTO) {
         Long idProduct = warehouseReqDTO.getProductId();
         Integer bookQuantity = warehouseReqDTO.getBookQuantity();
-        Long initialPrice = warehouseReqDTO.getInitialPrice();
-        if (idProduct == null || bookQuantity == null || initialPrice == null) {
-            throw new Exception("Can not create warehouse without product, book quantity and initial price.");
+        if (idProduct == null || bookQuantity == null) {
+            return Optional.empty();
         }
         return mapperForWarehouse.warehouseReqDTOToWarehouse(warehouseReqDTO)
                 .map(warehouseRepository::save)
