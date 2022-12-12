@@ -3,19 +3,21 @@ package com.javacourse.bookstore.services;
 import com.javacourse.bookstore.mappers.MapperForWarehouse;
 import com.javacourse.bookstore.mappers.domain.dto.WarehouseReqDTO;
 import com.javacourse.bookstore.mappers.domain.dto.WarehouseRespDTO;
+import com.javacourse.bookstore.repositories.ProductRepository;
 import com.javacourse.bookstore.repositories.WarehouseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
+
 
 @Service
 @RequiredArgsConstructor
 public class WarehouseServiceImpl implements WarehouseService {
     private final MapperForWarehouse mapperForWarehouse;
     private final WarehouseRepository warehouseRepository;
+    private final ProductRepository productRepository;
 
     public List<WarehouseRespDTO> getAllWarehouse() {
         return warehouseRepository.findAll()
@@ -32,13 +34,12 @@ public class WarehouseServiceImpl implements WarehouseService {
     public Optional<WarehouseRespDTO> createWarehouse(WarehouseReqDTO warehouseReqDTO) {
         Long idProduct = warehouseReqDTO.getProductId();
         Integer bookQuantity = warehouseReqDTO.getBookQuantity();
-        if (idProduct == null || bookQuantity == null) {
-            return Optional.empty();
+        if (idProduct != null && bookQuantity != null && productRepository.existsById(idProduct)) {
+            return mapperForWarehouse.warehouseReqDTOToWarehouse(warehouseReqDTO)
+                    .map(warehouseRepository::save)
+                    .map(mapperForWarehouse::warehouseToWarehouseRespDTO);
         }
-        return mapperForWarehouse.warehouseReqDTOToWarehouse(warehouseReqDTO)
-                .map(warehouseRepository::save)
-                .map(mapperForWarehouse::warehouseToWarehouseRespDTO);
-
+        return Optional.empty();
     }
 
     public Optional<WarehouseRespDTO> updateWarehouse(Long idWarehouse, WarehouseReqDTO warehouseReqDTO) {
