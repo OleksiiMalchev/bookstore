@@ -56,7 +56,11 @@ public class AuthorController {
     @PutMapping("/authors/{id}")
     public ResponseEntity<? super AuthorRespDTO> update(@PathVariable("id") Long id,
                                                         @RequestBody(required = false) AuthorReqDTO authorReqDTO) {
-        return checking(authorService.updateAuthor(id, authorReqDTO));
+        Optional<AuthorRespDTO> authorRespDTO = authorService.updateAuthor(id, authorReqDTO);
+        if (authorRespDTO.isPresent()) {
+            return ResponseEntity.status(201).body(authorRespDTO);
+        }
+        return new ResponseEntity<>("Author not found. No action taken.", HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/authors/{id}")
