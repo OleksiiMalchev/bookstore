@@ -1,7 +1,7 @@
 package com.javacourse.bookstore.controllers;
 
-import com.javacourse.bookstore.mappers.domain.dto.BookReqDTO;
-import com.javacourse.bookstore.mappers.domain.dto.BookRespDTO;
+import com.javacourse.bookstore.domain.dto.BookReqDTO;
+import com.javacourse.bookstore.domain.dto.BookRespDTO;
 import com.javacourse.bookstore.services.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,8 +1,8 @@
 package com.javacourse.bookstore.mappers;
 
-import com.javacourse.bookstore.mappers.domain.Warehouse;
-import com.javacourse.bookstore.mappers.domain.dto.WarehouseReqDTO;
-import com.javacourse.bookstore.mappers.domain.dto.WarehouseRespDTO;
+import com.javacourse.bookstore.domain.Warehouse;
+import com.javacourse.bookstore.domain.dto.WarehouseReqDTO;
+import com.javacourse.bookstore.domain.dto.WarehouseRespDTO;
 import com.javacourse.bookstore.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

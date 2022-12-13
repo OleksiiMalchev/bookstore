@@ -1,6 +1,6 @@
 package com.javacourse.bookstore.repositories;
 
-import com.javacourse.bookstore.mappers.domain.Order;
+import com.javacourse.bookstore.domain.Order;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 @Repository
