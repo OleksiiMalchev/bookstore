@@ -7,6 +7,7 @@ import com.javacourse.bookstore.repositories.ProductRepository;
 import com.javacourse.bookstore.repositories.WarehouseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +42,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         }
         return Optional.empty();
     }
-
+    @Transactional
     public Optional<WarehouseRespDTO> updateWarehouse(Long idWarehouse, WarehouseReqDTO warehouseReqDTO) {
         return warehouseRepository.findById(idWarehouse)
                 .map(warehouse -> {
