@@ -1,7 +1,7 @@
 package com.javacourse.bookstore.controllers;
 
-import com.javacourse.bookstore.mappers.domain.dto.BookReqDTO;
-import com.javacourse.bookstore.mappers.domain.dto.BookRespDTO;
+import com.javacourse.bookstore.domain.dto.BookReqDTO;
+import com.javacourse.bookstore.domain.dto.BookRespDTO;
 import com.javacourse.bookstore.services.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,13 +34,18 @@ public class BookController {
 
     @PostMapping("/books")
     public ResponseEntity<? super BookRespDTO> create(@RequestBody(required = false) BookReqDTO bookReqDTO) {
-        return checking(bookService.create(bookReqDTO));
+        Optional<BookRespDTO> bookRespDTO = bookService.create(bookReqDTO);
+        if (bookRespDTO.isPresent()) {
+            return ResponseEntity.status(200).body(bookRespDTO);
+        }
+        return new ResponseEntity<>("Book not found. No action taken.", HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/books/{id}")
     public ResponseEntity<? super BookRespDTO> update(@PathVariable("id") Long id,
                                                       @RequestBody(required = false) BookReqDTO bookReqDTO) {
         return checking(bookService.update(id, bookReqDTO));
+
     }
 
     @DeleteMapping("/books/{id}")

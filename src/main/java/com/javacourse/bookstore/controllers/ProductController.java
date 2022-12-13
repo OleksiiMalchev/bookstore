@@ -1,8 +1,8 @@
 package com.javacourse.bookstore.controllers;
 
-import com.javacourse.bookstore.mappers.domain.dto.ProductReqDTO;
-import com.javacourse.bookstore.mappers.domain.dto.ProductRespDTO;
-import com.javacourse.bookstore.mappers.domain.dto.ProductRespDTOWithWarehouseInfo;
+import com.javacourse.bookstore.domain.dto.ProductReqDTO;
+import com.javacourse.bookstore.domain.dto.ProductRespDTO;
+import com.javacourse.bookstore.domain.dto.ProductRespDTOWithWarehouseInfo;
 import com.javacourse.bookstore.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -57,7 +57,12 @@ public class ProductController {
     @PostMapping("/products")
     public ResponseEntity<? super ProductRespDTO> createProduct(@RequestBody(required = false)
                                                                 ProductReqDTO productReqDTO) throws Exception {
-        return checking(productService.createProduct(productReqDTO));
+
+      Optional<ProductRespDTO> createProduct = productService.createProduct(productReqDTO);
+        if (createProduct.isPresent()) {
+            return ResponseEntity.status(201).body(createProduct);
+        }
+        return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/products/{idProduct}")

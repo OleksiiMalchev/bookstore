@@ -1,10 +1,9 @@
 package com.javacourse.bookstore.controllers;
 
-import com.javacourse.bookstore.mappers.domain.dto.AuthorReqDTO;
-import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTO;
-import com.javacourse.bookstore.mappers.domain.dto.AuthorRespDTOWithBooks;
+import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
+import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
+import com.javacourse.bookstore.domain.dto.AuthorRespDTOWithBooks;
 import com.javacourse.bookstore.services.AuthorService;
-import exception.AuthorNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,17 +49,22 @@ public class AuthorController {
 
     @PostMapping("/authors")
     public ResponseEntity<? super AuthorRespDTO> create(@RequestBody(required = false) AuthorReqDTO authorReqDTO) {
-        return checking(authorService.createAuthor(authorReqDTO));
+        Optional<AuthorRespDTO> author = authorService.createAuthor(authorReqDTO);
+        if (author.isPresent()) {
+            return ResponseEntity.status(201).body(author);
+        }
+        return new ResponseEntity<>("Author not found. No action taken.", HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/authors/{id}")
     public ResponseEntity<? super AuthorRespDTO> update(@PathVariable("id") Long id,
                                                         @RequestBody(required = false) AuthorReqDTO authorReqDTO) {
         return checking(authorService.updateAuthor(id, authorReqDTO));
+
     }
 
     @DeleteMapping("/authors/{id}")
-    public ResponseEntity<? super AuthorRespDTO> delete(@PathVariable("id") Long id) throws AuthorNotFoundException {
+    public ResponseEntity<? super AuthorRespDTO> delete(@PathVariable("id") Long id)  {
         return checking(authorService.deleteAuthor(id));
     }
 

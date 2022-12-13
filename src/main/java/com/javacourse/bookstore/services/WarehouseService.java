@@ -1,7 +1,7 @@
 package com.javacourse.bookstore.services;
 
-import com.javacourse.bookstore.mappers.domain.dto.WarehouseReqDTO;
-import com.javacourse.bookstore.mappers.domain.dto.WarehouseRespDTO;
+import com.javacourse.bookstore.domain.dto.WarehouseReqDTO;
+import com.javacourse.bookstore.domain.dto.WarehouseRespDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
