@@ -57,7 +57,12 @@ public class ProductController {
     @PostMapping("/products")
     public ResponseEntity<? super ProductRespDTO> createProduct(@RequestBody(required = false)
                                                                 ProductReqDTO productReqDTO) throws Exception {
-        return checking(productService.createProduct(productReqDTO));
+
+      Optional<ProductRespDTO> createProduct = productService.createProduct(productReqDTO);
+        if (createProduct.isPresent()) {
+            return ResponseEntity.status(201).body(createProduct);
+        }
+        return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/products/{idProduct}")
