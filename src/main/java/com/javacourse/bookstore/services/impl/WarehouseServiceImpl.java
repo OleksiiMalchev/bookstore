@@ -1,10 +1,11 @@
-package com.javacourse.bookstore.services;
+package com.javacourse.bookstore.services.impl;
 
+import com.javacourse.bookstore.domain.dto.WarehouseReqDTO;
+import com.javacourse.bookstore.domain.dto.WarehouseRespDTO;
 import com.javacourse.bookstore.mappers.MapperForWarehouse;
-import com.javacourse.bookstore.mappers.domain.dto.WarehouseReqDTO;
-import com.javacourse.bookstore.mappers.domain.dto.WarehouseRespDTO;
 import com.javacourse.bookstore.repositories.ProductRepository;
 import com.javacourse.bookstore.repositories.WarehouseRepository;
+import com.javacourse.bookstore.services.WarehouseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
