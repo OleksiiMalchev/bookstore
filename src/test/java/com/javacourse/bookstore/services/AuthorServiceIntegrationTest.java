@@ -33,7 +33,8 @@ public class AuthorServiceIntegrationTest {
         testDbHelper.uploadScript("scripts/author_test_script.sql");
         mockMvc.perform(MockMvcRequestBuilders.get("/authors/{id}", 10055))
                 .andExpect(MockMvcResultMatchers.status().is(200))
-                .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON.getMediaType()))
+                .andExpect(MockMvcResultMatchers.content()
+                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON.getMediaType()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.firstName")
                         .value("Stephen"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.lastName")
@@ -42,7 +43,8 @@ public class AuthorServiceIntegrationTest {
 
     @Test
     public void createAuthorTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/authors").content("{\"firstName\": \"Steven\", \"lastName\": \"Kipling\"}")
+        mockMvc.perform(MockMvcRequestBuilders.post("/authors")
+                        .content("{\"firstName\": \"Steven\", \"lastName\": \"Kipling\"}")
                         .contentType(MediaType.APPLICATION_JSON.getMediaType()))
                 .andExpect(MockMvcResultMatchers.status().is(201))
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON.getMediaType()))
