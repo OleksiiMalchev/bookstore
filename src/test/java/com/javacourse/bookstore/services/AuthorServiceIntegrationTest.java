@@ -50,7 +50,7 @@ public class AuthorServiceIntegrationTest {
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON.getMediaType()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Steven"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("Kipling"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.authorId").exists());
     }
 
     @Test
