@@ -17,7 +17,7 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping("/books/{id}")
-    public ResponseEntity<? super BookRespDTO> getBookByID(@PathVariable("id") Long id) {
+    public ResponseEntity<? super BookRespDTO> getBookById(@PathVariable("id") Long id) {
         return checking(bookService.getBookById(id));
     }
 
@@ -36,7 +36,7 @@ public class BookController {
     public ResponseEntity<? super BookRespDTO> create(@RequestBody(required = false) BookReqDTO bookReqDTO) {
         Optional<BookRespDTO> bookRespDTO = bookService.create(bookReqDTO);
         if (bookRespDTO.isPresent()) {
-            return ResponseEntity.status(200).body(bookRespDTO);
+            return ResponseEntity.status(201).body(bookRespDTO);
         }
         return new ResponseEntity<>("Book not found. No action taken.", HttpStatus.NOT_FOUND);
     }

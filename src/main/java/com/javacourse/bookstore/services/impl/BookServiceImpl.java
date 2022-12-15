@@ -1,22 +1,21 @@
 package com.javacourse.bookstore.services.impl;
 
-import com.javacourse.bookstore.mappers.MapperForBook;
 import com.javacourse.bookstore.domain.Author;
 import com.javacourse.bookstore.domain.Book;
 import com.javacourse.bookstore.domain.dto.BookReqDTO;
 import com.javacourse.bookstore.domain.dto.BookRespDTO;
+import com.javacourse.bookstore.mappers.MapperForBook;
 import com.javacourse.bookstore.repositories.AuthorRepository;
 import com.javacourse.bookstore.repositories.BookRepository;
 import com.javacourse.bookstore.services.BookService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
+
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
@@ -52,9 +51,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Optional<BookRespDTO> create(BookReqDTO bookReqDTO) {
         Long authorId = bookReqDTO.getAuthorId();
-        if (authorId == null) {
-            return Optional.empty();
-        } else if (authorRepository.existsById(authorId)) {
+        if (authorId != null && authorRepository.existsById(authorId)) {
             Optional<Author> authorById = authorRepository.findById(bookReqDTO.getAuthorId());
             Book book = mapperForBook.getBook(bookReqDTO);
             book.setAuthor(authorById.get());
@@ -70,9 +67,7 @@ public class BookServiceImpl implements BookService {
     public Optional<BookRespDTO> update(Long idBook, BookReqDTO bookReqDTO) {
         Optional<Book> bookById = bookRepository.findById(idBook);
         Long authorId = bookReqDTO.getAuthorId();
-        if (authorId == null) {
-            return Optional.empty();
-        } else if (authorRepository.existsById(authorId)) {
+        if (authorId != null && authorRepository.existsById(authorId)) {
             return bookById.map(book -> {
                         book.setTitle(bookReqDTO.getTitle());
                         book.setPublishingHouse(bookReqDTO.getPublishingHouse());
@@ -81,7 +76,7 @@ public class BookServiceImpl implements BookService {
                         book.setIsbn(bookReqDTO.getIsbn());
                         book.setCover(bookReqDTO.getCover());
                         book.setAuthorId(bookReqDTO.getAuthorId());
-                       // book.setAuthor(authorRepository.findById(bookReqDTO.getAuthorId()).get());
+                        book.setAuthor(authorRepository.findById(bookReqDTO.getAuthorId()).get());
                         book.setYearOfPublication(bookReqDTO.getYearOfPublication());
                         return book;
                     })

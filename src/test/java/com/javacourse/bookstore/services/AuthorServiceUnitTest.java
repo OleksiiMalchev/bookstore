@@ -26,6 +26,7 @@ class AuthorServiceUnitTest extends TestLightConfig {
     @Captor
     private ArgumentCaptor<Author> authorArgumentCaptor;
 
+
     @Test
     void createAuthor() {
         final String testAuthorFirstName = "Steven";
@@ -37,11 +38,11 @@ class AuthorServiceUnitTest extends TestLightConfig {
                 .build();
 
         Author authorToSave = Author.builder().firstName(testAuthorFirstName).lastName(testAuthorLastName).build();
+
         when(authorRepository.save(any(Author.class))).thenReturn(authorToSave);
         Optional<AuthorRespDTO> author = authorService.createAuthor(authorReqDTO);
         verify(authorRepository, times(1)).save(authorArgumentCaptor.capture());
         Author authorEntity = authorArgumentCaptor.getValue();
-
         Assertions.assertEquals(testAuthorFirstName, authorEntity.getFirstName());
         Assertions.assertEquals(testAuthorLastName, authorEntity.getLastName());
         Assertions.assertTrue(author.isPresent());
