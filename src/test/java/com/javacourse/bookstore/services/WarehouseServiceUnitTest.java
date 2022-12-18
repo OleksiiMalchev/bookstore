@@ -119,34 +119,32 @@ public class WarehouseServiceUnitTest extends TestLightConfig {
         when(warehouseRepository.existsById(testWarehouseId)).thenReturn(true);
         when(warehouseRepository.findById(testWarehouseId)).thenReturn(Optional.ofNullable(warehouseOrigin));
         when(warehouseRepository.save(warehouseChange)).thenReturn(warehouseChange);
-        when(warehouseRepository.existsById(testWarehouseId)).thenReturn(false);
         when(warehouseRepository.findById(testWarehouseId)).thenReturn(Optional.ofNullable(warehouseChange));
         Optional<WarehouseRespDTO> warehouse = warehouseService.updateWarehouse(testWarehouseId, warehouseReqDTO);
 
         Assertions.assertTrue(warehouse.isPresent());
         Assertions.assertEquals(testWarehouseBookQuantitySecond, warehouse.get().getBookQuantity());
     }
-//    @Test
-//    void deleteWarehouse(){
-//        Warehouse warehouse = Warehouse.builder()
-//                .id(testWarehouseId)
-//                .productId(testWarehouseProductId)
-//                .bookQuantity(testWarehouseBookQuantity)
-//                .build();
-//        WarehouseRespDTO warehouseRespDTO = WarehouseRespDTO.builder()
-//                .id(testWarehouseId)
-//                .productId(testWarehouseProductId)
-//                .bookQuantity(testWarehouseBookQuantity)
-//                .build();
+    @Test
+    void deleteWarehouse(){
+        Warehouse warehouse = Warehouse.builder()
+                .id(testWarehouseId)
+                .productId(testWarehouseProductId)
+                .bookQuantity(testWarehouseBookQuantity)
+                .build();
+        WarehouseRespDTO warehouseRespDTO = WarehouseRespDTO.builder()
+                .id(testWarehouseId)
+                .productId(testWarehouseProductId)
+                .bookQuantity(testWarehouseBookQuantity)
+                .build();
+
+        when(warehouseRepository.existsById(testWarehouseId)).thenReturn(true);
+        warehouseRepository.deleteById(testWarehouseId);
+        when(warehouseRepository.existsById(testWarehouseId)).thenReturn(false);
+//        verify(warehouseRepository, times(1)).delete(warehouseArgumentCaptor.capture());
+//        Warehouse warehouseEntity = warehouseArgumentCaptor.getValue();
 //
-//        when(warehouseRepository.existsById(testWarehouseId)).thenReturn(true);
-//        warehouseRepository.deleteById(testWarehouseId);
-//        when(warehouseRepository.existsById(testWarehouseId)).thenReturn(false);
-//
-//
-//
-//        Assertions.assertNull(warehouse);
-// //       Assertions.assertEquals(1L, warehouseResp.get().getId());
-//    }
+//        Assertions.assertEquals(warehouseEntity, null);
+    }
 
 }
