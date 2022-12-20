@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.CompositeDatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
-public class TestDbHelper {
+public class  TestDbHelper {
 
     private final JdbcTemplate jdbcTemplate;
 

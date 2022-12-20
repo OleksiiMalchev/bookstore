@@ -1,4 +1,4 @@
-package com.javacourse.bookstore.services.impl;
+package com.javacourse.bookstore.domain.impl;
 
 import com.javacourse.bookstore.domain.dto.WarehouseReqDTO;
 import com.javacourse.bookstore.domain.dto.WarehouseRespDTO;

@@ -21,7 +21,6 @@ public class AuthorServiceIntegrationTest {
     private MockMvc mockMvc;
     @Autowired
     private TestDbHelper testDbHelper;
-
     @AfterEach
     public void beforeEach() {
         testDbHelper.cleanTable("author");
