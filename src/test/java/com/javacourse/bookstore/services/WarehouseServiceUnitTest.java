@@ -125,14 +125,10 @@ public class WarehouseServiceUnitTest extends TestLightConfig {
         Assertions.assertTrue(warehouse.isPresent());
         Assertions.assertEquals(testWarehouseBookQuantitySecond, warehouse.get().getBookQuantity());
     }
+
     @Test
-    void deleteWarehouse(){
+    void deleteWarehouse() {
         Warehouse warehouse = Warehouse.builder()
-                .id(testWarehouseId)
-                .productId(testWarehouseProductId)
-                .bookQuantity(testWarehouseBookQuantity)
-                .build();
-        WarehouseRespDTO warehouseRespDTO = WarehouseRespDTO.builder()
                 .id(testWarehouseId)
                 .productId(testWarehouseProductId)
                 .bookQuantity(testWarehouseBookQuantity)
@@ -141,10 +137,7 @@ public class WarehouseServiceUnitTest extends TestLightConfig {
         when(warehouseRepository.existsById(testWarehouseId)).thenReturn(true);
         warehouseRepository.deleteById(testWarehouseId);
         when(warehouseRepository.existsById(testWarehouseId)).thenReturn(false);
-//        verify(warehouseRepository, times(1)).delete(warehouseArgumentCaptor.capture());
-//        Warehouse warehouseEntity = warehouseArgumentCaptor.getValue();
-//
-//        Assertions.assertEquals(warehouseEntity, null);
+        Optional<WarehouseRespDTO> warehouseDelete = warehouseService.deleteWarehouse(warehouse.getId());
+        Assertions.assertFalse(warehouseDelete.isPresent());
     }
-
 }
