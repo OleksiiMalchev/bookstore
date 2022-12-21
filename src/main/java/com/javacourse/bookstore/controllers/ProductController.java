@@ -18,8 +18,8 @@ import java.util.Optional;
 public class ProductController {
     private final ProductService productService;
 
-    @GetMapping("/products/{id}")
-    public ResponseEntity<? super ProductRespDTO> getProductById(@PathVariable("id") Long idProduct) {
+    @GetMapping("/products/{idProduct}")
+    public ResponseEntity<? super ProductRespDTO> getProductById(@PathVariable("idProduct") Long idProduct) {
         return checking(productService.getProductById(idProduct));
     }
 

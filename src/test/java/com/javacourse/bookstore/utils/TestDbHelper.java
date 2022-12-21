@@ -5,6 +5,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.CompositeDatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
+import java.sql.Connection;
+
 public class TestDbHelper {
 
     private final JdbcTemplate jdbcTemplate;
@@ -14,10 +16,10 @@ public class TestDbHelper {
     }
 
     public void uploadScript(String location) {
-        try {
+        try (Connection connection = jdbcTemplate.getDataSource().getConnection()){
             CompositeDatabasePopulator compositeDatabasePopulator = new CompositeDatabasePopulator();
             compositeDatabasePopulator.addPopulators(new ResourceDatabasePopulator(new ClassPathResource(location)));
-            compositeDatabasePopulator.populate(jdbcTemplate.getDataSource().getConnection());
+            compositeDatabasePopulator.populate(connection);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
