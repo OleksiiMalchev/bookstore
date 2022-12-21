@@ -22,7 +22,7 @@ public class AuthorServiceIntegrationTest {
     @Autowired
     private TestDbHelper testDbHelper;
     @AfterEach
-    public void beforeEach() {
+    public void afterEach() {
         testDbHelper.cleanTable("author");
     }
 
