@@ -1,4 +1,4 @@
-package com.javacourse.bookstore.services.impl;
+package com.javacourse.bookstore.domain.impl;
 
 import com.javacourse.bookstore.mappers.MapperAuthorToRespDTO;
 import com.javacourse.bookstore.mappers.MapperForAuthor;
