@@ -2,11 +2,8 @@ package com.javacourse.bookstore.services;
 
 import com.javacourse.bookstore.configuration.TestLightConfig;
 import com.javacourse.bookstore.domain.Author;
-import com.javacourse.bookstore.domain.Warehouse;
 import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
 import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
-import com.javacourse.bookstore.domain.dto.WarehouseReqDTO;
-import com.javacourse.bookstore.domain.dto.WarehouseRespDTO;
 import com.javacourse.bookstore.repositories.AuthorRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +11,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -32,8 +28,7 @@ class AuthorServiceUnitTest extends TestLightConfig {
     @Captor
     private ArgumentCaptor<Author> authorArgumentCaptor;
 
-<<<<<<< HEAD
-=======
+
     final Long testAuthorId = 10L;
     final String testAuthorFirstName = "Steven";
     final String testAuthorLastName = "Kipling";
@@ -76,7 +71,7 @@ class AuthorServiceUnitTest extends TestLightConfig {
         Assertions.assertEquals(testAuthorFirstName, author.get().getFirstName());
         Assertions.assertEquals(testAuthorLastName, author.get().getLastName());
     }
->>>>>>> origin/development
+
 
     @Test
     void createAuthor() {

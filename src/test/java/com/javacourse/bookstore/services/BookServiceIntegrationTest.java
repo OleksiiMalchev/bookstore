@@ -61,8 +61,6 @@ public class BookServiceIntegrationTest {
                         .value("Stephen"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.author.lastName")
                         .value("King"));
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.author")
-//                        .value("{\"authorId\":10055,\"firstName\":\"Stephen\",\"lastName\":\"King\"}"));
 
     }
 
@@ -124,6 +122,13 @@ public class BookServiceIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.author.firstName").value("Stephen"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.author.lastName").value("King"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.bookId").exists());
+        mockMvc.perform(MockMvcRequestBuilders.post("/books")
+                        .content("{\"authorId\":5000,\"title\":\"The Stand\"," +
+                                "\"cover\":\"soft\",\"publishingHouse\":\"Penguin Books\"," +
+                                "\"barCode\":456,\"pages\":500,\"isbn\":456," +
+                                "\"yearOfPublication\":\"2021-05-20\"}")
+                        .contentType(MediaType.APPLICATION_JSON.getMediaType()))
+                .andExpect(MockMvcResultMatchers.status().is(404));
     }
 
     @Test
