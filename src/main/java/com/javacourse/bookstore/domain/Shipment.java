@@ -18,4 +18,9 @@ public class Shipment {
     private Long id;
     @Column(name="address")
     private String address;
+    @Column(name = "order_id")
+    private Long orderId;
+    @ManyToOne
+    @JoinColumn(name="order_id",insertable = false, updatable = false)
+    private Order order;
 }

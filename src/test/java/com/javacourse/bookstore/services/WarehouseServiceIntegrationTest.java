@@ -47,4 +47,11 @@ public class WarehouseServiceIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.productId")
                         .value(1000));
     }
+
+//    public void createWarehouseTest() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders.post("/warehouses"))
+//                .content("{\"productId\": 1000, \"bookQuantity\": \"Kipling\"}")
+//                .contentType(MediaType.APPLICATION_JSON.getMediaType()))
+//
+//    }
 }
