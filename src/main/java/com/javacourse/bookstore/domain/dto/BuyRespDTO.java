@@ -7,8 +7,10 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-public class OrderDetailsReqDTO {
-    private Integer quantity;
-    private Long orderId;
+public class BuyRespDTO {
     private Long productId;
+    private Integer quantity;
+    private String address;
+    private String firstName;
+    private String lastName;
 }

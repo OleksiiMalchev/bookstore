@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-public class OrderDetailsReqDTO {
+public class OrderDetailsRespDTO {
     private Integer quantity;
     private Long orderId;
     private Long productId;

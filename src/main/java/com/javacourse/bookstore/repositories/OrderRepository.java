@@ -14,8 +14,9 @@ public interface OrderRepository extends CrudRepository<Order, Long> {
 
     List<Order> findAll();
 
-    @Query(value = "SELECT * FROM orders JOIN customer ON customer.id = orders.customer_id Where customer_id = 10",
-            nativeQuery = true)
+//    @Query(value = "SELECT * FROM orders JOIN customer ON customer.id = orders.customer_id Where customer_id = 10",
+//            nativeQuery = true)
+    @Query("SELECT o FROM Order o JOIN FETCH o.customer c WHERE c.id = :id")
     List<Order> getAllOrderByCustomerId(@Param("id") Long idCustomer);
 
     @Query(value = "SELECT * FROM orders JOIN order_status ON orders.id = order_status.order_id " +

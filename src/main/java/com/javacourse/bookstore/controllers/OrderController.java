@@ -41,7 +41,7 @@ public class OrderController {
     }
 
 
-    @GetMapping("/ordersStatus/{status}")
+    @GetMapping("/orders/status/{status}")
     public ResponseEntity<? super List<OrderRespDTO>> getAllOrderByStatus(@PathVariable("status") String statusName) {
         return checkingOrders(orderService.getAllOrderByStatus(statusName));
 
