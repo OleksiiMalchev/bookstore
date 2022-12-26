@@ -31,6 +31,8 @@ public class MapperForWarehouse {
                         .id(w.getId())
                         .productId(w.getProductId())
                         .bookQuantity(w.getBookQuantity())
+                        .reserve(w.getReserve())
+                        .sale(w.getSale())
                         .build())
                 .orElse(null);
     }
