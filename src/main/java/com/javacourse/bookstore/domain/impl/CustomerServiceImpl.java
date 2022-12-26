@@ -8,6 +8,7 @@ import com.javacourse.bookstore.repositories.CustomerRepository;
 import com.javacourse.bookstore.services.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,16 +41,17 @@ public class CustomerServiceImpl implements CustomerService {
                 .map(mapperForCustomer::customerToCustomerRespDto);
     }
 
+    @Transactional
     @Override
     public Optional<CustomerRespDto> updateCustomer(Long idCustomer, CustomerReqDto customerReqDto) {
         Optional<Customer> customer = customerRepository.findById(idCustomer);
         if (customerRepository.existsById(idCustomer)) {
             return customer
                     .map(c -> {
-                        c.setFirstName(c.getFirstName());
-                        c.setLastName(c.getLastName());
-                        c.setDateOfBirth(c.getDateOfBirth());
-                        c.setGender(c.getGender());
+                        c.setFirstName(customerReqDto.getFirstName());
+                        c.setLastName(customerReqDto.getLastName());
+                        c.setDateOfBirth(customerReqDto.getDateOfBirth());
+                        c.setGender(customerReqDto.getGender());
                         return c;
                     }).map(mapperForCustomer::customerToCustomerRespDto);
         }

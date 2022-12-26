@@ -14,18 +14,20 @@ public class MapperForCustomer {
     public Optional<Customer> customerReqDtoToCustomer(CustomerReqDto customerReqDto){
         return Optional.ofNullable(customerReqDto)
                 .map(c->Customer.builder()
-                        .firstName(c.getFirstName())
-                        .lastName(c.getLastName())
-                        .dateOfBirth(c.getDateOfBirth())
-                        .gender(c.getGender())
+                        .firstName(customerReqDto.getFirstName())
+                        .lastName(customerReqDto.getLastName())
+                        .dateOfBirth(customerReqDto.getDateOfBirth())
+                        .gender(customerReqDto.getGender())
                         .build());
     }
     public CustomerRespDto customerToCustomerRespDto(Customer customer){
         return Optional.ofNullable(customer)
                 .map(c->CustomerRespDto.builder()
-                        .id(c.getId())
-                        .firstName(c.getFirstName())
-                        .lastName(c.getLastName())
+                        .id(customer.getId())
+                        .firstName(customer.getFirstName())
+                        .lastName(customer.getLastName())
+                        .dateOfBirth(customer.getDateOfBirth())
+                        .gender(customer.getGender())
                         .build())
                 .orElse(null);
     }
