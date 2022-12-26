@@ -4,5 +4,5 @@ CREATE TABLE `order_status` (
   `name_status` varchar(128) DEFAULT NULL,
    PRIMARY KEY (`id`),
    KEY `order_id_constraint` (`order_id`),
-   CONSTRAINT `order_id_constraint` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`)
+   CONSTRAINT `order_id_constraint` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

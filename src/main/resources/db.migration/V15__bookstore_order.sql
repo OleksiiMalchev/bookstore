@@ -1,4 +1,4 @@
-CREATE TABLE `order` (
+CREATE TABLE `orders` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `customer_id` bigint NOT NULL,
   `created_at` datetime DEFAULT NULL,

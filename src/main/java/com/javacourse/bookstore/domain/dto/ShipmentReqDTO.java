@@ -10,4 +10,5 @@ import lombok.Setter;
 public class ShipmentReqDTO {
     private Long id;
     private String address;
+    private Long orderId;
 }
