@@ -25,6 +25,7 @@ public class BuyServiceImpl implements BuyService {
     private final OrderDetailsMapper orderDetailsMapper;
     private final ProductService productService;
     private final OrderDetailsService orderDetailsService;
+
     @Transactional
     @Override
     public BuyRespDTO buyBook(BuyReqDTO buyReqDTO) {
@@ -32,13 +33,13 @@ public class BuyServiceImpl implements BuyService {
         Long idOrder = order.get().getId();
         OrderDetailsReqDTO orderDetailsReqDTO = buyReqDTOToOrderReqDTO.mapToOrderDetailsReqDTO(buyReqDTO);
         orderDetailsReqDTO.setOrderId(idOrder);
-       OrderDetailsRespDTO orderDetails = orderDetailsService.createOrderDetails(orderDetailsReqDTO).get();
+        OrderDetailsRespDTO orderDetails = orderDetailsService.createOrderDetails(orderDetailsReqDTO).get();
         Optional<Product> productById = productRepository.findById(buyReqDTO.getProductId());
         Warehouse warehouse = productById.get()
                 .getWarehouses()
                 .stream()
                 .filter(w -> w.getProductId().equals(productById.get().getId())).findFirst().get();
-        if(warehouse.getBookQuantity()>=buyReqDTO.getQuantity()){
+        if (warehouse.getBookQuantity() >= buyReqDTO.getQuantity()) {
             Integer bookQuantity = warehouse.getBookQuantity();
             Integer quantityInReq = buyReqDTO.getQuantity();
             warehouse.setBookQuantity(bookQuantity - quantityInReq);
