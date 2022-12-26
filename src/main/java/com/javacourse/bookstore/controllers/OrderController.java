@@ -1,7 +1,10 @@
 package com.javacourse.bookstore.controllers;
 
+import com.javacourse.bookstore.domain.dto.BuyReqDTO;
+import com.javacourse.bookstore.domain.dto.BuyRespDTO;
 import com.javacourse.bookstore.domain.dto.OrderReqDTO;
 import com.javacourse.bookstore.domain.dto.OrderRespDTO;
+import com.javacourse.bookstore.services.BuyService;
 import com.javacourse.bookstore.services.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+    private final BuyService buyService;
 
     @GetMapping("/orders")
     public ResponseEntity<? super List<OrderRespDTO>> getAllOrder() {
@@ -26,6 +30,14 @@ public class OrderController {
         Optional<OrderRespDTO> orderRespDTO = orderService.createOrder(orderReqDTO);
         if (orderRespDTO.isPresent()) {
             return ResponseEntity.status(201).body(orderRespDTO);
+        }
+        return new ResponseEntity<>("Order not found. No action taken.", HttpStatus.NOT_FOUND);
+    }
+    @PostMapping("/orders/buy")
+    public ResponseEntity<? super BuyRespDTO> buyProduct(@RequestBody(required = false)BuyReqDTO buyReqDTO) {
+        BuyRespDTO buyRespDTO = buyService.buyBook(buyReqDTO);
+        if (buyRespDTO!=null) {
+            return ResponseEntity.status(201).body(buyRespDTO);
         }
         return new ResponseEntity<>("Order not found. No action taken.", HttpStatus.NOT_FOUND);
     }

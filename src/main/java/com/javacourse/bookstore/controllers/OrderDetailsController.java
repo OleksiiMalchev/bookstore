@@ -43,7 +43,7 @@ public class OrderDetailsController {
     }
 
 
-    @DeleteMapping("/orders/{id}")
+    @DeleteMapping("/orderDetails/{id}")
     public ResponseEntity<? super OrderDetailsRespDTO> delete(@PathVariable("id") Long id) {
         return checking(orderDetailsService.deleteOrderDetails(id));
 

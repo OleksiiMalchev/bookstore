@@ -3,7 +3,9 @@ package com.javacourse.bookstore.mappers;
 import com.javacourse.bookstore.domain.OrderDetails;
 import com.javacourse.bookstore.domain.dto.OrderDetailsReqDTO;
 import com.javacourse.bookstore.domain.dto.OrderDetailsRespDTO;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OrderDetailsMapper {
     public OrderDetails mapToOrderDetails(OrderDetailsReqDTO orderDetailsReqDTOReqDTO) {
         if (orderDetailsReqDTOReqDTO != null) {
