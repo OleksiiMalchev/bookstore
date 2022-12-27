@@ -4,15 +4,11 @@ import com.javacourse.bookstore.domain.OrderDetails;
 import com.javacourse.bookstore.domain.dto.BuyReqDTO;
 import com.javacourse.bookstore.domain.dto.BuyRespDTO;
 import com.javacourse.bookstore.domain.dto.OrderRespDTO;
-import com.javacourse.bookstore.mappers.BuyReqDTOToOrderReqDTO;
-import com.javacourse.bookstore.mappers.OrderDetailsMapper;
 import com.javacourse.bookstore.repositories.CustomerRepository;
-import com.javacourse.bookstore.repositories.OrderRepository;
 import com.javacourse.bookstore.repositories.ProductRepository;
 import com.javacourse.bookstore.services.BuyService;
 import com.javacourse.bookstore.services.OrderDetailsService;
 import com.javacourse.bookstore.services.OrderService;
-import com.javacourse.bookstore.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,14 +21,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ManagerServiceImpl implements BuyService {
     private final OrderService orderService;
-    private final BuyReqDTOToOrderReqDTO buyReqDTOToOrderReqDTO;
     private final ProductRepository productRepository;
-
-    private final ProductService productService;
     private final OrderDetailsService orderDetailsService;
     private final CustomerRepository customerRepository;
-    private final OrderDetailsMapper orderDetailsMapper;
-    private final OrderRepository orderRepository;
+
 
 
 
@@ -58,22 +50,4 @@ public class ManagerServiceImpl implements BuyService {
             throw new IOException("Register to buy books.Please.");
         }
     }
-
-
-//        Optional<OrderRespDTO> order = orderService.createOrder(buyReqDTO.getCustomerId());
-//        Long idOrder = order.get().getId();
-//        OrderDetailsReqDTO orderDetailsReqDTO = buyReqDTOToOrderReqDTO.mapToOrderDetailsReqDTO(buyReqDTO);
-//        orderDetailsReqDTO.setOrderId(idOrder);
-//        order.get().setOrderStatus(OrderStatus.PROCESSED);
-//        orderService.updateOrder(order.get().getId());
-//        OrderDetailsRespDTO orderDetails = orderDetailsService.createOrderDetails(orderDetailsReqDTO).get();
-//        Optional<Product> productById = productRepository.findById(buyReqDTO.getProductId());
-
-//        return BuyRespDTO.builder()
-//                .orderDetails(orderDetails)
-//                .order(order.get())
-//                .productRespDTOWithWarehouseInfo(productService.getProductByIdWithWarehouseInfo(buyReqDTO.getProductId()).get())
-//                .build();
-
-//    }
 }
