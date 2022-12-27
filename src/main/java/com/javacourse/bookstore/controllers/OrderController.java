@@ -2,7 +2,6 @@ package com.javacourse.bookstore.controllers;
 
 import com.javacourse.bookstore.domain.dto.BuyReqDTO;
 import com.javacourse.bookstore.domain.dto.BuyRespDTO;
-import com.javacourse.bookstore.domain.dto.OrderReqDTO;
 import com.javacourse.bookstore.domain.dto.OrderRespDTO;
 import com.javacourse.bookstore.services.BuyService;
 import com.javacourse.bookstore.services.OrderService;
@@ -11,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,15 +26,15 @@ public class OrderController {
     }
 
     @PostMapping("/orders")
-    public ResponseEntity<? super OrderRespDTO> create(@RequestBody(required = false) OrderReqDTO orderReqDTO) {
-        Optional<OrderRespDTO> orderRespDTO = orderService.createOrder(orderReqDTO);
+    public ResponseEntity<? super OrderRespDTO> create(@RequestBody(required = false) Long customerId) {
+        Optional<OrderRespDTO> orderRespDTO = orderService.createOrder(customerId);
         if (orderRespDTO.isPresent()) {
             return ResponseEntity.status(201).body(orderRespDTO);
         }
         return new ResponseEntity<>("Order not found. No action taken.", HttpStatus.NOT_FOUND);
     }
     @PostMapping("/orders/buy")
-    public ResponseEntity<? super BuyRespDTO> buyProduct(@RequestBody(required = false)BuyReqDTO buyReqDTO) {
+    public ResponseEntity<? super BuyRespDTO> buyProduct(@RequestBody(required = false)BuyReqDTO buyReqDTO) throws InterruptedException, IOException {
         BuyRespDTO buyRespDTO = buyService.buyBook(buyReqDTO);
         if (buyRespDTO!=null) {
             return ResponseEntity.status(201).body(buyRespDTO);
@@ -47,10 +47,10 @@ public class OrderController {
         return checkingOrders(orderService.getAllOrderByCustomerId(idCustomer));
     }
 
-    @GetMapping("/orders/{id}")
-    public ResponseEntity<? super OrderRespDTO> getOrderById(@PathVariable("id") Long id) {
-        return checking(orderService.getOrderById(id));
-    }
+//    @GetMapping("/orders/{id}")
+//    public ResponseEntity<? super OrderRespDTO> getOrderById(@PathVariable("id") Long id) {
+//        return checking(orderService.getOrderById(id));
+//    }
 
 
     @GetMapping("/orders/status/{status}")
@@ -81,5 +81,10 @@ public class OrderController {
             return ResponseEntity.status(200).body(orderRespDTO);
         }
         return new ResponseEntity<>("Order not found. No action taken.", HttpStatus.NOT_FOUND);
+    }
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IOException.class)
+    public String handleIOException(IOException exception){
+        return new String(exception.getMessage());
     }
 }

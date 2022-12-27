@@ -8,8 +8,5 @@ import lombok.Setter;
 @Getter
 @Builder
 public class BuyRespDTO {
-    private OrderRespDTO order;
-    private OrderDetailsRespDTO orderDetails;
-    private ProductRespDTOWithWarehouseInfo productRespDTOWithWarehouseInfo;
-
+    private OrderRespDTOWithStatus order;
 }

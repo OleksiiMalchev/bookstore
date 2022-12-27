@@ -6,6 +6,8 @@ import com.javacourse.bookstore.domain.dto.OrderReqDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 @Component
 @RequiredArgsConstructor
 public class BuyReqDTOToOrderReqDTO {
@@ -21,7 +23,7 @@ public class BuyReqDTOToOrderReqDTO {
     public OrderDetailsReqDTO mapToOrderDetailsReqDTO(BuyReqDTO buyReqDTO) {
         if (buyReqDTO != null) {
             return OrderDetailsReqDTO.builder()
-                    .productId(buyReqDTO.getProductId())
+                    .productId(new ArrayList<>(buyReqDTO.getProductId()))
                     .quantity(buyReqDTO.getQuantity())
                     .build();
         }

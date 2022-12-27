@@ -54,6 +54,7 @@ public class WarehouseServiceImpl implements WarehouseService {
                     return warehouse;
                 })
                 .map(mapperForWarehouse::warehouseToWarehouseRespDTO);
+
     }
 
     public Optional<WarehouseRespDTO> deleteWarehouse(Long idWarehouse) {
@@ -63,5 +64,6 @@ public class WarehouseServiceImpl implements WarehouseService {
             warehouseRepository.deleteById(idWarehouse);
         }
         return warehouseRespDTO;
+
     }
 }

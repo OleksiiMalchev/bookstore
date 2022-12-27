@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface OrderDetailsRepository extends CrudRepository<OrderDetails, Long> {
     List<OrderDetails> findAll();
+
 }

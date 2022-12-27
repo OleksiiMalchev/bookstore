@@ -4,11 +4,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @Getter
 @Builder
 public class OrderDetailsReqDTO {
-    private Integer quantity;
-    private Long orderId;
-    private Long productId;
+    private List<Integer> quantity;
+    private List<Long> orderId;
+    private List<Long> productId;
 }

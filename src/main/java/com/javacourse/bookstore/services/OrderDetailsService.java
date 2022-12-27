@@ -1,5 +1,6 @@
 package com.javacourse.bookstore.services;
 
+import com.javacourse.bookstore.domain.OrderDetails;
 import com.javacourse.bookstore.domain.dto.OrderDetailsReqDTO;
 import com.javacourse.bookstore.domain.dto.OrderDetailsRespDTO;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,8 @@ import java.util.Optional;
 public interface OrderDetailsService {
     List<OrderDetailsRespDTO> getAllOrderDetails();
     Optional<OrderDetailsRespDTO> getOrderDetailsById(Long idOrderDetails);
-    Optional<OrderDetailsRespDTO> createOrderDetails(OrderDetailsReqDTO orderDetailsReqDTO);
+    Optional<OrderDetailsRespDTO> createOrderDetails(OrderDetails orderDetails);
     Optional<OrderDetailsRespDTO> updateOrderDetails(Long idOrderDetails, OrderDetailsReqDTO orderDetailsReqDTO);
     Optional<OrderDetailsRespDTO> deleteOrderDetails(Long idOrderDetails);
+
 }

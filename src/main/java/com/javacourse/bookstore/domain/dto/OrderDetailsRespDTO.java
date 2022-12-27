@@ -9,6 +9,5 @@ import lombok.Setter;
 @Builder
 public class OrderDetailsRespDTO {
     private Integer quantity;
-    private Long orderId;
-    private Long productId;
+    private ProductRespDTO product;
 }

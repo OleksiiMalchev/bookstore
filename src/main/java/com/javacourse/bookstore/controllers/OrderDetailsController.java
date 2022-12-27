@@ -26,14 +26,14 @@ public class OrderDetailsController {
         return checking(orderDetailsService.getOrderDetailsById(idOrderDetails));
     }
 
-    @PostMapping("/orderDetails")
-    public ResponseEntity<? super OrderDetailsRespDTO> create(@RequestBody(required = false) OrderDetailsReqDTO orderDetailsReqDTO) {
-        Optional<OrderDetailsRespDTO> orderDetails = orderDetailsService.createOrderDetails(orderDetailsReqDTO);
-        if (orderDetails.isPresent()) {
-            return ResponseEntity.status(201).body(orderDetails);
-        }
-        return new ResponseEntity<>("OrderDetails not found. No action taken.", HttpStatus.NOT_FOUND);
-    }
+//    @PostMapping("/orderDetails")
+//    public ResponseEntity<? super OrderDetailsRespDTO> create(@RequestBody(required = false) OrderDetailsReqDTO orderDetailsReqDTO) {
+//        Optional<OrderDetailsRespDTO> orderDetails = orderDetailsService.createOrderDetails(orderDetailsReqDTO);
+//        if (orderDetails.isPresent()) {
+//            return ResponseEntity.status(201).body(orderDetails);
+//        }
+//        return new ResponseEntity<>("OrderDetails not found. No action taken.", HttpStatus.NOT_FOUND);
+//    }
 
     @PutMapping("/orderDetails/{id}")
     public ResponseEntity<? super OrderDetailsRespDTO> update(@PathVariable("id") Long id,
