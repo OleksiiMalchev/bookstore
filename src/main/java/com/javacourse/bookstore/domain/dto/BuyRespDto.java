@@ -4,8 +4,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @Builder
-public class BuyRespDto {
+public class BuyRespDTO {
+    private OrderRespDTO order;
+    private OrderDetailsRespDTO orderDetails;
+    private ProductRespDTOWithWarehouseInfo productRespDTOWithWarehouseInfo;
+
 }
