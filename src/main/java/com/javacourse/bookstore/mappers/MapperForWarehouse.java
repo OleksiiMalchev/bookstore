@@ -15,8 +15,6 @@ public class MapperForWarehouse {
 
     public Optional<Warehouse> warehouseReqDTOToWarehouse(WarehouseReqDTO warehouseReqDTO) {
         return Optional.ofNullable(warehouseReqDTO)
-                .stream()
-                .findAny()
                 .map(w -> Warehouse
                         .builder()
                         .productId(w.getProductId())
@@ -25,8 +23,6 @@ public class MapperForWarehouse {
     }
     public WarehouseRespDTO warehouseToWarehouseRespDTO(Warehouse warehouse) {
         return Optional.ofNullable(warehouse)
-                .stream()
-                .findAny()
                 .map(w -> WarehouseRespDTO.builder()
                         .id(w.getId())
                         .productId(w.getProductId())

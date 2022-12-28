@@ -1,5 +1,6 @@
 package com.javacourse.bookstore.domain;
 
+import com.javacourse.bookstore.domain.enam.StatusName;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,7 +18,8 @@ public class OrderStatus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "name_status")
-    private String nameStatus;
+    @Enumerated(EnumType.STRING)
+    private StatusName nameStatus;
     @Column(name = "order_id")
     private Long orderId;
     @ManyToOne

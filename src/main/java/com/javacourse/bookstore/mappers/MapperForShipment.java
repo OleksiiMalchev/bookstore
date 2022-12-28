@@ -13,8 +13,6 @@ import java.util.Optional;
 public class MapperForShipment {
     public Optional<Shipment> shipmentReqDtoToShipment(ShipmentReqDTO shipmentReqDTO) {
         return Optional.ofNullable(shipmentReqDTO)
-                .stream()
-                .findAny()
                 .map(s -> Shipment.builder()
                         .address(shipmentReqDTO.getAddress())
                         .orderId(shipmentReqDTO.getOrderId())
@@ -23,8 +21,6 @@ public class MapperForShipment {
 
     public ShipmentRespDTO shipmentToShipmentRespDTO(Shipment shipment) {
         return Optional.ofNullable(shipment)
-                .stream()
-                .findAny()
                 .map(s -> ShipmentRespDTO.builder()
                         .id(shipment.getId())
                         .address(shipment.getAddress())
