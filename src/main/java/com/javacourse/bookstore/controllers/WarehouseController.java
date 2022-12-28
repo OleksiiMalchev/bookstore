@@ -38,9 +38,11 @@ public class WarehouseController {
     }
 
     @PostMapping("/warehouses")
-    public ResponseEntity<? super WarehouseRespDTO> createWarehouse(@RequestBody(required = false)
-                                                                    WarehouseReqDTO warehouseReqDTO) {
-        return checkingCreate(warehouseService.createWarehouse(warehouseReqDTO));
+    public ResponseEntity<? super WarehouseRespDTO> createWarehouse(@RequestBody(required = false) WarehouseReqDTO warehouseReqDTO) {
+        if(warehouseReqDTO!=null){
+            return checking(warehouseService.createWarehouse(warehouseReqDTO));
+        }
+       return   new ResponseEntity<>("Warehouse is null", HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/warehouses/{id}")
@@ -54,16 +56,10 @@ public class WarehouseController {
         return checking(warehouseService.deleteWarehouse(idWarehouse));
     }
 
-    private static ResponseEntity<? super WarehouseRespDTO> checkingCreate(Optional<WarehouseRespDTO> warehouseRespDTO) {
-        if (warehouseRespDTO.isPresent()) {
-            return ResponseEntity.status(201).body(warehouseRespDTO);
-        }
-        return new ResponseEntity<>("Warehouse can not be creating!", HttpStatus.NOT_FOUND);
-    }
     private static ResponseEntity<? super WarehouseRespDTO> checking(Optional<WarehouseRespDTO> warehouseRespDTO) {
         if (warehouseRespDTO.isPresent()) {
             return ResponseEntity.status(200).body(warehouseRespDTO);
         }
-        return new ResponseEntity<>("Warehouse not found!", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Warehouse not found or can not be creating!", HttpStatus.NOT_FOUND);
     }
 }
