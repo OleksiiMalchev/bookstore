@@ -33,10 +33,11 @@ public class OrderController {
         }
         return new ResponseEntity<>("Order not found. No action taken.", HttpStatus.NOT_FOUND);
     }
+
     @PostMapping("/orders/buy")
-    public ResponseEntity<? super BuyRespDTO> buyProduct(@RequestBody(required = false)BuyReqDTO buyReqDTO) throws InterruptedException, IOException {
+    public ResponseEntity<? super BuyRespDTO> buyProduct(@RequestBody(required = false) BuyReqDTO buyReqDTO) throws InterruptedException, IOException {
         BuyRespDTO buyRespDTO = buyService.buyBook(buyReqDTO);
-        if (buyRespDTO!=null) {
+        if (buyRespDTO != null) {
             return ResponseEntity.status(201).body(buyRespDTO);
         }
         return new ResponseEntity<>("Order not found. No action taken.", HttpStatus.NOT_FOUND);
@@ -58,11 +59,13 @@ public class OrderController {
         return checkingOrders(orderService.getAllOrderByStatus(statusName));
 
     }
+
     @GetMapping("/ordersStatusCustomer/{idCustomer}/{status}")
     public ResponseEntity<? super OrderRespDTO> getOrderByCustomerIdAndStatus(@PathVariable("idCustomer") Long idCustomer,
                                                                               @PathVariable("status") String statusName) {
-        return checking(orderService.getOrderByCustomerIdAndStatus(idCustomer,statusName));
+        return checking(orderService.getOrderByCustomerIdAndStatus(idCustomer, statusName));
     }
+
     @DeleteMapping("/orders/{id}")
     public ResponseEntity<? super OrderRespDTO> delete(@PathVariable("id") Long id) {
         return checking(orderService.deleteOrder(id));
@@ -82,9 +85,10 @@ public class OrderController {
         }
         return new ResponseEntity<>("Order not found. No action taken.", HttpStatus.NOT_FOUND);
     }
+
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IOException.class)
-    public String handleIOException(IOException exception){
+    public String handleIOException(IOException exception) {
         return new String(exception.getMessage());
     }
 }

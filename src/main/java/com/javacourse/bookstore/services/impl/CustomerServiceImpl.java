@@ -1,4 +1,4 @@
-package com.javacourse.bookstore.domain.impl;
+package com.javacourse.bookstore.services.impl;
 
 import com.javacourse.bookstore.domain.Customer;
 import com.javacourse.bookstore.domain.dto.CustomerReqDto;
@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

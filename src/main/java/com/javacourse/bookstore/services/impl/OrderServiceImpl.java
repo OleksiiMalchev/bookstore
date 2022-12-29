@@ -5,11 +5,11 @@ import com.javacourse.bookstore.domain.OrderStatus;
 import com.javacourse.bookstore.domain.dto.OrderRespDTO;
 import com.javacourse.bookstore.domain.dto.OrderRespDTOWithStatus;
 import com.javacourse.bookstore.mappers.OrderMapper;
+import com.javacourse.bookstore.repositories.CustomerRepository;
 import com.javacourse.bookstore.repositories.OrderRepository;
 import com.javacourse.bookstore.services.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
+    private final CustomerRepository customerRepository;
 
     @Override
     public List<OrderRespDTO> getAllOrder() {
@@ -46,7 +47,8 @@ public class OrderServiceImpl implements OrderService {
                 .map(orderMapper::mapToOrderRespDTO)
                 .toList();
     }
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+
+    @Transactional
     @Override
     public Optional<OrderRespDTOWithStatus> getOrderById(Long id) {
         Optional<OrderRespDTOWithStatus> orderRespDTOWithStatus = orderRepository.findById(id)
@@ -61,29 +63,26 @@ public class OrderServiceImpl implements OrderService {
                 .map(orderMapper::mapToOrderRespDTO);
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+
     @Override
     public Optional<OrderRespDTO> createOrder(Long customerId) {
-        if (customerId != null && orderRepository.existsById(customerId)) {
+        if (customerId != null && customerRepository.existsById(customerId)) {
             Order order = Order.builder().customerId(customerId).createdAt(LocalDateTime.now())
                     .changeAt(LocalDateTime.now()).orderStatus(OrderStatus.NEW).build();
             Order saveOrder = orderRepository.save(order);
-            return orderRepository.findById(saveOrder.getId())
-                    .map(orderMapper::mapToOrderRespDTO);
+            return Optional.of(orderMapper.mapToOrderRespDTO(saveOrder));
+
         }
         return Optional.empty();
     }
 
+    @Transactional
     @Override
-    public Optional<OrderRespDTO> updateOrder(Long id) {
-//        if(!orderRepository.findById(id).get().getOrderStatus().equals("NEW")){
-//            Order order = orderRepository.findById(id).get();
-//            order.setCreatedAt(LocalDateTime.now());
-//            return Optional.ofNullable(orderMapper.mapToOrderRespDTO(order));
-//        } else {
-//
-//        }
-        return Optional.empty();
+    public Optional<OrderRespDTO> updateOrder(Long id, OrderStatus orderStatus) {
+        Order order = orderRepository.findById(id).get();
+        order.setChangeAt(LocalDateTime.now());
+        order.setOrderStatus(orderStatus);
+        return Optional.ofNullable(orderMapper.mapToOrderRespDTO(order));
     }
 
     @Override

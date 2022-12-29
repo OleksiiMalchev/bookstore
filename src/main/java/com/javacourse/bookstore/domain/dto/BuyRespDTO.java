@@ -9,4 +9,5 @@ import lombok.Setter;
 @Builder
 public class BuyRespDTO {
     private OrderRespDTOWithStatus order;
+    private ShipmentRespDTO shipmentAddress;
 }

@@ -1,5 +1,6 @@
 package com.javacourse.bookstore.services;
 
+import com.javacourse.bookstore.domain.OrderStatus;
 import com.javacourse.bookstore.domain.dto.OrderRespDTO;
 import com.javacourse.bookstore.domain.dto.OrderRespDTOWithStatus;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public interface OrderService {
 
     Optional<OrderRespDTO> createOrder(Long idCustomer);
 
-    Optional<OrderRespDTO> updateOrder(Long id);
+    Optional<OrderRespDTO> updateOrder(Long id, OrderStatus orderStatus);
 
     Optional<OrderRespDTO> deleteOrder(Long id);
 }

@@ -11,6 +11,14 @@ import java.util.List;
 @Builder
 public class BuyReqDTO {
     private Long customerId;
-    private List<Integer> quantity;
-    private List<Long> productId;
+    private String address;
+    private List<ProductDTO> products;
+
+    @Setter
+    @Getter
+    @Builder
+    public static class ProductDTO {
+        private Integer quantity;
+        private Long productId;
+    }
 }

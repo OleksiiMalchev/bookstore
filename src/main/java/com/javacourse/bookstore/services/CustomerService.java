@@ -3,10 +3,11 @@ package com.javacourse.bookstore.services;
 
 import com.javacourse.bookstore.domain.dto.CustomerReqDto;
 import com.javacourse.bookstore.domain.dto.CustomerRespDto;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public interface CustomerService {
     List<CustomerRespDto> getAllCustomer();
 
