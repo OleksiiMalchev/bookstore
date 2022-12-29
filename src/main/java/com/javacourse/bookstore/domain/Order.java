@@ -27,8 +27,9 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "customer_id", insertable = false, updatable = false)
     private Customer customer;
-    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<OrderStatus> orderStatus;
+    @Column(name = "order_status")
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<OrderDetails> orderDetails;
 }

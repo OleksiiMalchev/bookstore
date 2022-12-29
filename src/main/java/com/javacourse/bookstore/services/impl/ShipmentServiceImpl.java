@@ -7,6 +7,7 @@ import com.javacourse.bookstore.repositories.ShipmentRepository;
 import com.javacourse.bookstore.services.ShipmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +38,7 @@ public class ShipmentServiceImpl implements ShipmentService {
                 .map(shipmentRepository::save)
                 .map(mapperForShipment::shipmentToShipmentRespDTO);
     }
-
+    @Transactional
     @Override
     public Optional<ShipmentRespDTO> updateShipment(Long idShipment, ShipmentReqDTO shipmentReqDTO) {
         return shipmentRepository.findById(idShipment)

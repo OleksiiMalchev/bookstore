@@ -1,4 +1,4 @@
-package com.javacourse.bookstore.domain.impl;
+package com.javacourse.bookstore.services.impl;
 
 import com.javacourse.bookstore.mappers.MapperForProduct;
 import com.javacourse.bookstore.domain.Product;
@@ -89,4 +89,6 @@ public class ProductServiceImpl implements ProductService {
         }
         return productRespDTO;
     }
+
+
 }

@@ -1,6 +1,7 @@
-INSERT INTO `product` (id, price, description, initial_price, book_id)
-VALUE (1000, 100, "some text", 50,100),
-      (1001, 150, "some text", 75,101),
-      (1002, 200, "some text", 100,102),
-      (1003, 300, "some text", 150,103),
-      (1004, 400, "some text", 200,104);
+insert into product (id,book_id,price,initial_price,description)
+VALUES (30055,20055,120,100,"Some Book"),
+       (30056,20056,180,150,"Some Book"),
+       (30057,20057,240,200,"Some Book"),
+       (30058,20058,300,250,"Some Book"),
+       (30059,20059,360,300,"Some Book"),
+       (30060,20060,420,350,"Some Book");

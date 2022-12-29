@@ -38,9 +38,11 @@ public class WarehouseController {
     }
 
     @PostMapping("/warehouses")
-    public ResponseEntity<? super WarehouseRespDTO> createWarehouse(@RequestBody(required = false)
-                                                                    WarehouseReqDTO warehouseReqDTO) {
-        return checkingCreate(warehouseService.createWarehouse(warehouseReqDTO));
+    public ResponseEntity<? super WarehouseRespDTO> createWarehouse(@RequestBody(required = false) WarehouseReqDTO warehouseReqDTO) {
+        if(warehouseReqDTO!=null){
+            return checking(warehouseService.createWarehouse(warehouseReqDTO));
+        }
+       return   new ResponseEntity<>("Warehouse is null", HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/warehouses/{id}")

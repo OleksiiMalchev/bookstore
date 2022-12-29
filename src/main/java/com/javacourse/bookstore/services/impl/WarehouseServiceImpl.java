@@ -1,4 +1,4 @@
-package com.javacourse.bookstore.domain.impl;
+package com.javacourse.bookstore.services.impl;
 
 import com.javacourse.bookstore.domain.dto.WarehouseReqDTO;
 import com.javacourse.bookstore.domain.dto.WarehouseRespDTO;
@@ -45,6 +45,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         }
         return Optional.empty();
     }
+
     @Transactional
     public Optional<WarehouseRespDTO> updateWarehouse(Long idWarehouse, WarehouseReqDTO warehouseReqDTO) {
         return warehouseRepository.findById(idWarehouse)
@@ -53,6 +54,7 @@ public class WarehouseServiceImpl implements WarehouseService {
                     return warehouse;
                 })
                 .map(mapperForWarehouse::warehouseToWarehouseRespDTO);
+
     }
 
     public Optional<WarehouseRespDTO> deleteWarehouse(Long idWarehouse) {
@@ -62,5 +64,6 @@ public class WarehouseServiceImpl implements WarehouseService {
             warehouseRepository.deleteById(idWarehouse);
         }
         return warehouseRespDTO;
+
     }
 }

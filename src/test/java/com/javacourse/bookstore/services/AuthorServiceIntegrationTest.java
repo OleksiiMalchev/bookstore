@@ -58,7 +58,8 @@ public class AuthorServiceIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/authors"))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON.getMediaType()))
-                .andExpect(MockMvcResultMatchers.content().json("[{\"authorId\":10055,\"firstName\":\"Stephen\",\"lastName\":\"King\"}," +
+                .andExpect(MockMvcResultMatchers.content().json("[{\"authorId\":10055,\"firstName\"" +
+                        ":\"Stephen\",\"lastName\":\"King\"}," +
                         "{\"authorId\":10056,\"firstName\":\"George R.R.\",\"lastName\":\"Martin\"}," +
                         "{\"authorId\":10057,\"firstName\":\"J.R.R\",\"lastName\":\"Tolkien\"}," +
                         "{\"authorId\":10058,\"firstName\":\"Neil\",\"lastName\":\"Gaiman\"}," +

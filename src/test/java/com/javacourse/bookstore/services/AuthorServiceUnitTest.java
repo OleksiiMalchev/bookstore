@@ -2,11 +2,8 @@ package com.javacourse.bookstore.services;
 
 import com.javacourse.bookstore.configuration.TestLightConfig;
 import com.javacourse.bookstore.domain.Author;
-import com.javacourse.bookstore.domain.Warehouse;
 import com.javacourse.bookstore.domain.dto.AuthorReqDTO;
 import com.javacourse.bookstore.domain.dto.AuthorRespDTO;
-import com.javacourse.bookstore.domain.dto.WarehouseReqDTO;
-import com.javacourse.bookstore.domain.dto.WarehouseRespDTO;
 import com.javacourse.bookstore.repositories.AuthorRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +11,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -31,6 +27,7 @@ class AuthorServiceUnitTest extends TestLightConfig {
     private AuthorRepository authorRepository;
     @Captor
     private ArgumentCaptor<Author> authorArgumentCaptor;
+
 
     final Long testAuthorId = 10L;
     final String testAuthorFirstName = "Steven";
@@ -75,6 +72,7 @@ class AuthorServiceUnitTest extends TestLightConfig {
         Assertions.assertEquals(testAuthorLastName, author.get().getLastName());
     }
 
+
     @Test
     void createAuthor() {
         AuthorReqDTO authorReqDTO = AuthorReqDTO.builder()
@@ -83,11 +81,11 @@ class AuthorServiceUnitTest extends TestLightConfig {
                 .build();
 
         Author authorToSave = Author.builder().firstName(testAuthorFirstName).lastName(testAuthorLastName).build();
+
         when(authorRepository.save(any(Author.class))).thenReturn(authorToSave);
         Optional<AuthorRespDTO> author = authorService.createAuthor(authorReqDTO);
         verify(authorRepository, times(1)).save(authorArgumentCaptor.capture());
         Author authorEntity = authorArgumentCaptor.getValue();
-
         Assertions.assertEquals(testAuthorFirstName, authorEntity.getFirstName());
         Assertions.assertEquals(testAuthorLastName, authorEntity.getLastName());
         Assertions.assertTrue(author.isPresent());
