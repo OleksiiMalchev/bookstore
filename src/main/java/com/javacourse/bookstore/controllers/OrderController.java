@@ -27,8 +27,8 @@ public class OrderController {
 
     @PostMapping("/orders")
     public ResponseEntity<? super OrderRespDTO> create(@RequestBody(required = false) Long customerId) {
-        Optional<OrderRespDTO> orderRespDTO = orderService.createOrder(customerId);
-        if (orderRespDTO.isPresent()) {
+        OrderRespDTO orderRespDTO = orderService.createOrder(customerId);
+        if (orderRespDTO!=null) {
             return ResponseEntity.status(201).body(orderRespDTO);
         }
         return new ResponseEntity<>("Order not found. No action taken.", HttpStatus.NOT_FOUND);

@@ -1,6 +1,7 @@
 package com.javacourse.bookstore.services.impl;
 
 import com.javacourse.bookstore.domain.Order;
+import com.javacourse.bookstore.domain.OrderDetails;
 import com.javacourse.bookstore.domain.OrderStatus;
 import com.javacourse.bookstore.domain.dto.OrderRespDTO;
 import com.javacourse.bookstore.domain.dto.OrderRespDTOWithStatus;
@@ -48,12 +49,11 @@ public class OrderServiceImpl implements OrderService {
                 .toList();
     }
 
-    @Transactional
+
     @Override
     public Optional<OrderRespDTOWithStatus> getOrderById(Long id) {
-        Optional<OrderRespDTOWithStatus> orderRespDTOWithStatus = orderRepository.findById(id)
+        return orderRepository.findById(id)
                 .map(orderMapper::mapToOrderRespDTONew);
-        return orderRespDTOWithStatus;
 
     }
 
@@ -65,24 +65,24 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public Optional<OrderRespDTO> createOrder(Long customerId) {
+    public OrderRespDTO createOrder(Long customerId) {
         if (customerId != null && customerRepository.existsById(customerId)) {
             Order order = Order.builder().customerId(customerId).createdAt(LocalDateTime.now())
                     .changeAt(LocalDateTime.now()).orderStatus(OrderStatus.NEW).build();
             Order saveOrder = orderRepository.save(order);
-            return Optional.of(orderMapper.mapToOrderRespDTO(saveOrder));
-
+            return orderMapper.mapToOrderRespDTO(saveOrder);
         }
-        return Optional.empty();
+        return null;
     }
 
     @Transactional
     @Override
-    public Optional<OrderRespDTO> updateOrder(Long id, OrderStatus orderStatus) {
-        Order order = orderRepository.findById(id).get();
+    public Optional<OrderRespDTO> updateOrder(Order order, List<OrderDetails> orderDetailsList, OrderStatus orderStatus) {
+        order.setOrderDetails(orderDetailsList);
         order.setChangeAt(LocalDateTime.now());
         order.setOrderStatus(orderStatus);
-        return Optional.ofNullable(orderMapper.mapToOrderRespDTO(order));
+        Order saveOrder = orderRepository.save(order);
+        return Optional.ofNullable(orderMapper.mapToOrderRespDTO(saveOrder));
     }
 
     @Override

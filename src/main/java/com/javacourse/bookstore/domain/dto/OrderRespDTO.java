@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Setter
 @Getter
@@ -15,5 +16,6 @@ public class OrderRespDTO {
     private LocalDateTime createdAt;
     private LocalDateTime changeAt;
     private OrderStatus orderStatus;
+    private List<OrderDetailsRespDTO> orderDetails;
 }
 

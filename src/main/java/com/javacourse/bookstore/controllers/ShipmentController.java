@@ -39,7 +39,12 @@ public class ShipmentController {
     @PostMapping("/shipments")
     public ResponseEntity<? super ShipmentRespDTO> createShipment(@RequestBody(required = false)
                                                                   ShipmentReqDTO shipmentReqDTO) {
-        return checkingCreate(shipmentService.createShipment(shipmentReqDTO));
+        ShipmentRespDTO shipment = shipmentService.createShipment(shipmentReqDTO);
+        if (shipment!=null) {
+            return ResponseEntity.status(200).body(shipment);
+        } else {
+            return new ResponseEntity<>("Shipment not found!", HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/shipments/{id}")

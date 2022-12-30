@@ -11,3 +11,4 @@ public class BuyRespDTO {
     private OrderRespDTOWithStatus order;
     private ShipmentRespDTO shipmentAddress;
 }
+   // private OrderRespDTOWithStatus order;

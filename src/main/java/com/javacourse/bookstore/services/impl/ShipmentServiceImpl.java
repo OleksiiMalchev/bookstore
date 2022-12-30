@@ -1,4 +1,4 @@
-package com.javacourse.bookstore.domain.impl;
+package com.javacourse.bookstore.services.impl;
 
 import com.javacourse.bookstore.domain.dto.ShipmentReqDTO;
 import com.javacourse.bookstore.domain.dto.ShipmentRespDTO;
@@ -33,10 +33,10 @@ public class ShipmentServiceImpl implements ShipmentService {
     }
 
     @Override
-    public Optional<ShipmentRespDTO> createShipment(ShipmentReqDTO shipmentReqDTO) {
+    public ShipmentRespDTO createShipment(ShipmentReqDTO shipmentReqDTO) {
         return mapperForShipment.shipmentReqDtoToShipment(shipmentReqDTO)
                 .map(shipmentRepository::save)
-                .map(mapperForShipment::shipmentToShipmentRespDTO);
+                .map(mapperForShipment::shipmentToShipmentRespDTO).get();
     }
     @Transactional
     @Override

@@ -12,7 +12,7 @@ public interface ShipmentService {
 
     Optional<ShipmentRespDTO> getShipmentById(Long idShipment);
 
-    Optional<ShipmentRespDTO> createShipment(ShipmentReqDTO shipmentReqDTO);
+    ShipmentRespDTO createShipment(ShipmentReqDTO shipmentReqDTO);
 
     Optional<ShipmentRespDTO> updateShipment(Long idShipment, ShipmentReqDTO shipmentReqDTO);
 

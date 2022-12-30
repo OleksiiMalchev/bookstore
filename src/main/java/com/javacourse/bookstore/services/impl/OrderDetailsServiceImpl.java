@@ -10,7 +10,6 @@ import com.javacourse.bookstore.repositories.ProductRepository;
 import com.javacourse.bookstore.services.OrderDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,19 +36,12 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
                 .map(orderDetailsMapper::mapToOrderDetailsRespDTO);
     }
 
-    @Transactional
+
     @Override
     public Optional<OrderDetailsRespDTO> createOrderDetails(OrderDetails orderDetails) {
-//        Long orderId = orderDetailsReqDTO.getOrderId();
-//        Long productId = orderDetailsReqDTO.getProductId();
-//        if (orderId != null && orderRepository.existsById(orderId) && productId != null && productRepository.existsById(productId)) {
-//            OrderDetails orderDetails = orderDetailsMapper.mapToOrderDetails(orderDetailsReqDTO);
             OrderDetails save = orderDetailsRepository.save(orderDetails);
-            return orderDetailsRepository
-                    .findById(save.getId())
-                    .map(orderDetailsMapper::mapToOrderDetailsRespDTO);
-//        }
-//        return Optional.empty();
+            return Optional.of(orderDetailsMapper.mapToOrderDetailsRespDTO(save));
+
     }
 
 
